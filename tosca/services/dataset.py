@@ -1,7 +1,7 @@
 import json
 from requests import HTTPError
 from flask import Blueprint, redirect, abort, request
-from flask.ext.login import login_required
+from flask_login import login_required
 
 from tosca import app
 from tosca.lib.query import query_dataset_url

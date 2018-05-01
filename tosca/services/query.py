@@ -1,6 +1,6 @@
 import json, requests
 from flask import jsonify, Blueprint, request, Response, render_template, make_response
-from flask.ext.login import login_required
+from flask_login import login_required
 
 from tosca import app
 from tosca.lib.query import query as query_es

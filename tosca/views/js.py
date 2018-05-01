@@ -1,7 +1,7 @@
 from datetime import datetime
 
 from flask import render_template, Blueprint, Response
-from flask.ext.login import login_required
+from flask_login import login_required
 
 
 mod = Blueprint('views/js', __name__)

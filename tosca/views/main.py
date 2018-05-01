@@ -2,7 +2,7 @@ from datetime import datetime
 import hashlib, simpleldap
 from flask import (render_template, Blueprint, g, redirect, session, request,
 url_for, flash, abort, make_response)
-from flask.ext.login import login_required, login_user, logout_user, current_user
+from flask_login import login_required, login_user, logout_user, current_user
 
 from tosca import app, db, lm
 from tosca.models.user import User

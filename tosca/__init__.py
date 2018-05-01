@@ -1,8 +1,8 @@
 import os
 from flask import Flask
-from flask.ext.sqlalchemy import SQLAlchemy
-from flask.ext.login import LoginManager
-from flask.ext.debugtoolbar import DebugToolbarExtension
+from flask_sqlalchemy import SQLAlchemy
+from flask_login import LoginManager
+from flask_debugtoolbar import DebugToolbarExtension
 
 
 class ReverseProxied(object):

@@ -1,6 +1,6 @@
 import os, json, requests
 from flask import jsonify, Blueprint, request, url_for, Response
-from flask.ext.login import login_required
+from flask_login import login_required
 from pprint import pformat
 import simplekml
 
