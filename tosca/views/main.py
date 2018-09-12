@@ -195,3 +195,16 @@ def jpl_login():
                            form=form, current_year=datetime.now().year)
 
 
+#@login_required
+@mod.route('/sar_avail')
+def sar_avail_index():
+    #app.logger.debug("Got here: index")
+    #app.logger.debug("g.user: %s" % g.user)
+    #app.logger.debug("g.user.ldap_info: %s" % g.user.ldap_info)
+    #emails = g.user.ldap_info.get('mail', [])
+    #if len(emails) > 0: email = emails[0]
+    #else: email = ""
+    return render_template('facetview-saravail.html',
+                           title='SAR Availability',
+                           #email= email,
+                           current_year=datetime.now().year)

@@ -29,3 +29,24 @@ def query(dataset=None):
     # return JSONP
     return Response('%s(%s)' % (callback, json.dumps(result)),
                     mimetype="application/javascript")
+
+
+@mod.route('/query2/<dataset>', methods=['GET'])
+def query2(dataset=None):
+    """Query interface for FacetView."""
+
+    # get callback, source
+    callback = request.args.get('callback')
+    source = request.args.get('source')
+    if dataset is None:
+        return jsonify({
+            'success': False,
+            'message': "Dataset not specified."
+        }), 500
+
+    # query
+    result = query_es(dataset, source)
+
+    # return JSONP
+    return Response('%s(%s)' % (callback, json.dumps(result)),
+                    mimetype="application/javascript")
