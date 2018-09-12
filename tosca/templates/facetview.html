@@ -734,7 +734,12 @@ jQuery(document).ready(function($) {
       ],
       [
         {
-          "pre": '<br/><table><tr><td><a class="btn btn-success" target="_blank" href="',
+          "pre": '<br/><table id="result_button_table_',
+          "field": "id",
+          "post": '"><tr>'
+        },
+        {
+          "pre": '<td><a class="btn btn-success" target="_blank" href="',
           "field": "urls",
           "post": '">Browse</a></td>'
         },
