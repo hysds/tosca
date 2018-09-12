@@ -1,9 +1,12 @@
-import json, requests
+import json, requests, re
 from pprint import pformat
 from flask import url_for
 from urllib import quote_plus
 
 from tosca import app
+
+
+DAP_RE = re.compile(r'^http.*/(dap|dods|opendap|thredds)/')
 
 
 def query(index, query_str):
@@ -34,9 +37,10 @@ def query(index, query_str):
         set_browse_url(hit)
 
         # set redirector url
-        hit['fields']['urls'] = [ url_for('services/dataset.resolve_url',
-                                          index=hit['_index'],
-                                          id=hit['_id']) ]
+        if len(hit['fields']['urls']) == 0:
+            hit['fields']['urls'] = None
+        else: hit['fields']['urls'] = [ url_for('services/dataset.resolve_url',
+                                                index=hit['_index'], id=hit['_id']) ]
 
         # set closest city
         if len(hit['fields'].get('city', [])) > 0:
@@ -69,7 +73,7 @@ def set_dap_url(hit):
     """Select OpenDAP url."""
 
     for url in hit['fields']['urls']:
-        if 'aria-dap.jpl.nasa.gov' in url:
+        if DAP_RE.search(url):
             hit['fields']['dap_url'] = [url]
 
 
@@ -77,22 +81,13 @@ def set_browse_url(hit):
     """Select browse image url."""
 
     for url in hit['fields']['browse_urls']:
-        if 'bellini-dav.jpl.nasa.gov' in url:
-            hit['fields']['browse_urls'] = [url]
-            return
-        if 'aria-dav.jpl.nasa.gov' in url:
-            hit['fields']['browse_urls'] = [url]
-            return
-        if 'aria-csk-dav.jpl.nasa.gov' in url:
-            hit['fields']['browse_urls'] = [url]
-            return
-        if 'aria-dst-dav.jpl.nasa.gov' in url:
-            hit['fields']['browse_urls'] = [url]
-            return
         if url.startswith('http') and 'amazonaws.com' in url:
             hit['fields']['browse_urls'] = [url]
             return
         if url.startswith('http') and 'googleapis.com' in url:
+            hit['fields']['browse_urls'] = [url]
+            return
+        if url.startswith('http'):
             hit['fields']['browse_urls'] = [url]
             return
 
@@ -102,10 +97,7 @@ def get_dataset_url(hit):
 
     ret_url = None
     for url in hit['_source'].get('urls', []):
-        if 'bellini-dav.jpl.nasa.gov' in url: ret_url = url
-        if 'aria-dav.jpl.nasa.gov' in url: ret_url = url
-        if 'aria-csk-dav.jpl.nasa.gov' in url: ret_url = url
-        if 'aria-dst-dav.jpl.nasa.gov' in url: ret_url = url
+        if url.startswith('http'): ret_url = url
         if url.startswith('http') and 'amazonaws.com' in url: ret_url = url
         if url.startswith('http') and 'googleapis.com' in url: ret_url = url
     return ret_url
