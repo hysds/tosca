@@ -58,6 +58,10 @@
   <script src="{{ url_for('static', filename='hysds/js/build-form.js' ) }}"></script>
 
   <style>
+    .container {
+      width: 1400px;
+    }
+
     .location_search_map {
       width: 100%;
       height: 800px;
@@ -217,6 +221,9 @@ function remove_user_tag(es_index, id, tag) {
 // rules table
 var rules_table = null;
 
+// sar table
+var sar_table = null;
+
 // global backdrop
 var backdrop = null;
 
@@ -306,6 +313,18 @@ jQuery(document).ready(function($) {
       // remove the backdrop
       $(".loading-backdrop").remove();
       backdrop = null;
+
+      // set data table
+      if (sar_table !== null) {
+        sar_table.destroy();
+      }
+      sar_table = $('#facetview_results').DataTable( {
+        autoWidth: false,
+        info: false,
+        searching: false,
+        paging: false,
+        order: [[ 1, "desc" ]]
+      });
     },
     grq_results_limit: {{ config['GRQ_RESULTS_LIMIT'] }},
     word_cloud: false,

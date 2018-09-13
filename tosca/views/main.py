@@ -126,7 +126,7 @@ def logout():
     flash("Successfully logged out.")
     return redirect(url_for('views/main.index'))
 
-
+'''
 @mod.route('/')
 @login_required
 def index():
@@ -140,6 +140,21 @@ def index():
     return render_template('facetview.html',
                            title='TOSCA: Advanced FacetView User Interface',
                            email= email,
+                           current_year=datetime.now().year)
+'''
+
+
+@mod.route('/')
+def index():
+    #app.logger.debug("Got here: index")
+    #app.logger.debug("g.user: %s" % g.user)
+    #app.logger.debug("g.user.ldap_info: %s" % g.user.ldap_info)
+    #emails = g.user.ldap_info.get('mail', [])
+    #if len(emails) > 0: email = emails[0]
+    #else: email = ""
+    return render_template('facetview-saravail.html',
+                           title='SAR Availability',
+                           #email= email,
                            current_year=datetime.now().year)
 
 
@@ -193,18 +208,3 @@ def jpl_login():
     return render_template('login_jpl.html',
                            title='TOSCA: Advanced FacetView User Interface',
                            form=form, current_year=datetime.now().year)
-
-
-#@login_required
-@mod.route('/sar_avail')
-def sar_avail_index():
-    #app.logger.debug("Got here: index")
-    #app.logger.debug("g.user: %s" % g.user)
-    #app.logger.debug("g.user.ldap_info: %s" % g.user.ldap_info)
-    #emails = g.user.ldap_info.get('mail', [])
-    #if len(emails) > 0: email = emails[0]
-    #else: email = ""
-    return render_template('facetview-saravail.html',
-                           title='SAR Availability',
-                           #email= email,
-                           current_year=datetime.now().year)
