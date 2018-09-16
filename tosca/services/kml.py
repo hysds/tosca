@@ -1,4 +1,5 @@
 import os, json, requests
+from datetime import datetime
 from flask import jsonify, Blueprint, request, url_for, Response
 from flask_login import login_required
 from pprint import pformat
@@ -115,6 +116,7 @@ def get_kml(dataset=None):
         if browse_url:
             ground.icon.href = '%s/browse_small.png' % browse_url
         
+    fname = "sar_availability-acquisitions-{}.kml".format(datetime.utcnow().strftime('%Y%m%dT%H%M%S'))
     return Response(kml.kml(), headers={'Content-Type': 'application/vnd.google-earth.kml+xml',
-                                        'Content-Disposition': 'attachment; filename=%s.kml' % dataset})
+                                        'Content-Disposition': 'attachment; filename={}'.format(fname)})
     #return jsonify({'results': results})

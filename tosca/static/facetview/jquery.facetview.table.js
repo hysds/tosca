@@ -1032,8 +1032,8 @@ search box - the end user will not know they are happening.
             prodLayer.clearLayers();
 
             // re-enable download buttons
-            $('#download_cal,#download_kml,#download_csv').off();
-            $('#download_cal').removeClass("disabled");
+            $('#download_vcs,#download_kml,#download_csv').off();
+            $('#download_vcs').removeClass("disabled");
             $('#download_kml').removeClass("disabled");
             $('#download_csv').removeClass("disabled");
             
@@ -1160,15 +1160,15 @@ search box - the end user will not know they are happening.
             jQuery('.notify_loading').hide();
 
             // set kml/csv href
-            $('#download_cal').attr('href', options.search_url.replace('/query2', '/services/cal') + 'base64=' + btoa(options.querystring));
+            $('#download_vcs').attr('href', options.search_url.replace('/query2', '/services/vcs') + 'base64=' + btoa(options.querystring));
             $('#download_kml').attr('href', options.search_url.replace('/query2', '/services/kml') + 'base64=' + btoa(options.querystring));
             $('#download_csv').attr('href', options.search_url.replace('/query2', '/services/csv') + 'base64=' + btoa(options.querystring));
 
             if (options.querystring.search(/geo_shape/) == -1 || data.records.length == 0) {
-                $('#download_cal').addClass("disabled");
+                $('#download_vcs').addClass("disabled");
                 $('#download_kml').addClass("disabled");
                 $('#download_csv').addClass("disabled");
-                $('#download_cal,#download_kml,#download_csv').on('click', function() {
+                $('#download_vcs,#download_kml,#download_csv').on('click', function() {
                     $('#download_modal_label').text("Download");
                     $('#download_modal').modal('show').css({
                       'left': function() {
@@ -1896,7 +1896,7 @@ search box - the end user will not know they are happening.
                     <div class="span9"> \
                         <div class="control-group"> \
                             Download: \
-                            <a href="" target="_blank" id="download_cal" class="btn btn-success" data-toggle-"tooltip" title="Download Calendar">Calendar</a> \
+                            <a href="" target="_blank" id="download_vcs" class="btn btn-success" data-toggle-"tooltip" title="Download VCS">VCS</a> \
                             <a href="" target="_blank" id="download_kml" class="btn btn-success" data-toggle-"tooltip" title="Download KML">KML</a> \
                             <a href="" target="_blank" id="download_csv" class="btn btn-success" data-toggle-"tooltip" title="Download CSV">CSV</a> \
                         </div> \

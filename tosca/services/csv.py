@@ -54,6 +54,7 @@ def get_csv(dataset=None):
                            ('mode', 'metadata.sensoroperationalmode'),
                            ('direction', 'metadata.direction'),
                            ('polarisation', 'metadata.polarisationmode'),
+                           ('dataset_id', 'id'),
                          ])
 
     # stream output a page at a time for better performance and lower memory footprint
