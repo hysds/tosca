@@ -1895,9 +1895,10 @@ search box - the end user will not know they are happening.
                 <div class="row-fluid"> \
                     <div class="span9"> \
                         <div class="control-group"> \
-                            <a href="" target="_blank" id="download_cal" class="btn btn-success" data-toggle-"tooltip" title="Download Calendar">Download Calendar</a> \
-                            <a href="" target="_blank" id="download_kml" class="btn btn-success" data-toggle-"tooltip" title="Download KML">Download KML</a> \
-                            <a href="" target="_blank" id="download_csv" class="btn btn-success" data-toggle-"tooltip" title="Download CSV">Download CSV</a> \
+                            Download: \
+                            <a href="" target="_blank" id="download_cal" class="btn btn-success" data-toggle-"tooltip" title="Download Calendar">Calendar</a> \
+                            <a href="" target="_blank" id="download_kml" class="btn btn-success" data-toggle-"tooltip" title="Download KML">KML</a> \
+                            <a href="" target="_blank" id="download_csv" class="btn btn-success" data-toggle-"tooltip" title="Download CSV">CSV</a> \
                         </div> \
                     </div> \
                 </div>';
