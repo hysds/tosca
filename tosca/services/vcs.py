@@ -322,7 +322,7 @@ def get_vcs(dataset=None):
     cal = gen_product(product='vcs', results=results, verbose=True)
     app.logger.info("cal: {}".format(cal))
         
-    fname = "sar_availability-acquisitions-{}.vcs".format(datetime.utcnow().strftime('%Y%m%dT%H%M%S'))
+    fname = "sar_availability-acquisitions-{}.ics".format(datetime.utcnow().strftime('%Y%m%dT%H%M%S'))
     #return Response(cal, headers={'Content-Type': 'text/x-vcalendar',
     return Response(cal, headers={'Content-Type': 'text/calendar',
                                   'Content-Disposition': 'attachment; filename={}'.format(fname)})
