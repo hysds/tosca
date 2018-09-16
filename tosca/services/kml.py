@@ -2,6 +2,7 @@ import os, json, requests
 from flask import jsonify, Blueprint, request, url_for, Response
 from flask_login import login_required
 from pprint import pformat
+import base64
 import simplekml
 
 from tosca import app
@@ -11,17 +12,22 @@ mod = Blueprint('services/kml', __name__)
 
 
 @mod.route('/services/kml/<dataset>', methods=['GET'])
-@login_required
 def get_kml(dataset=None):
     """Return kml for dataset."""
 
     # get callback, source, and dataset
+    source_b64 = request.args.get('base64')
     source = request.args.get('source')
+    if source_b64 is not None:
+        source = base64.b64decode(source_b64)
     if dataset is None:
         return jsonify({
             'success': False,
             'message': "Cannot recognize dataset: %s" % dataset,
         }), 500
+
+    app.logger.info("source: {}".format(source))
+    app.logger.info("source_b64: {}".format(source_b64))
 
     # query
     es_url = app.config['ES_URL']
@@ -47,10 +53,11 @@ def get_kml(dataset=None):
         for hit in res['hits']['hits']:
             del hit['_source']['city']
             results.append(hit['_source'])
+    app.logger.info("results: {}".format(json.dumps(results, indent=2)))
 
     # build kml
     kml = simplekml.Kml()
-    kml.document.name = "Products Ingested by HySDS"
+    kml.document.name = "Acquisitions"
     kml.document.description
     for res in results:
         id = res['id']

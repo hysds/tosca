@@ -100,6 +100,8 @@ from tosca.services.user_rules import mod as userRulesModule
 app.register_blueprint(userRulesModule)
 from tosca.services.kml import mod as kmlModule
 app.register_blueprint(kmlModule)
+from tosca.services.csv import mod as csvModule
+app.register_blueprint(csvModule)
 from tosca.services.dataset import mod as datasetModule
 app.register_blueprint(datasetModule)
 

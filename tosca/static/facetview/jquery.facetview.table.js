@@ -1153,8 +1153,9 @@ search box - the end user will not know they are happening.
             $('.facetview_viewrecord', obj).bind('click',viewrecord);
             jQuery('.notify_loading').hide();
 
-            // set wget href
-            $('#wget_script').attr('href', options.search_url.replace('/query', '/wget_script') + "source=" + QUERY_STRING);
+            // set kml/csv href
+            $('#download_kml').attr('href', options.search_url.replace('/query2', '/services/kml') + 'base64=' + btoa(options.querystring));
+            $('#download_csv').attr('href', options.search_url.replace('/query2', '/services/csv') + 'base64=' + btoa(options.querystring));
 
             // create rule
             $('a[name="create_rule"]').on('click', function() {
@@ -1869,9 +1870,14 @@ search box - the end user will not know they are happening.
                         </div> \
                     </div> \
                 </div> \
-                <div> \
-                <a name="prep_download" class="btn btn-success downprep" title="Download Calendar">Download Calendar</a> \
-                <a name="prep_download" class="btn btn-success downprep" title="Download KML">Download KML</a> \
+                <div class="row-fluid"> \
+                    <div class="span9"> \
+                        <div class="control-group"> \
+                            <a href="" target="_blank" id="download_cal" class="btn btn-success" data-toggle-"tooltip" title="Download Calendar">Download Calendar</a> \
+                            <a href="" target="_blank" id="download_kml" class="btn btn-success" data-toggle-"tooltip" title="Download KML">Download KML</a> \
+                            <a href="" target="_blank" id="download_csv" class="btn btn-success" data-toggle-"tooltip" title="Download CSV">Download CSV</a> \
+                        </div> \
+                    </div> \
                 </div>';
 
             thefacetview += '</div>';
