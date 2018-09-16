@@ -1030,6 +1030,12 @@ search box - the end user will not know they are happening.
 
             // clear out prodLayer
             prodLayer.clearLayers();
+
+            // re-enable download buttons
+            $('#download_cal,#download_kml,#download_csv').off();
+            $('#download_cal').removeClass("disabled");
+            $('#download_kml').removeClass("disabled");
+            $('#download_csv').removeClass("disabled");
             
             // for each filter setup, find the results for it and append them to the relevant filter
             for ( var each = 0; each < options.facets.length; each++ ) {
@@ -1154,8 +1160,24 @@ search box - the end user will not know they are happening.
             jQuery('.notify_loading').hide();
 
             // set kml/csv href
+            $('#download_cal').attr('href', options.search_url.replace('/query2', '/services/cal') + 'base64=' + btoa(options.querystring));
             $('#download_kml').attr('href', options.search_url.replace('/query2', '/services/kml') + 'base64=' + btoa(options.querystring));
             $('#download_csv').attr('href', options.search_url.replace('/query2', '/services/csv') + 'base64=' + btoa(options.querystring));
+
+            if (options.querystring.search(/geo_shape/) == -1) {
+                $('#download_cal').addClass("disabled");
+                $('#download_kml').addClass("disabled");
+                $('#download_csv').addClass("disabled");
+                $('#download_cal,#download_kml,#download_csv').on('click', function() {
+                    $('#download_modal_label').text("Download");
+                    $('#download_modal').modal('show').css({
+                      'left': function() {
+                        return ($(window).width()-$(this).width())/2;
+                      }
+                    });
+                    return false;
+                });
+            }
 
             // create rule
             $('a[name="create_rule"]').on('click', function() {

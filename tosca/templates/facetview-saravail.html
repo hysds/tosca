@@ -1389,6 +1389,25 @@ jQuery(document).ready(function($) {
       </div>
     </div>
 
+    <!-- download modal -->
+    <div id="download_modal" class="modal hide fade download_modal max_width_modal" tabindex="-1" role="dialog"
+         aria-labelledby="download_modal_label" aria-hidden="true" data-backdrop="static"
+         data-keyboard="false">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="download_modal_label"></h3>
+      </div>
+      <div class="modal-body">
+        <div class="modal-body-div"></div>
+        <div>
+          <h4><font color="red">To download this product, please select or draw an AOI first.</font></h4>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn close_error" data-dismiss="modal" aria-hidden="true">Close</button>
+      </div>
+    </div>
+
     {% with messages = get_flashed_messages(category_filter=["toc"]) %}
     {% if messages %}
     <script>
