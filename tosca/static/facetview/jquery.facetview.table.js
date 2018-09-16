@@ -1164,7 +1164,7 @@ search box - the end user will not know they are happening.
             $('#download_kml').attr('href', options.search_url.replace('/query2', '/services/kml') + 'base64=' + btoa(options.querystring));
             $('#download_csv').attr('href', options.search_url.replace('/query2', '/services/csv') + 'base64=' + btoa(options.querystring));
 
-            if (options.querystring.search(/geo_shape/) == -1) {
+            if (options.querystring.search(/geo_shape/) == -1 || data.records.length == 0) {
                 $('#download_cal').addClass("disabled");
                 $('#download_kml').addClass("disabled");
                 $('#download_csv').addClass("disabled");
