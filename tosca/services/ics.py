@@ -10,7 +10,7 @@ import dateutil
 from tosca import app
 
 
-mod = Blueprint('services/vcs', __name__)
+mod = Blueprint('services/ics', __name__)
 
 
 def gen_poly(kmlobj, acq):
@@ -167,7 +167,7 @@ def gen_kml(acquisitions_list, verbose):
         gen_poly(kmlobj, acquisition)
     return kmlobj.kml()
 
-def gen_vcs(results, verbose):
+def gen_ics(results, verbose):
     #mail, AOI_name, acquisitions_list):
     '''Create a vCal with acquisitions as events'''
     place = 'event_response'
@@ -265,8 +265,8 @@ def gen_product(product=None, results=None, verbose=False):
     '''generate the stream of the given product type for the input results'''
     if product == 'kml':
         return gen_kml(results, verbose)
-    if product == 'vcs':
-        return gen_vcs(results, verbose)
+    if product == 'ics':
+        return gen_ics(results, verbose)
 
 def run_test():
     '''run a test for the given product type'''
@@ -275,9 +275,9 @@ def run_test():
     return base64
  
 
-@mod.route('/services/vcs/<dataset>', methods=['GET'])
-def get_vcs(dataset=None):
-    """Return vcs for dataset."""
+@mod.route('/services/ics/<dataset>', methods=['GET'])
+def get_ics(dataset=None):
+    """Return ics for dataset."""
 
     # get callback, source, and dataset
     source_b64 = request.args.get('base64')
@@ -319,7 +319,7 @@ def get_vcs(dataset=None):
             results.append(hit)
     #app.logger.info("results: {}".format(json.dumps(results, indent=2)))
 
-    cal = gen_product(product='vcs', results=results, verbose=True)
+    cal = gen_product(product='ics', results=results, verbose=True)
     app.logger.info("cal: {}".format(cal))
         
     fname = "sar_availability-acquisitions-{}.ics".format(datetime.utcnow().strftime('%Y%m%dT%H%M%S'))

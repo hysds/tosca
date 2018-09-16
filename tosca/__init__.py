@@ -98,8 +98,8 @@ from tosca.services.user_tags import mod as userTagsModule
 app.register_blueprint(userTagsModule)
 from tosca.services.user_rules import mod as userRulesModule
 app.register_blueprint(userRulesModule)
-from tosca.services.vcs import mod as vcsModule
-app.register_blueprint(vcsModule)
+from tosca.services.ics import mod as icsModule
+app.register_blueprint(icsModule)
 from tosca.services.kml import mod as kmlModule
 app.register_blueprint(kmlModule)
 from tosca.services.csv import mod as csvModule
