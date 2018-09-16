@@ -6,6 +6,7 @@ from pprint import pformat
 from icalendar import Calendar, Event, vCalAddress, vText
 import simplekml
 import dateutil
+import hashlib
 
 from tosca import app
 
@@ -115,24 +116,20 @@ def get_loc_string(acq):
         if loc_str is None:
             distance = cur_dist
             #build region
-            if item['admin2_name']:
-                loc_str = build_loc_name(item)
+            loc_str = build_loc_name(item)
         else:
             if cur_dist < distance:
-                #build region
-                loc_str = build_loc_name(item)
+                #build region & skip empty values
+                loc_name = build_loc_name(item)
+                if loc_name:
+                    loc_str = loc_name
     return loc_str
 
 def build_loc_name(item):
-    '''builds the location name from the item'''
-    local = item['admin2_name']
-    region = item['admin1_name']
-    country = item['country_name']
-    if local:
-        loc_str = '{}, {}, {}'.format(local.encode('ascii', 'ignore'), region.encode('ascii', 'ignore'), country.encode('ascii', 'ignore'))
-    else:
-        loc_str = '{}, {}'.format(region.encode('ascii', 'ignore'), country.encode('ascii', 'ignore'))
-    return loc_str
+    '''builds the location name from the item. Skip None values'''
+    lst = [walk(item,'admin2_name'), walk(item, 'admin1_name'), walk(item, 'country_name')]
+    regionlst = [x.encode('ascii', 'ignore') for x in lst if x]
+    return ', '.join(regionlst)
 
 def get_distance(point1, point2):
     '''returns the distance between the two points in kilometers'''
