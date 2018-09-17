@@ -35,10 +35,10 @@ var polygonWithin = false;
 var thead = "<thead><tr>" + 
     "<th>starttime</th>" + 
     "<th>endtime</th>" + 
+    "<th>status</th>" + 
     "<th>platform</th>" + 
     "<th>sensor</th>" + 
     "<th>orbit</th>" + 
-    "<th>status</th>" + 
     "<th>track</th>" + 
 //    "<th>frame</th>" + 
     "<th>mode</th>" + 

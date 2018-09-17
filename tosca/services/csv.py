@@ -46,10 +46,10 @@ def get_csv(dataset=None):
     # fields
     fields = OrderedDict([ ('starttime', 'starttime'), 
                            ('endtime', 'endtime'), 
+                           ('status', 'metadata.status'),
                            ('platform', 'metadata.platform'),
                            ('sensor', 'metadata.instrumentshortname'), 
                            ('orbit', 'metadata.orbitNumber'),
-                           ('status', 'metadata.status'),
                            ('track', 'metadata.trackNumber'),
                            ('mode', 'metadata.sensoroperationalmode'),
                            ('direction', 'metadata.direction'),
