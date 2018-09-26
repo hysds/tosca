@@ -1,4 +1,5 @@
 import os, json, requests, math, re
+import hashlib
 from datetime import datetime
 import dateutil.parser
 from flask import jsonify, Blueprint, request, url_for, Response
@@ -6,12 +7,9 @@ from flask_login import login_required
 from pprint import pformat
 import base64
 import simplekml
-
 from tosca import app
 
-
 mod = Blueprint('services/kml', __name__)
-
 
 @mod.route('/services/kml/<dataset>', methods=['GET'])
 def get_kml(dataset=None):
@@ -42,7 +40,6 @@ def get_kml(dataset=None):
     fname = "sar_availability-acquisitions-{}.kml".format(datetime.utcnow().strftime('%Y%m%dT%H%M%S'))
     return Response(kml_obj, headers={'Content-Type': 'application/vnd.google-earth.kml+xml',
                                         'Content-Disposition': 'attachment; filename={}'.format(fname)})
-
 
 def gen_poly(kmlobj, acq):
     '''Create a new polygon for the KML for an acquisition'''
@@ -192,7 +189,6 @@ def convert_coord(es_coord):
 def gen_kml(acquisitions_list, verbose=False):
     '''Create a KML file showing acquisition coverage'''
     kmlobj = simplekml.Kml()
-    coord = None
     for acquisition in acquisitions_list:
         gen_poly(kmlobj, acquisition)
     return(kmlobj.kml())
@@ -207,7 +203,7 @@ def query_es(query, url):
     results = json.loads(response.text, encoding='ascii')
     results_list = results['hits']['hits']
     total_results = int(results['hits']['total'])
-    if result_count > iterator_size:
+    if total_results > iterator_size:
         for i in range(iterator_size, total_results, iterator_size):
             query['from'] = i
             response = requests.get(url, data=data, verify=False, timeout=15)
