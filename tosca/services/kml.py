@@ -31,7 +31,7 @@ def get_kml(dataset=None):
 
     # query
     decoded_query = json.loads(source)
-    results = get_es_results(query=decoded_query, source='bos')
+    results = get_es_results(query=decoded_query)
 
     # build kml
     kml_obj = gen_kml(results)
@@ -243,26 +243,30 @@ def get_es_results(query=None, source="bos", verbose=False):
         endtime = starttime['to']
         starttime = starttime['from']
     # run using esa or bos
-    if source == "bos":
-        product = 'acquisition-SARCAT'
-        index = 'grq_v0.2_acquisition-sarcat'
-    elif source == "esa":
-        product = 'acquisition-S1-IW_SLC'
-        index = 'grq_v1.1_acquisition-s1-iw_slc'
+    index = 'grq_*_acquisition-*'
     grq_ip = app.config['ES_URL']
     url = '{}/{}/_search'.format(grq_ip, index)
     if verbose:
         print('using:\nstarttime: {}\nendtime: {}\nlocation: {}\n'.format(starttime,endtime,location))
     new_query = {"from" : 0,"size" : 500,"query":{"filtered": {"query": {"bool": {"must":[
-                                                                 {"term": {"dataset.raw": product}},
                                                                  {"range": {"starttime": {"gte": starttime}}},
                                                                  {"range": {"endtime": {"lte": endtime}}}
                          ]}},"filter": {"geo_shape":  {"location": location}}}}}
     if endtime is None:
-        del new_query['query']['filtered']['query']['bool']['must'][2]
-    if starttime is None:
         del new_query['query']['filtered']['query']['bool']['must'][1]
-    # now run the es query & return the results
+    if starttime is None:
+        del new_query['query']['filtered']['query']['bool']['must'][0]
+    # add additional parameters if they exist into the query
+    additional_terms = ["metadata.platform.raw", "metadata.status.raw", "metadata.trackNumber", 
+                        "city.country_name.raw", "city.admin1_name.raw", "city.admin2_name.raw",
+                        "city.name.raw", "system_version.raw", "metadata.direction.raw",
+                        "continent.raw"]
+    for term in additional_terms:
+         term_value = walk(query, term)
+         if term_value:
+             added_term = {"term": {term: term_value}}
+             new_query["query"]["filtered"]["query"]["bool"]["must"].append(added_term)
+    # run the es query & return the results
     if verbose:
         print('query: {}'.format(new_query))
     results = query_es(new_query, url)
