@@ -48,7 +48,6 @@ def gen_poly(kmlobj, acq):
     #save the params as a polygon
     pol = kmlobj.newpolygon(name = prm['name'])
     pol.outerboundaryis = prm['coord']
-    #pol.innerboundaryis = coord
     pol.timespan.begin=prm['starttime']
     pol.timespan.end=prm['endtime']
     pol.style.linestyle.color = gen_color(acq)
@@ -74,7 +73,6 @@ def gen_acq_dict(acq):
     starttime = dateutil.parser.parse(start).strftime('%Y-%m-%d')
     endtime = dateutil.parser.parse(end).strftime('%Y-%m-%d')
     if dateutil.parser.parse(start) > dateutil.parser.parse(end):
-        #end = (dateutil.parser.parse(start) + datetime.timedelta(seconds=60)).strftime('%Y-%m-%dT%H:%M:%SZ')
         end = start
         endtime = starttime
     track = walk(acq, 'trackNumber')
@@ -86,12 +84,7 @@ def gen_acq_dict(acq):
     center_str = None
     if center:
         center_str = '{:.1f}, {:.1f}'.format(center['coordinates'][1], center['coordinates'][0])
-    #try:
     location = get_loc_string(acq)
-    #except Exception, err:
-    #    raise Exception(err)
-    #name = acq['_source']['metadata']['title']
-    #platform = acq['_source']['metadata']['platform']
     orbitnum = walk(acq, 'orbitNumber')
     dct = {'uid': uid, 'coord': coord, 'coordinates': coordinates, 'start': start, 'end': end, 'starttime': starttime, 'endtime': endtime,
            'track': track, 'source': source, 'platform': platform, 'orbitnum': orbitnum, 'name': name, 'download_url': download_url,
@@ -125,7 +118,6 @@ def convert_str_to_color(instr):
     g += d
     b += d
     return simplekml.Color.rgb(r, g, b)
-
 
 def get_loc_string(acq):
     '''determines the location from the acquisition metadata and returns it as a string'''
@@ -166,7 +158,6 @@ def get_distance(point1, point2):
     distance = math.acos(math.sin(math.radians(point1[1]))*math.sin(math.radians(point2[1]))+math.cos(math.radians(point1[1]))*math.cos(math.radians(point2[1]))*math.cos(math.radians(point2[0])-math.radians(point1[0])))*6371
     return distance
 
-
 def gen_kml_bubble(dct):
     '''generates the html for the kml polygon'''
     lst = ['name', 'platform', 'location',  'start', 'end', 'source', 'track', 'orbitnum',  'coordinates', 'uid', 'status', 'download_url']
@@ -193,10 +184,9 @@ def gen_kml(acquisitions_list, verbose=False):
         gen_poly(kmlobj, acquisition)
     return(kmlobj.kml())
 
-
 def query_es(query, url):
     '''query elastic search'''
-    iterator_size = query['size']
+    iterator_size = 1000 #query['size']
     data = json.dumps(query, indent=2)
     response = requests.get(url, data=data, verify=False, timeout=15)
     response.raise_for_status()
@@ -235,40 +225,12 @@ def walk(node, key_match):
 
 def get_es_results(query=None, source="bos", verbose=False):
     '''get the elasticsearch results from the given query'''
-    # first we get relevant values of coordinates & datetimes (or AOI) from the input query
-    location = walk(query, 'location')
-    starttime = walk(query, 'starttime')
-    endtime = walk(query, 'endtime')
-    if starttime != None and type(starttime) != str:
-        endtime = starttime['to']
-        starttime = starttime['from']
-    # run using esa or bos
     index = 'grq_*_acquisition-*'
     grq_ip = app.config['ES_URL']
     url = '{}/{}/_search'.format(grq_ip, index)
-    if verbose:
-        print('using:\nstarttime: {}\nendtime: {}\nlocation: {}\n'.format(starttime,endtime,location))
-    new_query = {"from" : 0,"size" : 500,"query":{"filtered": {"query": {"bool": {"must":[
-                                                                 {"range": {"starttime": {"gte": starttime}}},
-                                                                 {"range": {"endtime": {"lte": endtime}}}
-                         ]}},"filter": {"geo_shape":  {"location": location}}}}}
-    if endtime is None:
-        del new_query['query']['filtered']['query']['bool']['must'][1]
-    if starttime is None:
-        del new_query['query']['filtered']['query']['bool']['must'][0]
-    # add additional parameters if they exist into the query
-    additional_terms = ["metadata.platform.raw", "metadata.status.raw", "metadata.trackNumber", 
-                        "city.country_name.raw", "city.admin1_name.raw", "city.admin2_name.raw",
-                        "city.name.raw", "system_version.raw", "metadata.direction.raw",
-                        "continent.raw"]
-    for term in additional_terms:
-         term_value = walk(query, term)
-         if term_value:
-             added_term = {"term": {term: term_value}}
-             new_query["query"]["filtered"]["query"]["bool"]["must"].append(added_term)
     # run the es query & return the results
     if verbose:
-        print('query: {}'.format(new_query))
-    results = query_es(new_query, url)
+        print('query: {}'.format(query))
+    results = query_es(query, url)
     return results
 
