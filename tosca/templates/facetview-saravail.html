@@ -296,7 +296,7 @@ jQuery(document).ready(function($) {
     search_sortby: [{ 'display': 'starttime', 'field': 'starttime' },
                     { 'display': 'endtime', 'field': 'endtime' },
                     { 'display': 'timestamp', 'field': '@timestamp' }],
-    sort: [{ '_timestamp': { "order": "desc"} }],
+    sort: [{ 'starttime': { "order": "asc"} }],
     fields: [ '_timestamp', '_source'],
     display_images: false,
     pre_search_callback: function() {
@@ -324,7 +324,7 @@ jQuery(document).ready(function($) {
         info: false,
         searching: false,
         paging: false,
-        order: [[ 1, "desc" ]]
+        order: [[ 0, "asc" ]]
       });
     },
     grq_results_limit: {{ config['GRQ_RESULTS_LIMIT'] }},
@@ -588,7 +588,7 @@ jQuery(document).ready(function($) {
         // set data table
         if (rules_table === null) {
           rules_table = $('#rules_table').DataTable( {
-            order: [[ 1, "desc" ]],
+            order: [[ 0, "asc" ]],
             autoWidth: false
           });
         }
