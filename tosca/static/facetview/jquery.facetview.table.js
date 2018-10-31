@@ -1870,7 +1870,7 @@ search box - the end user will not know they are happening.
                 window.location.pathname + '?source=' + options.querystring + '</textarea> \
                 </div>';
         }
-
+        thefacetview += '<div style="display: inline; class="control-group">   <a href="" target="_blank" id="download_ics" class="btn btn-success" data-toggle-"tooltip" title="Download ICS">ICS</a> <a href="" target="_blank" id="download_kml" class="btn btn-success" data-toggle-"tooltip" title="Download KML">KML</a> <a href="" target="_blank" id="download_csv" class="btn btn-success" data-toggle-"tooltip" title="Download CSV">CSV</a></div>'
         thefacetview += '</div>';
         thefacetview += '<div style="clear:both;" class="btn-toolbar" id="facetview_selectedfilters"></div>';
         options.pager_on_top ? thefacetview += '<div class="facetview_metadata" style="margin-top:20px;"></div>' : "";
@@ -1889,16 +1889,6 @@ search box - the end user will not know they are happening.
                             <div class="controls"> \
                                <textarea id="polygon" rows="3" name="polygon" style="min-width: 100%" required>' + POLYGON + '</textarea> \
                             </div> \
-                        </div> \
-                    </div> \
-                </div> \
-                <div class="row-fluid"> \
-                    <div class="span9"> \
-                        <div class="control-group"> \
-                            Download: \
-                            <a href="" target="_blank" id="download_ics" class="btn btn-success" data-toggle-"tooltip" title="Download ICS">ICS</a> \
-                            <a href="" target="_blank" id="download_kml" class="btn btn-success" data-toggle-"tooltip" title="Download KML">KML</a> \
-                            <a href="" target="_blank" id="download_csv" class="btn btn-success" data-toggle-"tooltip" title="Download CSV">CSV</a> \
                         </div> \
                     </div> \
                 </div>';
