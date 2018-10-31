@@ -186,7 +186,7 @@ def gen_kml(acquisitions_list, verbose=False):
 
 def query_es(query, url):
     '''query elastic search'''
-    iterator_size = 1000 #query['size']
+    iterator_size = query['size'] = 2000 # override input query size
     data = json.dumps(query, indent=2)
     response = requests.get(url, data=data, verify=False, timeout=15)
     response.raise_for_status()
