@@ -49,8 +49,10 @@
   <link href="{{ url_for('static', filename='facetview/vendor/bootstrap-tags/bootstrap-tags.css') }}" rel="stylesheet">
   <script src="{{ url_for('static', filename='facetview/vendor/bootstrap-tags/bootstrap-tags.js') }}"></script>
 
-  <link href="{{ url_for('static', filename='DataTables-1.10.15/media/css/jquery.dataTables.css' ) }}" rel="stylesheet">
-  <script src="{{ url_for('static', filename='DataTables-1.10.15/media/js/jquery.dataTables.js' ) }}"></script>
+  <link href="{{ url_for('static', filename='DataTables-1.10.18/css/jquery.dataTables.css' ) }}" rel="stylesheet">
+  <script src="{{ url_for('static', filename='DataTables-1.10.18/js/jquery.dataTables.js' ) }}"></script>
+  <script src="{{ url_for('static', filename='DataTables-1.10.18/sorting/moment.js' ) }}"></script>
+  <script src="{{ url_for('static', filename='DataTables-1.10.18/sorting/datetime-moment.js' ) }}"></script>
 
   <script src="{{ url_for('static', filename='jquery-tagcloud-0.5.0/jquery.tagcloud.js' ) }}"></script>
 
@@ -324,7 +326,11 @@ jQuery(document).ready(function($) {
         info: false,
         searching: false,
         paging: false,
-        order: [[ 0, "asc" ]]
+        columnDefs: [
+          { "type": "date", "targets": 0 },
+          { "type": "date", "targets": 1 }
+        ],
+        order: [[ 0, "desc" ]]
       });
     },
     grq_results_limit: {{ config['GRQ_RESULTS_LIMIT'] }},
