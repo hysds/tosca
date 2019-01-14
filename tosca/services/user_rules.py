@@ -550,7 +550,7 @@ def process_this():
         'function': 'hysds_commons.job_iterator.iterate',
         'args': [ "tosca", rule ],
     }
-    do_submit_task(payload, celery_app.conf['USER_RULES_DATASET_QUEUE'])
+    do_submit_task(payload, celery_app.conf['ON_DEMAND_DATASET_QUEUE'])
 
     # record user run to history index
     user_run = copy.deepcopy(rule)
