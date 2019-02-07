@@ -14,7 +14,7 @@ def urs_user_verified(code):
     # urs auth url
     urs_url = "{}/oauth/token".format(app.config['URS_URL'])
 
-    # set authorization value 
+    # set authorization value
     auth_val = base64.b64encode("{}:{}".format(app.config['URS_APP_ID'],
                                                app.config['URS_APP_PASSWORD']))
 
@@ -26,8 +26,10 @@ def urs_user_verified(code):
     }
 
     # exchange
-    r = requests.post(urs_url, data=payload, headers={ "Authorization": "Basic {}".format(auth_val) })
-    try: r.raise_for_status()
+    r = requests.post(urs_url, data=payload, headers={
+                      "Authorization": "Basic {}".format(auth_val)})
+    try:
+        r.raise_for_status()
     except Exception as e:
         app.logger.error("Got error trying to verify URS user.")
         app.logger.error("%s:\n\n%s" % (str(e), traceback.format_exc()))
@@ -38,8 +40,8 @@ def urs_user_verified(code):
     # get user profile
     user_url = "{}{}".format(app.config['URS_URL'], packet['endpoint'])
     #app.logger.info("user_url: {}".format(user_url))
-    r = requests.get(user_url, headers={ "Authorization": "{} {}".format(packet['token_type'],
-                                                                         packet['access_token']) })
+    r = requests.get(user_url, headers={"Authorization": "{} {}".format(packet['token_type'],
+                                                                        packet['access_token'])})
     r.raise_for_status()
     user_info = r.json()
     #app.logger.info("user_info: {}".format(json.dumps(user_info, indent=2, sort_keys=True)))

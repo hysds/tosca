@@ -1,4 +1,5 @@
-import json, requests
+import json
+import requests
 from flask import jsonify, Blueprint, request, Response, render_template, make_response
 from flask_login import login_required
 

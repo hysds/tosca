@@ -1,4 +1,6 @@
-import json, requests, re
+import json
+import requests
+import re
 from pprint import pformat
 from flask import url_for
 from urllib.parse import quote_plus
@@ -18,7 +20,7 @@ def query(index, query_str):
     r = requests.post('%s/%s/_search' % (es_url, index), data=query_str)
     result = r.json()
     if r.status_code != 200:
-        app.logger.debug("Failed to query ES. Got status code %d:\n%s" % 
+        app.logger.debug("Failed to query ES. Got status code %d:\n%s" %
                          (r.status_code, json.dumps(result, indent=2)))
     r.raise_for_status()
     #app.logger.debug("result: %s" % pformat(r.json()))
@@ -27,7 +29,8 @@ def query(index, query_str):
     for hit in result['hits']['hits']:
         # emulate result format from ElasticSearch <1.0
         #app.logger.debug("hit: %s" % pformat(hit))
-        if '_source' in hit: hit.setdefault('fields', {}).update(hit['_source'])
+        if '_source' in hit:
+            hit.setdefault('fields', {}).update(hit['_source'])
         hit['fields']['es_index'] = hit['_index']
 
         # set dap url
@@ -39,8 +42,9 @@ def query(index, query_str):
         # set redirector url
         if len(hit['fields']['urls']) == 0:
             hit['fields']['urls'] = None
-        else: hit['fields']['urls'] = [ url_for('services/dataset.resolve_url',
-                                                index=hit['_index'], id=hit['_id']) ]
+        else:
+            hit['fields']['urls'] = [url_for('services/dataset.resolve_url',
+                                             index=hit['_index'], id=hit['_id'])]
 
         # set closest city
         if len(hit['fields'].get('city', [])) > 0:
@@ -60,7 +64,7 @@ def query_dataset_url(index, objectid):
     #app.logger.debug("url: %s" % r.url)
     result = r.json()
     if r.status_code != 200:
-        app.logger.debug("Failed to query ES. Got status code %d:\n%s" % 
+        app.logger.debug("Failed to query ES. Got status code %d:\n%s" %
                          (r.status_code, json.dumps(result, indent=2)))
     r.raise_for_status()
     #app.logger.info("result: %s" % json.dumps(result, indent=2))
@@ -97,7 +101,10 @@ def get_dataset_url(hit):
 
     ret_url = None
     for url in hit['_source'].get('urls', []):
-        if url.startswith('http'): ret_url = url
-        if url.startswith('http') and 'amazonaws.com' in url: ret_url = url
-        if url.startswith('http') and 'googleapis.com' in url: ret_url = url
+        if url.startswith('http'):
+            ret_url = url
+        if url.startswith('http') and 'amazonaws.com' in url:
+            ret_url = url
+        if url.startswith('http') and 'googleapis.com' in url:
+            ret_url = url
     return ret_url

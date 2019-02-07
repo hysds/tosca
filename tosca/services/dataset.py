@@ -23,16 +23,23 @@ def resolve_url(index=None, id=None, path=None):
 
     # query
     err = "Unable to find dataset %s in index %s." % (id, index)
-    try: url = query_dataset_url(index, id)
+    try:
+        url = query_dataset_url(index, id)
     except HTTPError as e:
-        if e.response.status_code == 404: abort(404, err)
-        else: raise(e)
-    if url is None: abort(500, err)
+        if e.response.status_code == 404:
+            abort(404, err)
+        else:
+            raise(e)
+    if url is None:
+        abort(500, err)
 
     # check if noredirect is set; if so just return url
     noredirect = request.args.get('noredirect', "false")
-    if noredirect in ('true', 'True', 'TRUE'): return url
+    if noredirect in ('true', 'True', 'TRUE'):
+        return url
 
     # redirect
-    if path is None: return redirect(url)
-    else: return redirect("%s/%s" % (url, path))
+    if path is None:
+        return redirect(url)
+    else:
+        return redirect("%s/%s" % (url, path))
