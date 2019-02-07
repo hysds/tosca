@@ -2,7 +2,7 @@ import os, json, requests, types, re, hashlib, shutil, subprocess
 from flask import jsonify, Blueprint, request, url_for
 from flask_login import login_required
 from pprint import pformat
-from urlparse import urlparse
+from urllib.parse import urlparse
 
 from tosca import app
 

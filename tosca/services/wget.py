@@ -6,7 +6,7 @@ from pprint import pformat
 from tosca import app
 
 import boto3
-from urlparse import urlparse
+from urllib.parse import urlparse
 
 mod = Blueprint('services/wget', __name__)
 

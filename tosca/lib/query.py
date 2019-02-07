@@ -1,7 +1,7 @@
 import json, requests, re
 from pprint import pformat
 from flask import url_for
-from urllib import quote_plus
+from urllib.parse import quote_plus
 
 from tosca import app
 

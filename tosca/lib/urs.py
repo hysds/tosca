@@ -28,7 +28,7 @@ def urs_user_verified(code):
     # exchange
     r = requests.post(urs_url, data=payload, headers={ "Authorization": "Basic {}".format(auth_val) })
     try: r.raise_for_status()
-    except Exception, e:
+    except Exception as e:
         app.logger.error("Got error trying to verify URS user.")
         app.logger.error("%s:\n\n%s" % (str(e), traceback.format_exc()))
         return None
