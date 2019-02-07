@@ -7,7 +7,7 @@ setup(
     packages=find_packages(),
     include_package_data=True,
     zip_safe=False,
-    install_requires=['Flask', 'gunicorn', 'gevent', 'supervisor', 'requests',
+    install_requires=['Flask', 'gunicorn', 'gevent', 'requests',
                       'Flask-SQLAlchemy', 'Flask-WTF', 'Flask-DebugToolbar',
                       'Flask-Login', 'simpleldap', 'simplekml']
 )
