@@ -1,4 +1,13 @@
-import json, requests, types, re
+from __future__ import unicode_literals
+from __future__ import print_function
+from __future__ import division
+from __future__ import absolute_import
+from future import standard_library
+standard_library.install_aliases()
+import json
+import requests
+import types
+import re
 from flask import jsonify, Blueprint, request, Response, render_template, make_response
 from flask_login import login_required
 from pprint import pformat
@@ -24,18 +33,20 @@ def add_user_tag():
             'message': "Product ID not specified."
         }), 500
 
-    app.logger.debug("Adding tag '%s' to id '%s' in index '%s'." % (tag, id, es_index))
+    app.logger.debug("Adding tag '%s' to id '%s' in index '%s'." %
+                     (tag, id, es_index))
 
     # query
     es_url = app.config['ES_URL']
     query = {
-        "fields": [ "metadata.user_tags" ],
-        "query": { "term": { "_id": id } }
+        "fields": ["metadata.user_tags"],
+        "query": {"term": {"_id": id}}
     }
-    r = requests.post('%s/%s/_search' % (es_url, es_index), data=json.dumps(query))
+    r = requests.post('%s/%s/_search' %
+                      (es_url, es_index), data=json.dumps(query))
     result = r.json()
     if r.status_code != 200:
-        app.logger.debug("Failed to query ES. Got status code %d:\n%s" % 
+        app.logger.debug("Failed to query ES. Got status code %d:\n%s" %
                          (r.status_code, json.dumps(result, indent=2)))
     r.raise_for_status()
     if result['hits']['total'] != 1:
@@ -48,23 +59,26 @@ def add_user_tag():
     # get actual index (no aliases), doctype and user tags
     actual_index = result['hits']['hits'][0]['_index']
     doctype = result['hits']['hits'][0]['_type']
-    user_tags = result['hits']['hits'][0].get('fields', {}).get('metadata.user_tags', [])
+    user_tags = result['hits']['hits'][0].get(
+        'fields', {}).get('metadata.user_tags', [])
 
     # add tag if not already there
-    if tag not in user_tags: user_tags.append(tag)
+    if tag not in user_tags:
+        user_tags.append(tag)
 
     # upsert new document
     new_doc = {
-        "doc": { "metadata": { "user_tags": user_tags } },
+        "doc": {"metadata": {"user_tags": user_tags}},
         "doc_as_upsert": True
     }
-    r = requests.post('%s/%s/%s/%s/_update' % (es_url, actual_index, doctype, id), data=json.dumps(new_doc))
+    r = requests.post('%s/%s/%s/%s/_update' %
+                      (es_url, actual_index, doctype, id), data=json.dumps(new_doc))
     result = r.json()
     if r.status_code != 200:
-        app.logger.debug("Failed to update user_tags for %s. Got status code %d:\n%s" % 
+        app.logger.debug("Failed to update user_tags for %s. Got status code %d:\n%s" %
                          (id, r.status_code, json.dumps(result, indent=2)))
     r.raise_for_status()
-    
+
     return jsonify({
         'success': True,
         'message': ""
@@ -86,18 +100,20 @@ def remove_user_tag():
             'message': "Product ID not specified."
         }), 500
 
-    app.logger.debug("Removing tag '%s' from id '%s' in '%s'." % (tag, id, es_index))
+    app.logger.debug("Removing tag '%s' from id '%s' in '%s'." %
+                     (tag, id, es_index))
 
     # query
     es_url = app.config['ES_URL']
     query = {
-        "fields": [ "metadata.user_tags" ],
-        "query": { "term": { "_id": id } }
+        "fields": ["metadata.user_tags"],
+        "query": {"term": {"_id": id}}
     }
-    r = requests.post('%s/%s/_search' % (es_url, es_index), data=json.dumps(query))
+    r = requests.post('%s/%s/_search' %
+                      (es_url, es_index), data=json.dumps(query))
     result = r.json()
     if r.status_code != 200:
-        app.logger.debug("Failed to query ES. Got status code %d:\n%s" % 
+        app.logger.debug("Failed to query ES. Got status code %d:\n%s" %
                          (r.status_code, json.dumps(result, indent=2)))
     r.raise_for_status()
     if result['hits']['total'] != 1:
@@ -110,23 +126,26 @@ def remove_user_tag():
     # get actual index (no aliases), doctype and user tags
     actual_index = result['hits']['hits'][0]['_index']
     doctype = result['hits']['hits'][0]['_type']
-    user_tags = result['hits']['hits'][0].get('fields', {}).get('metadata.user_tags', [])
+    user_tags = result['hits']['hits'][0].get(
+        'fields', {}).get('metadata.user_tags', [])
 
     # add tag if not already there
-    if tag in user_tags: user_tags.remove(tag)
+    if tag in user_tags:
+        user_tags.remove(tag)
 
     # upsert new document
     new_doc = {
-        "doc": { "metadata": { "user_tags": user_tags } },
+        "doc": {"metadata": {"user_tags": user_tags}},
         "doc_as_upsert": True
     }
-    r = requests.post('%s/%s/%s/%s/_update' % (es_url, actual_index, doctype, id), data=json.dumps(new_doc))
+    r = requests.post('%s/%s/%s/%s/_update' %
+                      (es_url, actual_index, doctype, id), data=json.dumps(new_doc))
     result = r.json()
     if r.status_code != 200:
-        app.logger.debug("Failed to update user_tags for %s. Got status code %d:\n%s" % 
+        app.logger.debug("Failed to update user_tags for %s. Got status code %d:\n%s" %
                          (id, r.status_code, json.dumps(result, indent=2)))
     r.raise_for_status()
-    
+
     return jsonify({
         'success': True,
         'message': ""

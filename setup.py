@@ -1,3 +1,9 @@
+from __future__ import unicode_literals
+from __future__ import print_function
+from __future__ import division
+from __future__ import absolute_import
+from future import standard_library
+standard_library.install_aliases()
 from setuptools import setup, find_packages
 
 setup(
@@ -7,7 +13,7 @@ setup(
     packages=find_packages(),
     include_package_data=True,
     zip_safe=False,
-    install_requires=['Flask', 'gunicorn', 'gevent', 'supervisor', 'requests',
+    install_requires=['Flask', 'gunicorn', 'gevent', 'requests',
                       'Flask-SQLAlchemy', 'Flask-WTF', 'Flask-DebugToolbar',
                       'Flask-Login', 'simpleldap', 'simplekml']
 )
