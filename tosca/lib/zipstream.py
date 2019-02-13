@@ -5,6 +5,15 @@ Iterable ZIP archive generator.
 
 Derived directly from zipfile.py
 """
+from __future__ import unicode_literals
+from __future__ import print_function
+from __future__ import division
+from __future__ import absolute_import
+from builtins import open
+from builtins import chr
+from future import standard_library
+standard_library.install_aliases()
+from builtins import object
 import struct
 import os
 import time
@@ -180,7 +189,7 @@ class ZipInfo (object):
         return header + self.filename + extra
 
 
-class ZipStream:
+class ZipStream(object):
     """
     """
 
