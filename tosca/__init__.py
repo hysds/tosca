@@ -1,12 +1,3 @@
-from tosca.services.dataset import mod as datasetModule
-from tosca.services.kml import mod as kmlModule
-from tosca.services.user_rules import mod as userRulesModule
-from tosca.services.user_tags import mod as userTagsModule
-from tosca.services.download import mod as downloadModule
-from tosca.services.wget import mod as wgetModule
-from tosca.services.query import mod as queryModule
-from tosca.views.js import mod as jsModule
-from tosca.views.main import mod as viewsModule
 import os
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
@@ -93,16 +84,32 @@ lm.init_app(app)
 lm.login_view = 'views/main.login'
 
 # views blueprints
+from tosca.views.main import mod as viewsModule
 app.register_blueprint(viewsModule)
+
+from tosca.views.js import mod as jsModule
 app.register_blueprint(jsModule)
 
 # services blueprints
+from tosca.services.query import mod as queryModule
 app.register_blueprint(queryModule)
+
+from tosca.services.wget import mod as wgetModule
 app.register_blueprint(wgetModule)
+
+from tosca.services.download import mod as downloadModule
 app.register_blueprint(downloadModule)
+
+from tosca.services.user_tags import mod as userTagsModule
 app.register_blueprint(userTagsModule)
+
+from tosca.services.user_rules import mod as userRulesModule
 app.register_blueprint(userRulesModule)
+
+from tosca.services.kml import mod as kmlModule
 app.register_blueprint(kmlModule)
+
+from tosca.services.dataset import mod as datasetModule
 app.register_blueprint(datasetModule)
 
 # Sub-apps

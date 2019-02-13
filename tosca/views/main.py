@@ -117,13 +117,13 @@ def login():
         password = form.password.data
         # authenticate ops user account
         if username == app.config['OPS_USER']:
-            ops_passwd_hex = hashlib.sha224(password).hexdigest()
+            ops_passwd_hex = hashlib.sha224(password.encode()).hexdigest()
             if app.config['OPS_PASSWORD_HASH'] == ops_passwd_hex:
                 info = {}
             else:
                 info = None
         elif username in app.config.get('OUTSIDE_ACCOUNTS', {}):
-            passwd_hex = hashlib.sha224(password).hexdigest()
+            passwd_hex = hashlib.sha224(password.encode()).hexdigest()
             if app.config['OUTSIDE_ACCOUNTS'][username] == passwd_hex:
                 info = {}
             else:
