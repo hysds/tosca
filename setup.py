@@ -13,5 +13,6 @@ setup(
     zip_safe=False,
     install_requires=['Flask', 'gunicorn', 'gevent', 'requests',
                       'Flask-SQLAlchemy', 'Flask-WTF', 'Flask-DebugToolbar',
-                      'Flask-Login', 'simpleldap', 'simplekml']
+                      'Flask-Login', 'simpleldap', 'simplekml',
+                      'future>=0.17.1']
 )
