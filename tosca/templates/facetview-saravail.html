@@ -379,11 +379,6 @@ jQuery(document).ready(function($) {
         },
         {
           "pre": "<td>",
-          "field": "endtime",
-          "post": "</td>" 
-        },
-        {
-          "pre": "<td>",
           "field": "metadata.status",
           "post": "</td>" 
         },
@@ -394,24 +389,9 @@ jQuery(document).ready(function($) {
         },
         {
           "pre": "<td>",
-          "field": "metadata.instrumentshortname", 
-          "post": "</td>" 
-        },
-        {
-          "pre": "<td>",
-          "field": "metadata.orbitNumber",
-          "post": "</td>" 
-        },
-        {
-          "pre": "<td>",
           "field": "metadata.trackNumber",
           "post": "</td>" 
         },
-        //{
-          //"pre": "<td>",
-          //"field": "metadata.frameID",
-          //"post": "</td>" 
-        //},
         {
           "pre": "<td>",
           "field": "metadata.sensoroperationalmode",
@@ -1021,12 +1001,8 @@ jQuery(document).ready(function($) {
       <a class="brand" href="#">SAR Availability{%if config['SHOW_BADGE'] %}<span class="badge badge-important">{{ config['TOSCA_TITLE_BADGE'] }}</span>{% endif %}</a>
       <ul class="nav">
         <li><a href="http://aria.jpl.nasa.gov">Home</a></li>
-        <li><a href="{{ url_for('views/main.index') }}">Facet Search</a></li>
-        {% if g.user.is_authenticated and g.user.id == config['OPS_USER'] %}
-        <li><a href="{{ config['FIGARO_URL'] }}">Jobs</a></li>
-        {% elif g.user.is_authenticated %}
-        <li><a href="{{ url_for('my_jobs.index') }}">My Jobs</a></li>
-        {% endif %}
+        <li><a href="https://docs.google.com/document/d/1-fM5HlbPDCUfgD0Pl0ws9lWq35sp6Zeg6h0rE0wt1Nc/edit?usp=sharing">Documentation</a></li>
+        <li><a href="https://docs.google.com/forms/d/e/1FAIpQLSeY7Ts3fBY-nDMnnnSW9DfQ74qh2Z2uZEM5ZuBK75ydFZleIA/viewform?usp=sf_link">Feedback</a></li>
         {% if config['TERMS_OF_USE'] %}
         <li><a id="tou_link" href="">Terms of Use</a></li>
         <li><a id="support_link" href="">Support</a></li>

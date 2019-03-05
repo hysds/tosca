@@ -34,13 +34,9 @@ var polygonWithin = false;
 
 var thead = "<thead><tr>" + 
     "<th>starttime</th>" + 
-    "<th>endtime</th>" + 
     "<th>status</th>" + 
     "<th>platform</th>" + 
-    "<th>sensor</th>" + 
-    "<th>orbit</th>" + 
     "<th>track</th>" + 
-//    "<th>frame</th>" + 
     "<th>mode</th>" + 
     "<th>direction</th>" + 
     "<th>polarisation</th>" + 
@@ -1032,10 +1028,11 @@ search box - the end user will not know they are happening.
             prodLayer.clearLayers();
 
             // re-enable download buttons
-            $('#download_ics,#download_kml,#download_csv').off();
+            $('#download_ics,#download_kml,#download_csv,#download_wget2').off();
             $('#download_ics').removeClass("disabled");
             $('#download_kml').removeClass("disabled");
             $('#download_csv').removeClass("disabled");
+            $('#download_wget2').removeClass("disabled");
             
             // for each filter setup, find the results for it and append them to the relevant filter
             for ( var each = 0; each < options.facets.length; each++ ) {
@@ -1163,12 +1160,14 @@ search box - the end user will not know they are happening.
             $('#download_ics').attr('href', options.search_url.replace('/query2', '/services/ics') + 'base64=' + btoa(options.querystring));
             $('#download_kml').attr('href', options.search_url.replace('/query2', '/services/kml') + 'base64=' + btoa(options.querystring));
             $('#download_csv').attr('href', options.search_url.replace('/query2', '/services/csv') + 'base64=' + btoa(options.querystring));
+            $('#download_wget2').attr('href', options.search_url.replace('/query2', '/services/csv') + 'base64=' + btoa(options.querystring));
 
             if (options.querystring.search(/geo_shape/) == -1 || data.records.length == 0) {
                 $('#download_ics').addClass("disabled");
                 $('#download_kml').addClass("disabled");
                 $('#download_csv').addClass("disabled");
-                $('#download_ics,#download_kml,#download_csv').on('click', function() {
+                $('#download_wget2').addClass("disabled");
+                $('#download_ics,#download_kml,#download_csv,#download_wget2').on('click', function() {
                     $('#download_modal_label').text("Download");
                     $('#download_modal').modal('show').css({
                       'left': function() {
@@ -1870,7 +1869,7 @@ search box - the end user will not know they are happening.
                 window.location.pathname + '?source=' + options.querystring + '</textarea> \
                 </div>';
         }
-        thefacetview += '<div style="display: inline; class="control-group">   <a href="" target="_blank" id="download_ics" class="btn btn-success" data-toggle-"tooltip" title="Download ICS">ICS</a> <a href="" target="_blank" id="download_kml" class="btn btn-success" data-toggle-"tooltip" title="Download KML">KML</a> <a href="" target="_blank" id="download_csv" class="btn btn-success" data-toggle-"tooltip" title="Download CSV">CSV</a></div>'
+        thefacetview += '<div style="display: inline; class="control-group">   <a href="" target="_blank" id="download_ics" class="btn btn-success" data-toggle-"tooltip" title="Download ICS">ICS</a> <a href="" target="_blank" id="download_kml" class="btn btn-success" data-toggle-"tooltip" title="Download KML">KML</a> <a href="" target="_blank" id="download_csv" class="btn btn-success" data-toggle-"tooltip" title="Download CSV">CSV</a> <a href="" target="_blank" id="download_wget2" class="btn btn-success" data-toggle-"tooltip" title="Download WGET Script">WGET</a></div>'
         thefacetview += '</div>';
         thefacetview += '<div style="clear:both;" class="btn-toolbar" id="facetview_selectedfilters"></div>';
         options.pager_on_top ? thefacetview += '<div class="facetview_metadata" style="margin-top:20px;"></div>' : "";
