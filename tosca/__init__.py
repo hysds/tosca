@@ -1,3 +1,9 @@
+from __future__ import unicode_literals
+from __future__ import print_function
+from __future__ import division
+from __future__ import absolute_import
+from future import standard_library
+standard_library.install_aliases()
 import os
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
@@ -44,6 +50,7 @@ class ReverseProxied(object):
 
     :param app: the WSGI application
     '''
+
     def __init__(self, app):
         self.app = app
 
@@ -70,7 +77,8 @@ app.config.from_pyfile('../settings.cfg')
 
 # set database config
 dbdir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'data'))
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(dbdir, 'app.db')
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + \
+    os.path.join(dbdir, 'app.db')
 db = SQLAlchemy(app)
 
 # debug toolbar
@@ -84,22 +92,29 @@ lm.login_view = 'views/main.login'
 # views blueprints
 from tosca.views.main import mod as viewsModule
 app.register_blueprint(viewsModule)
+
 from tosca.views.js import mod as jsModule
 app.register_blueprint(jsModule)
 
 # services blueprints
 from tosca.services.query import mod as queryModule
 app.register_blueprint(queryModule)
+
 from tosca.services.wget import mod as wgetModule
 app.register_blueprint(wgetModule)
+
 from tosca.services.download import mod as downloadModule
 app.register_blueprint(downloadModule)
+
 from tosca.services.user_tags import mod as userTagsModule
 app.register_blueprint(userTagsModule)
+
 from tosca.services.user_rules import mod as userRulesModule
 app.register_blueprint(userRulesModule)
+
 from tosca.services.kml import mod as kmlModule
 app.register_blueprint(kmlModule)
+
 from tosca.services.dataset import mod as datasetModule
 app.register_blueprint(datasetModule)
 

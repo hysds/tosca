@@ -1,7 +1,15 @@
+from __future__ import unicode_literals
+from __future__ import print_function
+from __future__ import division
+from __future__ import absolute_import
+from builtins import str
+from future import standard_library
+standard_library.install_aliases()
 from datetime import datetime
-import hashlib, simpleldap
+import hashlib
+import simpleldap
 from flask import (render_template, Blueprint, g, redirect, session, request,
-url_for, flash, abort, make_response)
+                   url_for, flash, abort, make_response)
 from flask_login import login_required, login_user, logout_user, current_user
 
 from tosca import app, db, lm
@@ -54,13 +62,13 @@ def unimplemented(e):
 @mod.route('/sitemap.xml')
 def sitemap():
     #pages = []
-    #for rule in app.url_map.iter_rules():
+    # for rule in app.url_map.iter_rules():
     #    if "GET" in rule.methods and len(rule.arguments) == 0:
     #        pages.append([rule.rule, datetime.utcnow()])
     dt = datetime.utcnow()
-    pages = [ [ url_for('views/main.index', _external=True), dt ],
-              [ url_for('views/main.login', _external=True), dt ],
-              [ url_for('views/main.logout', _external=True), dt] ]
+    pages = [[url_for('views/main.index', _external=True), dt],
+             [url_for('views/main.login', _external=True), dt],
+             [url_for('views/main.logout', _external=True), dt]]
     sitemap_xml = render_template('sitemap.xml', pages=pages)
     resp = make_response(sitemap_xml)
     resp.headers['Content-Type'] = "application/xml"
@@ -103,27 +111,30 @@ def login():
             #app.logger.info('user: %s' % user)
             login_user(user)
             flash("Successfully authenticated.")
-            if 'TERMS_OF_USE' in app.config: flash(app.config['TERMS_OF_USE'], 'toc')
+            if 'TERMS_OF_USE' in app.config:
+                flash(app.config['TERMS_OF_USE'], 'toc')
             return redirect(request.args.get('next') or url_for('views/main.index'))
         raise RuntimeError("Error trying to authenticate.")
 
     # authenticate using LDAP and local db
     form = LoginForm()
     if form.validate_on_submit():
-        #session['remember_me'] = form.remember_me.data 
+        #session['remember_me'] = form.remember_me.data
         username = form.username.data
         password = form.password.data
         # authenticate ops user account
         if username == app.config['OPS_USER']:
-            ops_passwd_hex = hashlib.sha224(password).hexdigest()
+            ops_passwd_hex = hashlib.sha224(password.encode()).hexdigest()
             if app.config['OPS_PASSWORD_HASH'] == ops_passwd_hex:
                 info = {}
-            else: info = None 
+            else:
+                info = None
         elif username in app.config.get('OUTSIDE_ACCOUNTS', {}):
-            passwd_hex = hashlib.sha224(password).hexdigest()
+            passwd_hex = hashlib.sha224(password.encode()).hexdigest()
             if app.config['OUTSIDE_ACCOUNTS'][username] == passwd_hex:
                 info = {}
-            else: info = None
+            else:
+                info = None
         else:
             # for everyone else authenticate via LDAP
             info = ldap_user_verified(username, password)
@@ -139,7 +150,8 @@ def login():
             #app.logger.info('user: %s' % user)
             login_user(user)
             flash("Successfully authenticated.")
-            if 'TERMS_OF_USE' in app.config: flash(app.config['TERMS_OF_USE'], 'toc')
+            if 'TERMS_OF_USE' in app.config:
+                flash(app.config['TERMS_OF_USE'], 'toc')
             return redirect(request.args.get('next') or url_for('views/main.index'))
         flash("Error trying to authenticate.")
     else:
@@ -168,12 +180,14 @@ def index():
     #app.logger.debug("g.user: %s" % g.user)
     #app.logger.debug("g.user.info: %s" % g.user.info)
     emails = g.user.info.get('mail', [])
-    if len(emails) > 0: email = emails[0]
-    else: email = ""
+    if len(emails) > 0:
+        email = emails[0]
+    else:
+        email = ""
     g.blueprints = app.blueprints
     return render_template('facetview.html',
                            title='TOSCA: Advanced FacetView User Interface',
-                           email= email,
+                           email=email,
                            current_year=datetime.now().year)
 
 
@@ -196,11 +210,13 @@ def mapview():
     #app.logger.debug("g.user: %s" % g.user)
     #app.logger.debug("g.user.info: %s" % g.user.info)
     emails = g.user.info.get('mail', [])
-    if len(emails) > 0: email = emails[0]
-    else: email = ""
+    if len(emails) > 0:
+        email = emails[0]
+    else:
+        email = ""
     return render_template('facetview_gibs.html',
                            title='TOSCA: Advanced FacetView User Interface',
-                           email= email,
+                           email=email,
                            current_year=datetime.now().year)
 
 
@@ -218,7 +234,7 @@ def jpl():
 def jpl_login():
     form = LoginForm()
     if form.validate_on_submit():
-        #session['remember_me'] = form.remember_me.data 
+        #session['remember_me'] = form.remember_me.data
         username = form.username.data
         password = form.password.data
     else:
@@ -227,5 +243,3 @@ def jpl_login():
     return render_template('login_jpl.html',
                            title='TOSCA: Advanced FacetView User Interface',
                            form=form, current_year=datetime.now().year)
-
-

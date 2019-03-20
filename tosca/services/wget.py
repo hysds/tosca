@@ -1,4 +1,13 @@
-import json, requests, types, re
+from __future__ import unicode_literals
+from __future__ import print_function
+from __future__ import division
+from __future__ import absolute_import
+from future import standard_library
+standard_library.install_aliases()
+import json
+import requests
+import types
+import re
 from flask import jsonify, Blueprint, request, Response, render_template, make_response
 from flask_login import login_required
 from pprint import pformat
@@ -6,7 +15,7 @@ from pprint import pformat
 from tosca import app
 
 import boto3
-from urlparse import urlparse
+from urllib.parse import urlparse
 
 mod = Blueprint('services/wget', __name__)
 
@@ -40,15 +49,17 @@ def wget_script(dataset=None):
     #app.logger.debug("ES src for wget_script(): %s" % json.dumps(src, indent=2))
     new_src = {}
     for k in src:
-        if k != "facets": new_src[k] = src[k]
+        if k != "facets":
+            new_src[k] = src[k]
     #app.logger.debug("ES new_src for wget_script(): %s" % json.dumps(new_src, indent=2))
 
     # query
     es_url = app.config['ES_URL']
     index = dataset
-    r = requests.post('%s/%s/_search?search_type=scan&scroll=10m&size=100' % (es_url, index), data=json.dumps(new_src))
+    r = requests.post('%s/%s/_search?search_type=scan&scroll=10m&size=100' %
+                      (es_url, index), data=json.dumps(new_src))
     if r.status_code != 200:
-        app.logger.debug("Failed to query ES. Got status code %d:\n%s" % 
+        app.logger.debug("Failed to query ES. Got status code %d:\n%s" %
                          (r.status_code, json.dumps(r.json(), indent=2)))
     r.raise_for_status()
     #app.logger.debug("result: %s" % pformat(r.json()))
@@ -72,62 +83,68 @@ def wget_script(dataset=None):
         wget_cmd_password = wget_cmd + ' --user=$user --password=$password'
 
         while True:
-            r = requests.post('%s/_search/scroll?scroll=10m' % es_url, data=scroll_id)
+            r = requests.post('%s/_search/scroll?scroll=10m' %
+                              es_url, data=scroll_id)
             res = r.json()
             #app.logger.debug("res: %s" % pformat(res))
             scroll_id = res['_scroll_id']
-            if len(res['hits']['hits']) == 0: break
-	    # Elastic Search seems like it's returning duplicate urls. Remove duplicates
-	    unique_urls=[]
+            if len(res['hits']['hits']) == 0:
+                break
+            # Elastic Search seems like it's returning duplicate urls. Remove duplicates
+            unique_urls = []
             for hit in res['hits']['hits']:
-		[unique_urls.append(url) for url in hit['_source']['urls'] if url not in unique_urls]
-	    
-	    for url in unique_urls:
-		if 'hysds-aria-products.s3-website' in url:
-			parsed_url = urlparse(url)
-			cut_dirs = len(parsed_url.path[1:].split('/')) - 1
-		else:
-			if 's1a_ifg' in url:
-				cut_dirs = 3
-			else:
-				cut_dirs = 6
-		if 'hysds-aria-products.s3-website' in url:
-                        files = get_s3_files(url)
-			for file in files:
-				yield 'echo "downloading  %s"\n' % file
-				if 's1a_ifg' in url:
-					yield "%s --cut-dirs=%d %s\n" % (wget_cmd, cut_dirs, file)
-				else:
-					yield "%s --cut-dirs=%d %s\n" % (wget_cmd, cut_dirs, file)
+                [unique_urls.append(url) for url in hit['_source']
+                 ['urls'] if url not in unique_urls]
+
+            for url in unique_urls:
+                if 'hysds-aria-products.s3-website' in url:
+                    parsed_url = urlparse(url)
+                    cut_dirs = len(parsed_url.path[1:].split('/')) - 1
+                else:
+                    if 's1a_ifg' in url:
+                        cut_dirs = 3
+                    else:
+                        cut_dirs = 6
+                if 'hysds-aria-products.s3-website' in url:
+                    files = get_s3_files(url)
+                    for file in files:
+                        yield 'echo "downloading  %s"\n' % file
+                        if 's1a_ifg' in url:
+                            yield "%s --cut-dirs=%d %s\n" % (wget_cmd, cut_dirs, file)
+                        else:
+                            yield "%s --cut-dirs=%d %s\n" % (wget_cmd, cut_dirs, file)
                 if 'aria-dav.jpl.nasa.gov' in url:
-			yield 'echo "downloading  %s"\n' % url
-                        yield "%s --cut-dirs=%d %s/\n" % (wget_cmd_password, (cut_dirs+1), url)
+                    yield 'echo "downloading  %s"\n' % url
+                    yield "%s --cut-dirs=%d %s/\n" % (wget_cmd_password, (cut_dirs+1), url)
                 if 'aria-csk-dav.jpl.nasa.gov' in url:
-			yield 'echo "downloading  %s"\n' % url
-                        yield "%s --cut-dirs=%d %s/\n" % (wget_cmd_password, (cut_dirs+1), url)
+                    yield 'echo "downloading  %s"\n' % url
+                    yield "%s --cut-dirs=%d %s/\n" % (wget_cmd_password, (cut_dirs+1), url)
                 if 'aria-dst-dav.jpl.nasa.gov' in url:
-			yield 'echo "downloading  %s"\n' % url
-                        yield "%s --cut-dirs=%d %s/\n" % (wget_cmd, cut_dirs, url)
-                        break
+                    yield 'echo "downloading  %s"\n' % url
+                    yield "%s --cut-dirs=%d %s/\n" % (wget_cmd, cut_dirs, url)
+                    break
 
     headers = {'Content-Disposition': 'attachment; filename=wget.sh'}
-    return Response(stream_wget(scroll_id, source), headers=headers, mimetype="text/plain") 
+    return Response(stream_wget(scroll_id, source), headers=headers, mimetype="text/plain")
+
 
 def get_s3_files(url):
-	files = []
-	parsed_url = urlparse(url)
-        bucket = parsed_url.hostname.split('.', 1)[0]
- 	client = boto3.client('s3')
-	results = client.list_objects(Bucket=bucket, Delimiter='/', Prefix=parsed_url.path[1:] + '/')
-        
-	if results.get('Contents'):
-		for result in results.get('Contents'):
-			files.append(parsed_url.scheme + "://" + parsed_url.hostname + '/' + result.get('Key'))
-	
-	if results.get('CommonPrefixes'):
-		for result in results.get('CommonPrefixes'):
-			# Prefix values have a trailing '/'. Let's remove it to be consistent with our dir urls
-			folder = parsed_url.scheme + "://" + parsed_url.hostname + '/' + result.get('Prefix')[:-1]
-			files.extend(get_s3_files(folder))
-	return files
-	
+    files = []
+    parsed_url = urlparse(url)
+    bucket = parsed_url.hostname.split('.', 1)[0]
+    client = boto3.client('s3')
+    results = client.list_objects(
+        Bucket=bucket, Delimiter='/', Prefix=parsed_url.path[1:] + '/')
+
+    if results.get('Contents'):
+        for result in results.get('Contents'):
+            files.append(parsed_url.scheme + "://" +
+                         parsed_url.hostname + '/' + result.get('Key'))
+
+    if results.get('CommonPrefixes'):
+        for result in results.get('CommonPrefixes'):
+            # Prefix values have a trailing '/'. Let's remove it to be consistent with our dir urls
+            folder = parsed_url.scheme + "://" + \
+                parsed_url.hostname + '/' + result.get('Prefix')[:-1]
+            files.extend(get_s3_files(folder))
+    return files
