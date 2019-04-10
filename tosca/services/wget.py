@@ -38,7 +38,6 @@ def pull_all_data_sets(es_url, query):
     return data_sets
 
 
-#@mod.route('/wget/<dataset>', methods=['GET'])
 @mod.route('/wget/<dataset>', methods=['GET'])
 @cross_origin(origin='*')
 @login_required
@@ -47,7 +46,7 @@ def get_wget(dataset):
     source_b64 = base64.b64decode(dataset)
     if source_b64 is not None:
         source = base64.b64decode(dataset)
-	source = json.loads(source)  # this is the es query
+        source = json.loads(source)  # this is the es query
     else:
         return jsonify({
             'success': False,
@@ -65,9 +64,8 @@ def get_wget(dataset):
     f = io.BytesIO()
     wget_template = "wget --load-cookies /tmp/cookies.txt --save-cookies /tmp/cookies.txt --keep-session-cookies https://grfn.asf.alaska.edu/door/download/{}.nc\n"
     for product in all_products:
-	line = wget_template.format(product)
-	# print(line)
-	f.write(line.encode('utf-8'))
+        line = wget_template.format(product)
+        f.write(line.encode('utf-8'))
 
     fname = "standard_products-{}.sh".format(datetime.utcnow().strftime('%Y%m%dT%H%M%S'))
     output = make_response(f.getvalue())
