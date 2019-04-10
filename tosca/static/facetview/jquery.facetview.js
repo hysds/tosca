@@ -1016,7 +1016,12 @@ search box - the end user will not know they are happening.
 
             // clear out prodLayer
             prodLayer.clearLayers();
-            
+           
+            //re-enable download buttons
+            $('#download_wget').off();
+            $('#download_wget').removeClass("disabled");
+
+ 
             // for each filter setup, find the results for it and append them to the relevant filter
             for ( var each = 0; each < options.facets.length; each++ ) {
                 var facet = options.facets[each]['field'];
@@ -1096,7 +1101,7 @@ search box - the end user will not know they are happening.
                         <li class="next"><a class="btn facetview_increment" href="{{to}}">next &raquo;</a></li> \
                     </ul> \
                     <ul> \
-                        <li><a href="" target="_blank" id="wget_script" class="btn hidden" data-toggle="tooltip" title="Download WGET script for manual download your search results">WGET Script</a></li> \
+                        <li><a href="" target="_blank" class="btn" id="wget_script2" data-toggle="tooltip" title="Download WGET script for manual download your search results">WGET Script</a></li> \
                         <li><a name="create_rule" class="btn" data-toggle="tooltip" title="Monitor this result set for change and perform an action">Trigger Rules</a></li> \
                         <li><a name="process_this" class="btn" data-toggle="tooltip" title="Run job on this result set">On-Demand</a></li> \
                         <li><a name="prep_download" class="btn btn-success downprep" title="Dataset Downloads">Dataset Downloads</a></li> \
@@ -1144,8 +1149,14 @@ search box - the end user will not know they are happening.
             $('.facetview_viewrecord', obj).bind('click',viewrecord);
             jQuery('.notify_loading').hide();
 
-            // set wget href
-            $('#wget_script').attr('href', options.search_url.replace('/query', '/wget_script') + "source=" + QUERY_STRING);
+            // set wget href mlucas
+		//if (options.querystring.search(/geo_shape/) == -1 || data.records.length == 0) {
+                //$('#download_wget').addClass("disabled");
+
+		$('#download_wget').attr({
+		    target: '_blank',
+		    href: "wget/" + btoa(options.querystring)
+		});
 
             // create rule
             $('a[name="create_rule"]').on('click', function() {
@@ -1839,6 +1850,7 @@ search box - the end user will not know they are happening.
                 </div>';
         }
 
+        thefacetview += '<div style="display: inline; class="control-group">   <a href="" target="_blank" id="download_wget" class="btn btn-success" data-toggle-"tooltip" title="Download WGET">WGET</a>'
         thefacetview += '</div>';
         thefacetview += '<div style="clear:both;" class="btn-toolbar" id="facetview_selectedfilters"></div>';
         options.pager_on_top ? thefacetview += '<div class="facetview_metadata" style="margin-top:20px;"></div>' : "";
