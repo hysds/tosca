@@ -734,37 +734,6 @@ jQuery(document).ready(function($) {
       ],
       [
         {
-          "pre": "user tags:<div id='user_tags_",
-          "field": "id",
-          "post": "'></div><script>$(function() {\n" +
-                  "  var es_index = null;\n" +
-                  "  var tagData = null;\n"
-        },
-        {
-          "pre": "  es_index = \"",
-          "field": "es_index",
-          "post": "\";\n"
-        },
-        {
-          "pre": "  tagData = ",
-          "field": "metadata.user_tags",
-          "post": ";\n"
-        },
-        {
-          "pre": "  var id='",
-          "field": "id",
-          "post": "';\n" +
-                  "  var tags =  $('div[id=\"user_tags_' + id + '\"]').tags({\n" +
-                  "    tagSize: 'sm',\n" +
-                  "    tagData: tagData,\n" +
-                  "    afterAddingTag: function(t) { add_user_tag(es_index, id, t); },\n" +
-                  "    afterDeletingTag: function(t) { remove_user_tag(es_index, id, t); }\n" +
-                  "  });\n" +
-                  "});<\/script>"
-        }
-      ],
-      [
-        {
           "pre": '<br/><table id="result_button_table_',
           "field": "id",
           "post": '"><tr>'

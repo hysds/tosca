@@ -5,12 +5,9 @@ from flask_login import login_required
 from flask_cors import CORS, cross_origin
 from pprint import pformat
 from datetime import datetime
-
 from tosca import app
 
-
 mod = Blueprint('services/wget', __name__)
-
 
 
 def pull_all_data_sets(es_url, query):
@@ -47,6 +44,8 @@ def get_wget(dataset):
     if source_b64 is not None:
         source = base64.b64decode(dataset)
         source = json.loads(source)  # this is the es query
+        app.logger.info("source: {}".format(source))
+        app.logger.info("source_b64: {}".format(source_b64))
     else:
         return jsonify({
             'success': False,
@@ -55,10 +54,8 @@ def get_wget(dataset):
 
     es_url_base = app.config['ES_URL']
     index = 'grq_v2.0.0_s1-gunw-merged'
-    #es_url = '%s/%s/_search?search_type=scan&scroll=10m&size=100' % (es_url, index)
     es_url = "%s/%s/_search" % (es_url_base, index)
     
-    #r = requests.post(es_url, data=json.dumps(source))
     all_products = pull_all_data_sets(es_url, source)
 
     f = io.BytesIO()
@@ -72,4 +69,3 @@ def get_wget(dataset):
     output.headers["Content-Disposition"] = "attachment; filename={}".format(fname)
     output.headers["Content-type"] = "text"
     return output
-

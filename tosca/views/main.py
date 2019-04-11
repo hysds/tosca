@@ -171,7 +171,7 @@ def index():
     if len(emails) > 0: email = emails[0]
     else: email = ""
     g.blueprints = app.blueprints
-    return render_template('facetview.html',
+    return render_template('facetview-standard_product.html',
                            title='TOSCA: Advanced FacetView User Interface',
                            email= email,
                            current_year=datetime.now().year)
