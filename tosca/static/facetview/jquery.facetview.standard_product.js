@@ -1097,6 +1097,7 @@ search box - the end user will not know they are happening.
                     </ul> \
                     <ul> \
                         <li><a href="" target="_blank" id="wget_script" class="btn hidden" data-toggle="tooltip" title="Download WGET script for manual download your search results">WGET Script</a></li> \
+			<li><a class="btn btn-success" target="_blank" id="download_wget" class="btn btn-success" data-toggle-"tooltip" title="Download WGET">Download All</a></li> \
                     </ul> \
                 </div>';
             };
@@ -1142,18 +1143,23 @@ search box - the end user will not know they are happening.
             jQuery('.notify_loading').hide();
 
             // set wget href
-            $('#wget_script').attr('href', options.search_url.replace('/query', '/wget_script') + "source=" + QUERY_STRING);
+            //$('#wget_script').attr('href', options.search_url.replace('/query', '/wget_script') + "source=" + QUERY_STRING);
+
+            $('#download_wget').attr({
+                target: '_blank',
+                href: "wget_all/" + btoa(options.querystring)
+            });
 
             // create rule
-            $('a[name="create_rule"]').on('click', function() {
-              $('#rule_modal_label').text("Trigger Rules (Monitor Results)");
-              $('#rule_modal').modal('show').css({
-                'left': function() {
-                  return ($(window).width()-$(this).width())/2;
-                }
-              });
-              return false;
-            });
+            //$('a[name="create_rule"]').on('click', function() {
+            //  $('#rule_modal_label').text("Trigger Rules (Monitor Results)");
+            //  $('#rule_modal').modal('show').css({
+            //    'left': function() {
+            //      return ($(window).width()-$(this).width())/2;
+            //    }
+            //  });
+            //  return false;
+            //});
 
             // process this
             $('a[name="process_this"]').on('click', function() {
