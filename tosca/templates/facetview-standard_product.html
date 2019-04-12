@@ -255,49 +255,31 @@ jQuery(document).ready(function($) {
     search_url: "{{ url_for('services/query.query', dataset=config['ES_INDEX']) }}?",
     search_index: 'elasticsearch',
     facets: [
-        {'field':'dataset_type.raw', 'display': 'type', 'size': 15},
-        {'field':'dataset.raw', 'display': 'dataset', 'size': 20}, 
+        {'field':'dataset.version', 'display': 'version'},
+        {'field':'metadata.tags.raw', 'display': 'machine tags'},
+        {'field':'metadata.user_tags.raw', 'display': 'user tags'},
         {'field':'metadata.platform.raw', 'display': 'platform'},
         {'field':'metadata.sensor.raw', 'display': 'sensor'},
-        {'field':'system_version.raw', 'display': 'dataset version'}, 
-        {'field':'metadata.user_tags.raw', 'display': 'user tags'},
-        {'field':'metadata.tags.raw', 'display': 'machine tags'},
-        {'field':'starttime', 'display': 'start date', 'type': 'date'},
-        {'field':'endtime', 'display': 'stop date', 'type': 'date'},
-        {'field':'temporal_span', 'display': 'temporal span (days)', 'type': 'number'},
+        {'field':'metadata.look_direction', 'display': 'look direction'},
+        {'field':'metadata.track_number', 'display': 'track number', 'type': 'number'},
+        {'field':'metadata.orbit_direction.raw', 'display': 'orbit direction'},
+        {'field':'metadata.reference_date', 'display': 'reference date', 'type': 'date'},
+        {'field':'metadata.secondary_date', 'display': 'secondary date', 'type': 'date'},
+        {'field':'metadata.temporal_span', 'display': 'temporal span (days)', 'type': 'number'},
         {'field':'continent.raw', 'display': 'continent'},
         {'field':'city.country_name.raw', 'display': 'country'},
         {'field':'city.admin1_name.raw', 'display': 'region'},
         {'field':'city.admin2_name.raw', 'display': 'subregion'},
         {'field':'city.name.raw', 'display': 'city'},
-        {'field':'metadata.dfas.RequestorUserId.raw', 'display': 'requestor'},
-        {'field':'dataset_level.raw', 'display': 'level'},
-        {'field':'metadata.corrections.raw', 'display': 'corrections'},
-        {'field':'metadata.spacecraftName.raw', 'display': 'spacecraft'},
-        {'field':'metadata.direction.raw', 'display': 'orbit direction'},
-        {'field':'metadata.lookDirection.raw', 'display': 'look direction'},
-        {'field':'metadata.stitch_direction', 'display': 'stitch direction'},
-        {'field':'metadata.scene_count', 'display': 'stitched scenes count', 'type': 'number'},
-        {'field':'metadata.orbit_type.raw', 'display': 'input orbit type'},
-        {'field':'metadata.orbitRepeat', 'display': 'orbit repeat'},
-        {'field':'metadata.trackNumber', 'display': 'track number', 'type': 'number'},
-        {'field':'metadata.beamID.raw', 'display': 'beam ID'},
-        {'field':'metadata.beamNumber', 'display': 'beam number', 'type': 'number'},
-        {'field':'metadata.predicted_phase_unwrapping_bucket', 'type':'number','display': 'Phase Unwrapping Quality (Predicted)'},
-        {'field':'metadata.timestep_count', 'display': 'timesteps', 'type': 'number'},
-        {'field':'metadata.dfdn.AcquistionMode.raw', 'display': 'acquisition mode'},
-        {'field':'metadata.dfdn.LookSide.raw', 'display': 'look side'},
-        {'field':'metadata.dfdn.DeliveryMode.raw', 'display': 'delivery mode'},
-        {'field':'metadata.azimuth_looks', 'display': 'azimuth looks', 'type': 'number'},
-        {'field':'metadata.range_looks', 'display': 'range looks', 'type': 'number'},
-        {'field':'metadata.dem_type.raw', 'display': 'DEM type'},
-        {'field':'metadata.version.raw', 'display': 'IPF version'},
-        {'field':'metadata.source.raw', 'display': 'source archive'},
-        {'field':'metadata.dataset_type.raw', 'display': 'source datatype'}
+        {'field':'system_version.raw', 'display': 'system version'}
     ],
     time_fields: [
         'starttime',
-        'endtime'
+        'endtime',
+        'metadata.reference_date',
+        'metadata.secondary_date',
+        'sensing_start',
+        'sensing_stop'
     ],
     bucketed_fields: [
     ],
@@ -310,21 +292,21 @@ jQuery(document).ready(function($) {
     filterchoice_result_fields: {
         'metadata.version': 'metadata.version',
         'metadata.tags': 'metadata.tags.raw',
+        'metadata.user_tags': 'metadata.user_tags',
         'metadata.corrections': 'metadata.corrections.raw',
         'continent': 'continent.raw',
         'city.admin2_name': 'city.admin2_name.raw',
         'city.admin1_name': 'city.admin1_name.raw',
         'city.country_name': 'city.country_name.raw',
         'city.name': 'city.name.raw',
-        'metadata.spacecraftName': 'metadata.spacecraftName',
-        'metadata.direction': 'metadata.direction',
-        'metadata.lookDirection': 'metadata.lookDirection',
+        'metadata.orbit_direction': 'metadata.orbit_direction',
+        'metadata.look_direction': 'metadata.look_direction',
         'metadata.orbit_type': 'metadata.orbit_type',
-        'metadata.orbitNumber': 'metadata.orbitNumber',
-        'metadata.orbitRepeat': 'metadata.orbitRepeat',
-        'metadata.trackNumber': 'metadata.trackNumber',
-        'metadata.beamNumber': 'metadata.beamNumber',
-        'metadata.predicted_phase_unwrapping_bucket':'metadata.predicted_phase_unwrapping_bucket',
+        'metadata.orbit_number': 'metadata.orbit_number',
+        'metadata.orbit_repeat': 'metadata.orbit_repeat',
+        'metadata.track_number': 'metadata.track_number',
+        'metadata.beam_number': 'metadata.beam_number',
+        'metadata.phase_unwrapping_predicted_bucket':'metadata.phase_unwrapping_predicted_bucket',
         'metadata.latitudeIndexMin': 'metadata.latitudeIndexMin',
         'metadata.latitudeIndexMax': 'metadata.latitudeIndexMax',
         'metadata.dfdn.ProductType': 'metadata.dfdn.ProductType.raw',
@@ -439,15 +421,13 @@ jQuery(document).ready(function($) {
           "post": "</div>"
         },
         {
-          "pre": "tags: <font color='blue'>", 
-          "field": "metadata.tags", 
-          "post": "</font>" 
-        }
-      ],
-      [
+          "pre": "type: <font color='blue'>", 
+          "field": "dataset_type", 
+          "post": "</font> | " 
+        },
         {
-          "pre": "corrections: <font color='blue'>", 
-          "field": "metadata.corrections", 
+          "pre": "dataset: <font color='blue'>", 
+          "field": "dataset", 
           "post": "</font>" 
         }
       ],
@@ -456,7 +436,19 @@ jQuery(document).ready(function($) {
           "pre": "dataset version: <font color='blue'>", 
           "field": "version", 
           "post": "</font>" 
+        }
+      ],
+      [
+        {
+          "pre": "platform: <font color='blue'>", 
+          "field": "metadata.platform", 
+          "post": "</font> | " 
         },
+        {
+          "pre": "sensor: <font color='blue'>", 
+          "field": "metadata.sensor", 
+          "post": "</font>" 
+        }
       ],
       [
         {
@@ -472,47 +464,32 @@ jQuery(document).ready(function($) {
       ],
       [
         {
-          "pre": "spacecraft name: <font color='blue'>",
-          "field": "metadata.spacecraftName",
+          "pre": "orbit direction: <font color='blue'>",
+          "field": "metadata.orbit_direction",
           "post": "</font> | "
         },
         {
           "pre": "track number: <font color='blue'>",
-          "field": "metadata.trackNumber",
-          "post": "</font> | "
+          "field": "metadata.track_number",
+          "post": "</font>"
         },
-        {
-          "pre": "beam number: <font color='blue'>",
-          "field": "metadata.beamNumber",
-          "post": "</font> | "
-        }
       ],
       [
         {
-          "pre": "orbit direction: <font color='blue'>",
-          "field": "metadata.direction",
-          "post": "</font> | "
-        },
-        {
           "pre": "look direction: <font color='blue'>",
-          "field": "metadata.lookDirection",
+          "field": "metadata.look_direction",
           "post": "</font> | "
         },
         {
           "pre": "orbit number: <font color='blue'>",
-          "field": "metadata.orbitNumber",
-          "post": "</font> | "
-        },
-        {
-          "pre": "orbit repeat: <font color='blue'>",
-          "field": "metadata.orbitRepeat",
+          "field": "metadata.orbit_number",
           "post": "</font>"
         }
       ],
       [
         {
           "pre": "Predicted Phase Unwrapping Quality:",
-          "field": "metadata.predicted_phase_unwrapping_quality",
+          "field": "metadata.phase_unwrapping_quality_predicted",
           "post": ""
         }
       ],
@@ -549,16 +526,9 @@ jQuery(document).ready(function($) {
       ],
       [
         {
-          "pre": "continent: <font color='blue'>",
+          "pre": "location: ",
           "field": "continent",
-          "post": "</font>"
-        }
-      ],
-      [
-        {
-          "pre": "location: <div class='hidden'>",
-          "field": "id",
-          "post": "</div><font color='blue'>"
+          "post": ", "
         },
         {
           "pre": "",
@@ -573,19 +543,24 @@ jQuery(document).ready(function($) {
         {
           "pre": "",
           "field": "city.country_name",
-          "post": ""
+          "post": ", "
+        },
+        {
+          "pre": "",
+          "field": "city.name",
+          "post": "</font>"
         },
         {
           "pre": "</font><div class='hidden'>",
           "field": "id",
           "post": "</div>"
         }
-      ],
-      [
+       ],
+       [
         {
-          "pre": "cities: <font color='blue'>",
-          "field": "city.name",
-          "post": "</font>"
+          "pre": "machine tags: <font color='blue'>", 
+          "field": "metadata.tags", 
+          "post": "</font>" 
         }
       ],
       [
@@ -708,35 +683,35 @@ jQuery(document).ready(function($) {
         }
       ],
       [
-        {
-          "pre": "<div id='user_tags_",
-          "field": "id",
-          "post": "'></div><script>$(function() {\n" +
-                  "  var es_index = null;\n" +
-                  "  var tagData = null;\n"
-        },
-        {
-          "pre": "  es_index = \"",
-          "field": "es_index",
-          "post": "\";\n"
-        },
-        {
-          "pre": "  tagData = ",
-          "field": "metadata.user_tags",
-          "post": ";\n"
-        },
-        {
-          "pre": "  var id='",
-          "field": "id",
-          "post": "';\n" +
-                  "  var tags =  $('div[id=\"user_tags_' + id + '\"]').tags({\n" +
-                  "    tagSize: 'sm',\n" +
-                  "    tagData: tagData,\n" +
-                  "    afterAddingTag: function(t) { add_user_tag(es_index, id, t); },\n" +
-                  "    afterDeletingTag: function(t) { remove_user_tag(es_index, id, t); }\n" +
-                  "  });\n" +
-                  "});<\/script>"
-        },
+        //{
+        //  "pre": "user tags:\n<div id='user_tags_",
+        //  "field": "id",
+        //  "post": "'></div><script>$(function() {\n" +
+        //          "  var es_index = null;\n" +
+        //          "  var tagData = null;\n"
+        //},
+        //{
+        //  "pre": "  es_index = \"",
+        //  "field": "es_index",
+        //  "post": "\";\n"
+        //},
+        //{
+        //  "pre": "  tagData = ",
+        //  "field": "metadata.user_tags",
+        //  "post": ";\n"
+        //},
+        //{
+        //  "pre": "  var id='",
+        //  "field": "id",
+        //  "post": "';\n" +
+        //          "  var tags =  $('div[id=\"user_tags_' + id + '\"]').tags({\n" +
+        //          "    tagSize: 'sm',\n" +
+        //          "    tagData: tagData,\n" +
+        //          "    afterAddingTag: function(t) { add_user_tag(es_index, id, t); },\n" +
+        //          "    afterDeletingTag: function(t) { remove_user_tag(es_index, id, t); }\n" +
+        //          "  });\n" +
+        //          "});<\/script>"
+        //},
         {
           "pre": '<br/><table id="result_button_table_',
           "field": "id",
@@ -1323,6 +1298,7 @@ jQuery(document).ready(function($) {
       'dataset_raw',
       'metadata_platform_raw',
       'metadata_sensor_raw',
+      'metadata_track_number_raw',
       'system_version_raw',
       'metadata_user_tags_raw',
       'metadata_tags_raw',

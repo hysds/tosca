@@ -1096,7 +1096,6 @@ search box - the end user will not know they are happening.
                         <li class="next"><a class="btn facetview_increment" href="{{to}}">next &raquo;</a></li> \
                     </ul> \
                     <ul> \
-                        <li><a href="" target="_blank" id="wget_script" class="btn hidden" data-toggle="tooltip" title="Download WGET script for manual download your search results">WGET Script</a></li> \
                         <li><a name="create_rule" class="btn" data-toggle="tooltip" title="Monitor this result set for change and perform an action">Trigger Rules</a></li> \
                         <li><a name="process_this" class="btn" data-toggle="tooltip" title="Run job on this result set">On-Demand</a></li> \
                         <li><a name="prep_download" class="btn btn-success downprep" title="Dataset Downloads">Dataset Downloads</a></li> \
@@ -1838,6 +1837,10 @@ search box - the end user will not know they are happening.
                 window.location.pathname + '?source=' + options.querystring + '</textarea> \
                 </div>';
         }
+
+        thefacetview += '<div> TEST </div>
+
+
 
         thefacetview += '</div>';
         thefacetview += '<div style="clear:both;" class="btn-toolbar" id="facetview_selectedfilters"></div>';

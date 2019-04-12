@@ -695,9 +695,11 @@ search box - the end user will not know they are happening.
                 slide: function( event, ui ) {
                     if ($.inArray(field_name, options.time_fields) != -1) {
                         var dt_1 = new Date(parseInt(values[ui.values[0]]));
-                        var dt_1_str = parseInt(dt_1.toISOString().substring(0,4)) + " " + MONTHS[parseInt(dt_1.toISOString().substring(5,7))];
+                        //var dt_1_str = parseInt(dt_1.toISOString().substring(0,4)) + "-" + dt_1.toISOString().substring(5,7) + "-" +  dt_1.toISOString().substring(8,10);
+                        var dt_1_str = dt_1.toISOString().substring(0,10);
                         var dt_2 = new Date(parseInt(values[ui.values[1]]));
-                        var dt_2_str = parseInt(dt_2.toISOString().substring(0,4)) + " " + MONTHS[parseInt(dt_2.toISOString().substring(5,7))];
+                        //var dt_2_str = parseInt(dt_2.toISOString().substring(0,4)) + "-" + dt_2.toISOString().substring(5,7) + "-" +  dt_2.toISOString().substring(8,10);
+                        var dt_2_str = dt_2.toISOString().substring(0,10);
                         $('#facetview_rangechoices_' + rel + ' .facetview_lowrangeval_' + rel, obj).html( dt_1_str );
                         $('#facetview_rangechoices_' + rel + ' .facetview_highrangeval_' + rel, obj).html( dt_2_str );
                     }else {
@@ -710,9 +712,9 @@ search box - the end user will not know they are happening.
             var field_name = options.facets[rel]['field'];
             if ($.inArray(field_name, options.time_fields) != -1) {
                 var dt_1 = new Date(parseInt(values[0]));
-                var dt_1_str = parseInt(dt_1.toISOString().substring(0,4)) + " " + MONTHS[parseInt(dt_1.toISOString().substring(5,7))];
+                var dt_1_str = parseInt(dt_1.toISOString().substring(0,4)) + "-" + dt_1.toISOString().substring(5,7) + "-" +  dt_1.toISOString().substring(8,10);
                 var dt_2 = new Date(parseInt(values[values.length-1]));
-                var dt_2_str = parseInt(dt_2.toISOString().substring(0,4)) + " " + MONTHS[parseInt(dt_2.toISOString().substring(5,7))];
+                var dt_2_str = parseInt(dt_1.toISOString().substring(0,4)) + "-" + dt_1.toISOString().substring(5,7) + "-" +  dt_2.toISOString().substring(8,10);
                 $('#facetview_rangechoices_' + rel + ' .facetview_lowrangeval_' + rel, obj).html( dt_1_str );
                 $('#facetview_rangechoices_' + rel + ' .facetview_highrangeval_' + rel, obj).html( dt_2_str );
             }else {
@@ -816,7 +818,8 @@ search box - the end user will not know they are happening.
             
             if ($.inArray(rel, options.time_fields) != -1) {
                 var dt = new Date(parseInt(href));
-                var show_val = parseInt(dt.toISOString().substring(0,4)) + " " + MONTHS[parseInt(dt.toISOString().substring(5,7))];
+                var show_val = parseInt(dt.toISOString().substring(0,4)) + "-" + dt.toISOString().substring(5,7) + "-" +  dt.toISOString().substring(8,10);
+                // var show_val = parseInt(dt.toISOString().substring(0,4)) + " " + MONTHS[parseInt(dt.toISOString().substring(5,7))];
             } else {
                 var show_val = href;
             }
@@ -1016,7 +1019,11 @@ search box - the end user will not know they are happening.
 
             // clear out prodLayer
             prodLayer.clearLayers();
-            
+           
+            // re-enable download buttons
+            $('#download_wget').off();
+            $('#download_wget').removeClass("disabled");
+ 
             // for each filter setup, find the results for it and append them to the relevant filter
             for ( var each = 0; each < options.facets.length; each++ ) {
                 var facet = options.facets[each]['field'];
@@ -1033,7 +1040,8 @@ search box - the end user will not know they are happening.
                     if ($.inArray(facet, options.time_fields) != -1) {
                       var dt = new Date(parseInt(item));
                       //var show_val = (new Date(parseInt(item))).toISOString();
-                      var show_val = parseInt(dt.toISOString().substring(0,4)) + " " + MONTHS[parseInt(dt.toISOString().substring(5,7))];
+                      //var show_val = parseInt(dt.toISOString().substring(0,4)) + " " + MONTHS[parseInt(dt.toISOString().substring(5,7))];
+                      var show_val = parseInt(dt.toISOString().substring(0,4)) + "-" + dt.toISOString().substring(5,7) + "-" +  dt.toISOString().substring(8,10);
                     }else {
                       var show_val = item;
                     }
@@ -1050,7 +1058,8 @@ search box - the end user will not know they are happening.
                       if ($.inArray(facet, options.time_fields) != -1) {
                           var dt = new Date(parseInt(item));
                           //var show_val = (new Date(parseInt(item))).toISOString();
-                          var show_val = parseInt(dt.toISOString().substring(0,4)) + " " + MONTHS[parseInt(dt.toISOString().substring(5,7))];
+                          var show_val = parseInt(dt.toISOString().substring(0,4)) + "-" + dt.toISOString().substring(5,7) + "-" +  dt.toISOString().substring(8,10);
+                          //var show_val = parseInt(dt.toISOString().substring(0,4)) + " " + MONTHS[parseInt(dt.toISOString().substring(5,7))];
                       }else {
                           var show_val = item;
                       }
@@ -1097,7 +1106,7 @@ search box - the end user will not know they are happening.
                     </ul> \
                     <ul> \
                         <li><a href="" target="_blank" id="wget_script" class="btn hidden" data-toggle="tooltip" title="Download WGET script for manual download your search results">WGET Script</a></li> \
-			<li><a class="btn btn-success" target="_blank" id="download_wget" class="btn btn-success" data-toggle-"tooltip" title="Download WGET">Download All</a></li> \
+			            <li><a class="btn btn-success" target="_blank" id="download_wget" class="btn btn-success" data-toggle-"tooltip" title="Download WGET">Download All</a></li> \
                     </ul> \
                 </div>';
             };
@@ -1144,6 +1153,16 @@ search box - the end user will not know they are happening.
 
             // set wget href
             //$('#wget_script').attr('href', options.search_url.replace('/query', '/wget_script') + "source=" + QUERY_STRING);
+
+            $('#download_wget').on('click', function() {
+                    $('#download_modal_label').text("Download");
+                    $('#download_modal').modal('show').css({
+                      'left': function() {
+                        return ($(window).width()-$(this).width())/2;
+                      }
+                    });
+                    return false;
+                });
 
             $('#download_wget').attr({
                 target: '_blank',
@@ -1215,9 +1234,13 @@ search box - the end user will not know they are happening.
                     if ($.inArray(field_name, options.time_fields) != -1) {
                         var parts_1 = $('.facetview_lowrangeval_' + $(this).attr('rel'), this).html().split(" ");
                         var parts_2 = $('.facetview_highrangeval_' + $(this).attr('rel'), this).html().split(" ");
-                        var dt_1 = new Date(parseInt(parts_1[0]), $.inArray(parts_1[1], MONTHS)-1, 1);
+                        //var dt_1 = new Date(parseInt(parts_1[0]), $.inArray(parts_1[1], MONTHS)-1, 1);
+                        //var dt_1_str = dt_1.toISOString().substring(0,10) + 'T00:00:00Z';
+                        //var dt_2 = new Date(parseInt(parts_2[0]), $.inArray(parts_2[1], MONTHS), 0); // get last day
+                        //var dt_2_str = dt_2.toISOString().substring(0,10) + 'T23:59:59Z';
+                        var dt_1 = new Date(parts_1)
+                        var dt_2 = new Date(parts_2)
                         var dt_1_str = dt_1.toISOString().substring(0,10) + 'T00:00:00Z';
-                        var dt_2 = new Date(parseInt(parts_2[0]), $.inArray(parts_2[1], MONTHS), 0); // get last day
                         var dt_2_str = dt_2.toISOString().substring(0,10) + 'T23:59:59Z';
                         var rngs = {
                             'from': dt_1_str,
@@ -1364,7 +1387,7 @@ search box - the end user will not know they are happening.
                     qs['facets'][fobj['field']] = {
                         "date_histogram": {
                             "field": fobj['field'],
-                            "interval": "month"
+                            "interval": "day"
                         }
                     }
                 } else if ($.inArray(fobj['field'], options.bucketed_fields) != -1) {
@@ -1841,6 +1864,12 @@ search box - the end user will not know they are happening.
                 window.location.pathname + '?source=' + options.querystring + '</textarea> \
                 </div>';
         }
+
+
+
+
+
+
 
         thefacetview += '</div>';
         thefacetview += '<div style="clear:both;" class="btn-toolbar" id="facetview_selectedfilters"></div>';
