@@ -1106,7 +1106,7 @@ search box - the end user will not know they are happening.
                     </ul> \
                     <ul> \
                         <li><a href="" target="_blank" id="wget_script" class="btn hidden" data-toggle="tooltip" title="Download WGET script for manual download your search results">WGET Script</a></li> \
-			            <li><a class="btn btn-success" target="_blank" id="download_wget" class="btn btn-success" data-toggle-"tooltip" title="Download WGET">Download All</a></li> \
+			            <li><a class="btn btn-success" target="_blank" id="download_wget" class="btn btn-success" data-toggle-"tooltip" title="Download WGET">Download All (wget)</a></li> \
                     </ul> \
                 </div>';
             };
