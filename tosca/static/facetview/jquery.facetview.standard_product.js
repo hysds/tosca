@@ -1169,16 +1169,16 @@ search box - the end user will not know they are happening.
                 href: "wget_all/" + btoa(options.querystring)
             });
 
-            // create rule
-            //$('a[name="create_rule"]').on('click', function() {
-            //  $('#rule_modal_label').text("Trigger Rules (Monitor Results)");
-            //  $('#rule_modal').modal('show').css({
-            //    'left': function() {
-            //      return ($(window).width()-$(this).width())/2;
-            //    }
-            //  });
-            //  return false;
-            //});
+             create rule
+            $('a[name="create_rule"]').on('click', function() {
+              $('#rule_modal_label').text("Trigger Rules (Monitor Results)");
+              $('#rule_modal').modal('show').css({
+                'left': function() {
+                  return ($(window).width()-$(this).width())/2;
+                }
+              });
+              return false;
+            });
 
             // process this
             $('a[name="process_this"]').on('click', function() {
