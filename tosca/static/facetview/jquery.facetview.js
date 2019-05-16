@@ -1657,7 +1657,7 @@ search box - the end user will not know they are happening.
             location_search_map = L.map('location_search_map', {
                 worldCopyJump: true
             }).setView([0,0], 1);
-            L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+            L.tileLayer('http://{s}.tile.openstreetmap.de/tiles/osmde/{z}/{x}/{y}.png', {
                 maxZoom: 18
             }).addTo(location_search_map);
 
