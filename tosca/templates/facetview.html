@@ -256,15 +256,19 @@ jQuery(document).ready(function($) {
     search_index: 'elasticsearch',
     facets: [
         {'field':'dataset_type.raw', 'display': 'type', 'size': 15},
-        {'field':'dataset.raw', 'display': 'dataset', 'size': 20}, 
+        {'field':'dataset.raw', 'display': 'dataset', 'size': 20},
         {'field':'metadata.platform.raw', 'display': 'platform'},
         {'field':'metadata.sensor.raw', 'display': 'sensor'},
-        {'field':'system_version.raw', 'display': 'dataset version'}, 
+        {'field':'metadata.version.raw', 'display': 'version'},
         {'field':'metadata.user_tags.raw', 'display': 'user tags'},
         {'field':'metadata.tags.raw', 'display': 'machine tags'},
+        {'field':'sensing_start', 'display': 'sensing start', 'type': 'date'},
+        {'field':'sensing_stop', 'display': 'sensing stop', 'type': 'date'},
         {'field':'starttime', 'display': 'start date', 'type': 'date'},
         {'field':'endtime', 'display': 'stop date', 'type': 'date'},
-        {'field':'temporal_span', 'display': 'temporal span (days)', 'type': 'number'},
+        {'field':'metadata.reference_date', 'display': 'reference date', 'type': 'date'},
+        {'field':'metadata.secondary_date', 'display': 'secondary date', 'type': 'date'},
+        {'field':'metadata.temporal_span', 'display': 'temporal span (days)', 'type': 'number'},
         {'field':'continent.raw', 'display': 'continent'},
         {'field':'city.country_name.raw', 'display': 'country'},
         {'field':'city.admin1_name.raw', 'display': 'region'},
@@ -280,7 +284,7 @@ jQuery(document).ready(function($) {
         {'field':'metadata.scene_count', 'display': 'stitched scenes count', 'type': 'number'},
         {'field':'metadata.orbit_type.raw', 'display': 'input orbit type'},
         {'field':'metadata.orbitRepeat', 'display': 'orbit repeat'},
-        {'field':'metadata.trackNumber', 'display': 'track number', 'type': 'number'},
+        {'field':'metadata.track_number', 'display': 'track number', 'type': 'number'},
         {'field':'metadata.swath', 'display': 'subswath', 'type': 'number'},
         {'field':'metadata.beamID.raw', 'display': 'beam ID'},
         {'field':'metadata.beamNumber', 'display': 'beam number', 'type': 'number'},
@@ -293,13 +297,17 @@ jQuery(document).ready(function($) {
         {'field':'metadata.azimuth_looks', 'display': 'azimuth looks', 'type': 'number'},
         {'field':'metadata.range_looks', 'display': 'range looks', 'type': 'number'},
         {'field':'metadata.dem_type.raw', 'display': 'DEM type'},
-        {'field':'metadata.version.raw', 'display': 'version'},
+        {'field':'system_version.raw', 'display': 'system version'},
         {'field':'metadata.source.raw', 'display': 'source archive'},
         {'field':'metadata.dataset_type.raw', 'display': 'source datatype'}
     ],
     time_fields: [
         'starttime',
-        'endtime'
+        'endtime',
+        'metadata.reference_date',
+        'metadata.secondary_date',
+        'sensing_start',
+        'sensing_stop'
     ],
     bucketed_fields: [
     ],
@@ -324,7 +332,7 @@ jQuery(document).ready(function($) {
         'metadata.orbit_type': 'metadata.orbit_type',
         'metadata.orbitNumber': 'metadata.orbitNumber',
         'metadata.orbitRepeat': 'metadata.orbitRepeat',
-        'metadata.trackNumber': 'metadata.trackNumber',
+        'metadata.track_number': 'metadata.track_number',
         'metadata.beamNumber': 'metadata.beamNumber',
         'metadata.predicted_phase_unwrapping_bucket':'metadata.predicted_phase_unwrapping_bucket',
         'metadata.latitudeIndexMin': 'metadata.latitudeIndexMin',
@@ -651,7 +659,7 @@ jQuery(document).ready(function($) {
         },
         {
           "pre": "track number: <font color='blue'>",
-          "field": "metadata.trackNumber",
+          "field": "metadata.track_number",
           "post": "</font> | "
         },
         {
