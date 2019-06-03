@@ -450,7 +450,7 @@ jQuery(document).ready(function($) {
           "post": "';\n" +
                   "  var map = L.map('map_' + id + '_' + system_version," +
                   " {worldCopyJump: true, center: [0,0], zoom: 0, zoomControl: false});\n" +
-                  "L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {\n" +
+                  "L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/NatGeo_World_Map/MapServer/tile/{z}/{y}/{x}', {\n" +
                   "  maxZoom: 18\n" +
                   "}).addTo(map);\n"
         },
