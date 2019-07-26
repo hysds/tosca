@@ -176,9 +176,9 @@ def gen_ics(results, verbose):
     acq_endtime = None
     for acq in results:
         dct = gen_acq_dict(acq)
-        acquisition_id = dct['name'] + ' (' + dct['status'] + ')'
-        acq_start =  dateutil.parser.parse(dct['start'])#.strftime("%Y%m%dT%H%M%S")
-        acq_end =  dateutil.parser.parse(dct['end'])#.strftime("%Y%m%dT%H%M%S")
+        acquisition_id = '{name} ({status})'.format(name=dct['name'], status=dct['status'])
+        acq_start = dateutil.parser.parse(dct['start'])#.strftime("%Y%m%dT%H%M%S")
+        acq_end = dateutil.parser.parse(dct['end'])#.strftime("%Y%m%dT%H%M%S")
         sum_time = '{} - {}'.format(acq_start.strftime("%H:%M.%S"), acq_end.strftime("%H:%M.%S"))
         summary = '{}\ntime: {} UTC\ntrack: {}\norbit: {}\nsource: {}\nlocation: {}\nstatus: {}\ndownload_url: {}'.format(acquisition_id, sum_time, dct['track'], dct['orbitnum'], dct['source'], dct['coordinates'], dct['status'], dct['download_url'])
         event = Event()
@@ -295,6 +295,7 @@ def get_ics(dataset=None):
     index = dataset
     r = requests.post('%s/%s/_search?search_type=scan&scroll=10m&size=100' % (es_url, index), data=source)
     if r.status_code != 200:
+        result = r.json()
         app.logger.debug("Failed to query ES. Got status code %d:\n%s" % 
                          (r.status_code, json.dumps(result, indent=2)))
     r.raise_for_status()
