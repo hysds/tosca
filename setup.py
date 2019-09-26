@@ -6,7 +6,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='tosca',
-    version='0.3.3',
+    version='0.3.4',
     long_description='Advanced FacetView User Interface',
     packages=find_packages(),
     include_package_data=True,
