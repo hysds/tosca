@@ -31,6 +31,15 @@ function jq( myid ) {
   return "#" + myid.replace( /(:|\.|\[|\])/g, "\\$1" );
 }
 
+function get_tile_max_zoom(tile_zoom, ind) {
+  if (tile_zoom.length==0){
+    max_zoom = 8;
+  }
+  else{
+    max_zoom = parseInt(tile_zoom[ind]);
+  }
+  return max_zoom;
+}
 
 define(
 [
@@ -226,6 +235,7 @@ function(defineComponent,compose,FacetViewMenu,backMap,thumbView){
         location_field: 'location',
         json_fields: [
           'metadata.user_tags',
+          'metadata.tile_max_zoom',
           'metadata.tile_layers',
           'images'
         ],
@@ -638,6 +648,7 @@ function(defineComponent,compose,FacetViewMenu,backMap,thumbView){
               "post": "';\n" +
                       "var tiles = false;\n" +
                       "var tile_layers = [];\n" +
+                      "var tile_max_zoom= [];\n" +
                       "var prodUrl = null;\n"
             },
             {
@@ -705,6 +716,11 @@ function(defineComponent,compose,FacetViewMenu,backMap,thumbView){
               "post": ";\n"
             },
             {
+             "pre": "tile_max_zoom = ",
+             "field": "metadata.tile_max_zoom",
+             "post": ";\n"
+            },
+            {
               "pre": "  prodUrl = '",
               "field": "urls",
               "post": "';\n" +
@@ -716,7 +732,7 @@ function(defineComponent,compose,FacetViewMenu,backMap,thumbView){
                       "      opacity: 1,\n" +
                       "      minZoom: 0,\n" +
                       "      maxZoom: 18,\n" +
-                      "      maxNativeZoom: 8,\n" +
+                      "      maxNativeZoom: get_tile_max_zoom(tile_max_zoom, i),\n" +
                       "      reuseTiles: true,\n" +
                       "      tms: true,\n" +
                       "      noWrap: true,\n" +
@@ -728,7 +744,7 @@ function(defineComponent,compose,FacetViewMenu,backMap,thumbView){
                       "      opacity: .6,\n" +
                       "      minZoom: 0,\n" +
                       "      maxZoom: 18,\n" +
-                      "      maxNativeZoom: 8,\n" +
+                      "      maxNativeZoom: get_tile_max_zoom(tile_max_zoom, i),\n" +
                       "      reuseTiles: true,\n" +
                       "      tms: true,\n" +
                       "      noWrap: true,\n" +
