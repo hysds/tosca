@@ -542,6 +542,11 @@ jQuery(document).ready(function($) {
                   "}).addTo(map);\n"
         },
         {
+          "pre": "var dataset_type = '",
+          "field": "dataset_type",
+          "post": "';\n"
+        },
+        {
           "pre": "var coords = [",
           "field": "location.coordinates",
           "post": "];\n"
@@ -556,8 +561,13 @@ jQuery(document).ready(function($) {
                   "  $('.facetview_freetext').val('_id:\"'+id+'\"');\n" +
                   "  $('.facetview_freetext').keyup();\n" +
                   "})[0];\n" +
-                  "var geojson_layer = L.geoJson(geojson, {style:{fill:true,fillOpacity:0,weight:1}}).bindPopup(link_ds).addTo(map);\n" +
-                  "var geojson_layer_search = L.geoJson(geojson, {style:{fill:true,fillOpacity:0,weight:1}}).bindPopup(link_ds).addTo(prodLayer);\n" +
+                  "if (dataset_type == 'event') {\n" +
+                  "  var geojson_layer = L.geoJson(geojson, {style:{color:'red',fill:true,fillOpacity:0,weight:10}}).bindPopup(link_ds).addTo(map);\n" +
+                  "  var geojson_layer_search = L.geoJson(geojson, {style:{color:'red',fill:true,fillOpacity:0,weight:10}}).bindPopup(link_ds).addTo(prodLayer);\n" +
+                  "}else {\n" +
+                  "  var geojson_layer = L.geoJson(geojson, {style:{fill:true,fillOpacity:0,weight:1}}).bindPopup(link_ds).addTo(map);\n" +
+                  "  var geojson_layer_search = L.geoJson(geojson, {style:{fill:true,fillOpacity:0,weight:1}}).bindPopup(link_ds).addTo(prodLayer);\n" +
+                  "}\n" +
                   "var polygon = $('#polygon').val();\n" +
                   "var search_coords = JSON.parse(polygon);\n" +
                   "if (!(search_coords.length == 5 && \n" +
