@@ -53,8 +53,8 @@ def create_user_rules_index(es_url, es_index):
         'user_rules_dataset.mapping'))
     with open(mapping_file) as f:
         mapping = f.read()
-    header = {'Content-Type': 'application/json'}
-    r = requests.put("%s/%s" % (es_url, es_index), headers=header, data=mapping)
+    headers = {'Content-Type': 'application/json'}
+    r = requests.put("%s/%s" % (es_url, es_index), headers=headers, data=mapping)
     r.raise_for_status()
 
 
