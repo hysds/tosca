@@ -53,7 +53,7 @@ def create_user_rules_index(es_url, es_index):
         'user_rules_dataset.mapping'))
     with open(mapping_file) as f:
         mapping = f.read()
-    headers = {'Content-Type': 'application/json'}
+    headers = {'Content-Type': "application/json"}
     r = requests.put("%s/%s" % (es_url, es_index), headers=headers, data=mapping)
     r.raise_for_status()
 
@@ -61,6 +61,7 @@ def create_user_rules_index(es_url, es_index):
 def add_grq_mappings(es_url, es_index):
     """Add mappings from GRQ product indexes."""
 
+    headers = {'Content-Type': "application/json"}
     # get current mappings in user rules
     r = requests.get("%s/%s/_mapping" % (es_url, es_index))
     r.raise_for_status()
@@ -74,8 +75,9 @@ def add_grq_mappings(es_url, es_index):
     for idx in mappings:
         for doc_type in mappings[idx]['mappings']:
             if doc_type not in user_rules_mappings:
-                r = requests.put("%s/%s/_mapping/%s" % (es_url, es_index, doc_type),
-                                 data=json.dumps(mappings[idx]['mappings'][doc_type]))
+                put_mapping_url = "%s/%s/_mapping/%s" % (es_url, es_index, doc_type)
+                mapping_obj = mappings[idx]['mappings'][doc_type]
+                r = requests.put(put_mapping_url, data=json.dumps(mapping_obj), headers=headers)
                 r.raise_for_status()
 
 
@@ -687,3 +689,4 @@ def monitor_jobs():
 
     # hand craft redirect so that { and } chars are not escaped
     return redirect(moz_url % (app.config['MOZART_URL'], tag, username))
+
