@@ -8,7 +8,7 @@ standard_library.install_aliases()
 from requests.exceptions import HTTPError
 
 from tosca import app
-from tosca.services.user_rules import create_user_rules_index  # add_grq_mappings
+from tosca.services.user_rules import create_user_rules_index
 
 try:
     create_user_rules_index(
@@ -18,10 +18,3 @@ except HTTPError as e:
         pass
     else:
         raise
-# try:
-#     add_grq_mappings(app.config['ES_URL'], app.config['USER_RULES_INDEX'])
-# except HTTPError as e:
-#     if e.response.status_code == 404:
-#         pass
-#     else:
-#         raise
