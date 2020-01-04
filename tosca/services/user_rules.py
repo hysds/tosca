@@ -169,9 +169,6 @@ def add_user_rule():
     if r.status_code == 404:
         create_user_rules_index(es_url, es_index)
 
-    # ensure GRQ product index mappings exist in percolator index
-    # add_grq_mappings(es_url, es_index)
-
     # query
     query = {
         "query": {
@@ -264,9 +261,6 @@ def get_user_rules():
     r = requests.get('%s/%s' % (es_url, es_index))
     if r.status_code == 404:
         create_user_rules_index(es_url, es_index)
-
-    # ensure GRQ product index mappings exist in percolator index
-    # add_grq_mappings(es_url, es_index)
 
     # query
     if g.user.id == app.config['OPS_USER']:
