@@ -58,29 +58,6 @@ def create_user_rules_index(es_url, es_index):
     r.raise_for_status()
 
 
-def add_grq_mappings(es_url, es_index):
-    """Add mappings from GRQ product indexes."""
-
-    headers = {'Content-Type': "application/json"}
-    # get current mappings in user rules
-    r = requests.get("%s/%s/_mapping" % (es_url, es_index))
-    r.raise_for_status()
-    user_rules_mappings = r.json()[es_index]['mappings']
-
-    # get all mappings from GRQ product indexes using alias
-    grq_index = app.config['ES_INDEX']
-    r = requests.get("%s/%s/_mapping" % (es_url, grq_index))
-    r.raise_for_status()
-    mappings = r.json()
-    for idx in mappings:
-        for doc_type in mappings[idx]['mappings']:
-            if doc_type not in user_rules_mappings:
-                put_mapping_url = "%s/%s/_mapping/%s" % (es_url, es_index, doc_type)
-                mapping_obj = mappings[idx]['mappings'][doc_type]
-                r = requests.put(put_mapping_url, data=json.dumps(mapping_obj), headers=headers)
-                r.raise_for_status()
-
-
 @mod.route('/user_rules/get_jobspec_names', methods=['GET'])
 def get_jobspecs():
     """Get the list of jobspecs"""
@@ -192,9 +169,6 @@ def add_user_rule():
     if r.status_code == 404:
         create_user_rules_index(es_url, es_index)
 
-    # ensure GRQ product index mappings exist in percolator index
-    add_grq_mappings(es_url, es_index)
-
     # query
     query = {
         "query": {
@@ -287,9 +261,6 @@ def get_user_rules():
     r = requests.get('%s/%s' % (es_url, es_index))
     if r.status_code == 404:
         create_user_rules_index(es_url, es_index)
-
-    # ensure GRQ product index mappings exist in percolator index
-    add_grq_mappings(es_url, es_index)
 
     # query
     if g.user.id == app.config['OPS_USER']:
