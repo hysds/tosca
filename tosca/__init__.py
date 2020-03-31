@@ -4,11 +4,14 @@ from __future__ import division
 from __future__ import absolute_import
 from future import standard_library
 standard_library.install_aliases()
+
 import os
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask_debugtoolbar import DebugToolbarExtension
+
+from hysds_commons.elasticsearch_utils import ElasticsearchUtility
 
 
 class ReverseProxied(object):
@@ -77,8 +80,7 @@ app.config.from_pyfile('../settings.cfg')
 
 # set database config
 dbdir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'data'))
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + \
-    os.path.join(dbdir, 'app.db')
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(dbdir, 'app.db')
 db = SQLAlchemy(app)
 
 # debug toolbar
@@ -88,6 +90,12 @@ debug_toolbar = DebugToolbarExtension(app)
 lm = LoginManager()
 lm.init_app(app)
 lm.login_view = 'views/main.login'
+
+# initializing connection to GRQ's Elasticsearch
+grq_es = ElasticsearchUtility(app.config['ES_URL'], app.logger)
+
+# initializing connection to Mozart's Elasticsearch
+mozart_es = ElasticsearchUtility(app.config['MOZART_ES_URL'], app.logger)
 
 # views blueprints
 from tosca.views.main import mod as viewsModule

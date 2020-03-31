@@ -6,23 +6,17 @@ from builtins import open
 from builtins import int
 from future import standard_library
 standard_library.install_aliases()
+
 import os
 import json
 import requests
-import types
 import re
-import time
 import copy
-import traceback
-from flask import (jsonify, Blueprint, request, Response, render_template,
-                   make_response, g, url_for, redirect)
+from flask import (jsonify, Blueprint, request, Response, render_template, make_response, g, url_for, redirect)
 from flask_login import login_required
-from pprint import pformat
 from string import Template
 from urllib.parse import urljoin
 from datetime import datetime
-import functools
-import operator
 
 from hysds.celery import app as celery_app
 from hysds.task_worker import do_submit_task
@@ -31,51 +25,30 @@ import hysds_commons.mozart_utils
 import hysds_commons.container_utils
 import hysds_commons.job_spec_utils
 
-from tosca import app
-import tosca.lib.grq_utils
 import werkzeug.routing
+
+from tosca import app, mozart_es
+USER_RULES_INDEX = app.config['USER_RULES_INDEX']
+# import tosca.lib.grq_utils
+
 
 mod = Blueprint('services/user_rules', __name__)
 
 
 def get_utc_time():
     """Get UTC type now without subseconds."""
-
     return datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ')
 
 
-def create_user_rules_index(es_url, es_index):
+def create_user_rules_index():
     """Create user rules index applying percolator mapping."""
+    mapping_file = os.path.join(app.root_path, '..', 'configs', 'user_rules_dataset.mapping')
+    mapping_file = os.path.normpath(mapping_file)
 
-    # create index with percolator mapping
-    mapping_file = os.path.normpath(os.path.join(
-        app.root_path, '..', 'configs',
-        'user_rules_dataset.mapping'))
     with open(mapping_file) as f:
-        mapping = f.read()
-    r = requests.put("%s/%s" % (es_url, es_index), data=mapping)
-    r.raise_for_status()
+        mapping = json.load(f)
 
-
-def add_grq_mappings(es_url, es_index):
-    """Add mappings from GRQ product indexes."""
-
-    # get current mappings in user rules
-    r = requests.get("%s/%s/_mapping" % (es_url, es_index))
-    r.raise_for_status()
-    user_rules_mappings = r.json()[es_index]['mappings']
-
-    # get all mappings from GRQ product indexes using alias
-    grq_index = app.config['ES_INDEX']
-    r = requests.get("%s/%s/_mapping" % (es_url, grq_index))
-    r.raise_for_status()
-    mappings = r.json()
-    for idx in mappings:
-        for doc_type in mappings[idx]['mappings']:
-            if doc_type not in user_rules_mappings:
-                r = requests.put("%s/%s/_mapping/%s" % (es_url, es_index, doc_type),
-                                 data=json.dumps(mappings[idx]['mappings'][doc_type]))
-                r.raise_for_status()
+    mozart_es.es.indices.create(USER_RULES_INDEX, mapping)
 
 
 @mod.route('/user_rules/get_jobspec_names', methods=['GET'])
@@ -189,9 +162,6 @@ def add_user_rule():
     if r.status_code == 404:
         create_user_rules_index(es_url, es_index)
 
-    # ensure GRQ product index mappings exist in percolator index
-    add_grq_mappings(es_url, es_index)
-
     # query
     query = {
         "query": {
@@ -284,9 +254,6 @@ def get_user_rules():
     r = requests.get('%s/%s' % (es_url, es_index))
     if r.status_code == 404:
         create_user_rules_index(es_url, es_index)
-
-    # ensure GRQ product index mappings exist in percolator index
-    add_grq_mappings(es_url, es_index)
 
     # query
     if g.user.id == app.config['OPS_USER']:
@@ -686,3 +653,4 @@ def monitor_jobs():
 
     # hand craft redirect so that { and } chars are not escaped
     return redirect(moz_url % (app.config['MOZART_URL'], tag, username))
+
