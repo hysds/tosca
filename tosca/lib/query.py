@@ -24,7 +24,7 @@ def query(index, query_str):
     # query
     es_url = app.config["ES_URL"]
     # app.logger.debug("ES query for query(): %s" % json.dumps(json.loads(query_str), indent=2))
-    r = requests.post("%s/%s/_search" % (es_url, index), data=query_str)
+    r = requests.post("%s/%s/_search" % (es_url, index), data=query_str, verify=False)
     result = r.json()
     if r.status_code != 200:
         app.logger.debug(
@@ -78,7 +78,7 @@ def query_dataset_url(index, objectid):
     es_url = app.config["ES_URL"]
     query_url = "%s/%s/_all/%s" % (es_url, index, quote_plus(objectid))
     # r = requests.get("%s/%s/_all/%s" % (es_url, index, objectid))
-    r = requests.get(query_url)
+    r = requests.get(query_url, verify=False)
     # app.logger.debug("url: %s" % r.url)
     result = r.json()
     if r.status_code != 200:
