@@ -3,6 +3,7 @@ from __future__ import print_function
 from __future__ import division
 from __future__ import absolute_import
 from future import standard_library
+
 standard_library.install_aliases()
 import json
 import requests
@@ -15,138 +16,134 @@ from pprint import pformat
 from tosca import app
 
 
-mod = Blueprint('services/user_tags', __name__)
+mod = Blueprint("services/user_tags", __name__)
 
 
-@mod.route('/user_tags/add', methods=['POST'])
+@mod.route("/user_tags/add", methods=["POST"])
 @login_required
 def add_user_tag():
     """Add a user tag."""
 
     # get tag
-    es_index = request.form['es_index']
-    id = request.form['id']
-    tag = request.form['tag']
+    es_index = request.form["es_index"]
+    id = request.form["id"]
+    tag = request.form["tag"]
     if id is None:
-        return jsonify({
-            'success': False,
-            'message': "Product ID not specified."
-        }), 500
+        return jsonify({"success": False, "message": "Product ID not specified."}), 500
 
-    app.logger.debug("Adding tag '%s' to id '%s' in index '%s'." %
-                     (tag, id, es_index))
+    app.logger.debug("Adding tag '%s' to id '%s' in index '%s'." % (tag, id, es_index))
 
     # query
-    es_url = app.config['ES_URL']
-    query = {
-        "fields": ["metadata.user_tags"],
-        "query": {"term": {"_id": id}}
-    }
-    r = requests.post('%s/%s/_search' %
-                      (es_url, es_index), data=json.dumps(query))
+    es_url = app.config["ES_URL"]
+    query = {"fields": ["metadata.user_tags"], "query": {"term": {"_id": id}}}
+    r = requests.post("%s/%s/_search" % (es_url, es_index), data=json.dumps(query))
     result = r.json()
     if r.status_code != 200:
-        app.logger.debug("Failed to query ES. Got status code %d:\n%s" %
-                         (r.status_code, json.dumps(result, indent=2)))
+        app.logger.debug(
+            "Failed to query ES. Got status code %d:\n%s"
+            % (r.status_code, json.dumps(result, indent=2))
+        )
     r.raise_for_status()
-    if result['hits']['total'] != 1:
+    if result["hits"]["total"] != 1:
         app.logger.debug("Failed to only find 1 result for _id query %s" % id)
-        return jsonify({
-            'success': False,
-            'message': "Failed to only find 1 result for _id query %s" % id
-        }), 500
+        return (
+            jsonify(
+                {
+                    "success": False,
+                    "message": "Failed to only find 1 result for _id query %s" % id,
+                }
+            ),
+            500,
+        )
 
     # get actual index (no aliases), doctype and user tags
-    actual_index = result['hits']['hits'][0]['_index']
-    doctype = result['hits']['hits'][0]['_type']
-    user_tags = result['hits']['hits'][0].get(
-        'fields', {}).get('metadata.user_tags', [])
+    actual_index = result["hits"]["hits"][0]["_index"]
+    doctype = result["hits"]["hits"][0]["_type"]
+    user_tags = (
+        result["hits"]["hits"][0].get("fields", {}).get("metadata.user_tags", [])
+    )
 
     # add tag if not already there
     if tag not in user_tags:
         user_tags.append(tag)
 
     # upsert new document
-    new_doc = {
-        "doc": {"metadata": {"user_tags": user_tags}},
-        "doc_as_upsert": True
-    }
-    r = requests.post('%s/%s/%s/%s/_update' %
-                      (es_url, actual_index, doctype, id), data=json.dumps(new_doc))
+    new_doc = {"doc": {"metadata": {"user_tags": user_tags}}, "doc_as_upsert": True}
+    r = requests.post(
+        "%s/%s/%s/%s/_update" % (es_url, actual_index, doctype, id),
+        data=json.dumps(new_doc),
+    )
     result = r.json()
     if r.status_code != 200:
-        app.logger.debug("Failed to update user_tags for %s. Got status code %d:\n%s" %
-                         (id, r.status_code, json.dumps(result, indent=2)))
+        app.logger.debug(
+            "Failed to update user_tags for %s. Got status code %d:\n%s"
+            % (id, r.status_code, json.dumps(result, indent=2))
+        )
     r.raise_for_status()
 
-    return jsonify({
-        'success': True,
-        'message': ""
-    })
+    return jsonify({"success": True, "message": ""})
 
 
-@mod.route('/user_tags/remove', methods=['POST'])
+@mod.route("/user_tags/remove", methods=["POST"])
 @login_required
 def remove_user_tag():
     """Remove a user tag."""
 
     # get tag
-    es_index = request.form['es_index']
-    id = request.form['id']
-    tag = request.form['tag']
+    es_index = request.form["es_index"]
+    id = request.form["id"]
+    tag = request.form["tag"]
     if id is None:
-        return jsonify({
-            'success': False,
-            'message': "Product ID not specified."
-        }), 500
+        return jsonify({"success": False, "message": "Product ID not specified."}), 500
 
-    app.logger.debug("Removing tag '%s' from id '%s' in '%s'." %
-                     (tag, id, es_index))
+    app.logger.debug("Removing tag '%s' from id '%s' in '%s'." % (tag, id, es_index))
 
     # query
-    es_url = app.config['ES_URL']
-    query = {
-        "fields": ["metadata.user_tags"],
-        "query": {"term": {"_id": id}}
-    }
-    r = requests.post('%s/%s/_search' %
-                      (es_url, es_index), data=json.dumps(query))
+    es_url = app.config["ES_URL"]
+    query = {"fields": ["metadata.user_tags"], "query": {"term": {"_id": id}}}
+    r = requests.post("%s/%s/_search" % (es_url, es_index), data=json.dumps(query))
     result = r.json()
     if r.status_code != 200:
-        app.logger.debug("Failed to query ES. Got status code %d:\n%s" %
-                         (r.status_code, json.dumps(result, indent=2)))
+        app.logger.debug(
+            "Failed to query ES. Got status code %d:\n%s"
+            % (r.status_code, json.dumps(result, indent=2))
+        )
     r.raise_for_status()
-    if result['hits']['total'] != 1:
+    if result["hits"]["total"] != 1:
         app.logger.debug("Failed to only find 1 result for _id query %s" % id)
-        return jsonify({
-            'success': False,
-            'message': "Failed to only find 1 result for _id query %s" % id
-        }), 500
+        return (
+            jsonify(
+                {
+                    "success": False,
+                    "message": "Failed to only find 1 result for _id query %s" % id,
+                }
+            ),
+            500,
+        )
 
     # get actual index (no aliases), doctype and user tags
-    actual_index = result['hits']['hits'][0]['_index']
-    doctype = result['hits']['hits'][0]['_type']
-    user_tags = result['hits']['hits'][0].get(
-        'fields', {}).get('metadata.user_tags', [])
+    actual_index = result["hits"]["hits"][0]["_index"]
+    doctype = result["hits"]["hits"][0]["_type"]
+    user_tags = (
+        result["hits"]["hits"][0].get("fields", {}).get("metadata.user_tags", [])
+    )
 
     # add tag if not already there
     if tag in user_tags:
         user_tags.remove(tag)
 
     # upsert new document
-    new_doc = {
-        "doc": {"metadata": {"user_tags": user_tags}},
-        "doc_as_upsert": True
-    }
-    r = requests.post('%s/%s/%s/%s/_update' %
-                      (es_url, actual_index, doctype, id), data=json.dumps(new_doc))
+    new_doc = {"doc": {"metadata": {"user_tags": user_tags}}, "doc_as_upsert": True}
+    r = requests.post(
+        "%s/%s/%s/%s/_update" % (es_url, actual_index, doctype, id),
+        data=json.dumps(new_doc),
+    )
     result = r.json()
     if r.status_code != 200:
-        app.logger.debug("Failed to update user_tags for %s. Got status code %d:\n%s" %
-                         (id, r.status_code, json.dumps(result, indent=2)))
+        app.logger.debug(
+            "Failed to update user_tags for %s. Got status code %d:\n%s"
+            % (id, r.status_code, json.dumps(result, indent=2))
+        )
     r.raise_for_status()
 
-    return jsonify({
-        'success': True,
-        'message': ""
-    })
+    return jsonify({"success": True, "message": ""})

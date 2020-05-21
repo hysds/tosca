@@ -3,6 +3,7 @@ from __future__ import print_function
 from __future__ import division
 from __future__ import absolute_import
 from future import standard_library
+
 standard_library.install_aliases()
 import json
 from requests import HTTPError
@@ -13,11 +14,11 @@ from tosca import app
 from tosca.lib.query import query_dataset_url
 
 
-mod = Blueprint('services/dataset', __name__)
+mod = Blueprint("services/dataset", __name__)
 
 
-@mod.route('/dataset/<index>/<id>', methods=['GET'])
-@mod.route('/dataset/<index>/<id>/<path:path>', methods=['GET'])
+@mod.route("/dataset/<index>/<id>", methods=["GET"])
+@mod.route("/dataset/<index>/<id>/<path:path>", methods=["GET"])
 def resolve_url(index=None, id=None, path=None):
     """Query interface for FacetView."""
 
@@ -35,13 +36,13 @@ def resolve_url(index=None, id=None, path=None):
         if e.response.status_code == 404:
             abort(404, err)
         else:
-            raise(e)
+            raise (e)
     if url is None:
         abort(500, err)
 
     # check if noredirect is set; if so just return url
-    noredirect = request.args.get('noredirect', "false")
-    if noredirect in ('true', 'True', 'TRUE'):
+    noredirect = request.args.get("noredirect", "false")
+    if noredirect in ("true", "True", "TRUE"):
         return url
 
     # redirect
