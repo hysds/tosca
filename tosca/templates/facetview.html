@@ -185,8 +185,49 @@ function get_geojson(coords, location_type) {
   };
 }
 
+function get_saravail_encoding(coords, location_type, starttime, endtime) {
+  geojson = get_geojson(coords, location_type)['geometry'];
+  if (starttime !== null && endtime !== null) {
+    range_query = "starttime:[* TO " + endtime + "] AND endtime:[" + starttime + " TO *]";
+    filtered_query = { "query_string": { "query": range_query } };
+  }else if (starttime !== null) {
+    range_query = "endtime:[" + starttime + " TO *]";
+    filtered_query = { "query_string": { "query": range_query } };
+  }else if (endtime !== null) {
+    range_query = "starttime:[* TO " + endtime + "]";
+    filtered_query = { "query_string": { "query": range_query } };
+  }else {
+    filtered_query = { "match_all": {} };
+  }
+  query = {
+    "query": {
+      "filtered": {
+        "query": filtered_query,
+        "filter": {
+          "geo_shape": {
+            "location": {
+              "shape": geojson
+            }
+          }
+        }
+      }
+    }
+  };
+  return btoa(JSON.stringify(query));
+}
+
 function jq( myid ) {
   return "#" + myid.replace( /(:|\.|\[|\])/g, "\\$1" );
+}
+
+function get_tile_max_zoom(tile_zoom, ind) {
+  if (tile_zoom.length==0){
+    max_zoom = 8;
+  }
+  else{
+    max_zoom = parseInt(tile_zoom[ind]);
+  }
+  return max_zoom;
 }
 
 function set_left_margin() {
@@ -275,6 +316,7 @@ jQuery(document).ready(function($) {
     location_field: 'location',
     json_fields: [
         'metadata.user_tags',
+        'metadata.tile_max_zoom',
         'metadata.tile_layers',
         'images'
     ],
@@ -485,6 +527,7 @@ jQuery(document).ready(function($) {
           "post": "';\n" +
                   "var tiles = false;\n" +
                   "var tile_layers = [];\n" +
+                  "var tile_max_zoom= [];\n" +
                   "var prodUrl = null;\n"
         },
         {
@@ -494,7 +537,7 @@ jQuery(document).ready(function($) {
                   "  var map = L.map('map_' + id + '_' + system_version," +
                   " {worldCopyJump: true, center: [0,0], zoom: 0, zoomControl: false});\n" +
                   //"L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {\n" +
-                  "L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {\n" +
+                  "L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/NatGeo_World_Map/MapServer/tile/{z}/{y}/{x}', {\n" +
                   "  maxZoom: 18\n" +
                   "}).addTo(map);\n"
         },
@@ -549,6 +592,11 @@ jQuery(document).ready(function($) {
           "post": ";\n"
         },
         {
+           "pre": "tile_max_zoom = ",
+           "field": "metadata.tile_max_zoom",
+           "post": ";\n"
+         },
+        {
           "pre": "  prodUrl = '",
           "field": "urls",
           "post": "';\n" +
@@ -560,7 +608,7 @@ jQuery(document).ready(function($) {
                   "      opacity: 1,\n" +
                   "      minZoom: 0,\n" +
                   "      maxZoom: 18,\n" +
-                  "      maxNativeZoom: 8,\n" +
+                  "      maxNativeZoom: get_tile_max_zoom(tile_max_zoom, i),\n" +
                   "      reuseTiles: true,\n" +
                   "      tms: true,\n" +
                   "      noWrap: true,\n" +
@@ -572,7 +620,7 @@ jQuery(document).ready(function($) {
                   "      opacity: .6,\n" +
                   "      minZoom: 0,\n" +
                   "      maxZoom: 18,\n" +
-                  "      maxNativeZoom: 8,\n" +
+                  "      maxNativeZoom: get_tile_max_zoom(tile_max_zoom, i),\n" +
                   "      reuseTiles: true,\n" +
                   "      tms: true,\n" +
                   "      noWrap: true,\n" +
@@ -815,6 +863,62 @@ jQuery(document).ready(function($) {
                   "    location_search_map.fitBounds(drawnItems.getBounds());\n" +
                   '  });\n' +
                   "}\n" +
+                  "});<\/script></td>"
+        },
+        {
+          "pre": '<td id="saravail_',
+          "field": "id",
+          "post": '"><a class="btn btn-danger" target="_blank">SAR Availability</a>'
+        },
+        {
+          "pre": "<script>$(function() {\n" +
+                 '  var id = "', 
+          "field": "id",
+          "post": '";\n' +
+                 "  var coords = null;\n" +
+                 "  var location_type = null;\n" +
+                 "  var starttime = null;\n" +
+                 "  var endtime = null;\n" +
+                 "  var link = $(jq('saravail_' + id + ' a'));\n"
+        },
+        {
+          "pre": '  var dataset_type = "',
+          "field": "dataset_type",
+          "post": '";\n'
+        },
+        {
+          "pre": "  var coords = [",
+          "field": "location.coordinates",
+          "post": "];\n"
+        },
+        {
+          "pre": "  var location_type = '",
+          "field": "location.type",
+          "post": "';\n"
+        },
+        {
+          "pre": "  var starttime = '",
+          "field": "starttime",
+          "post": "';\n"
+        },
+        {
+          "pre": "  var endtime = '",
+          "field": "endtime",
+          "post": "';\n"
+        },
+        {
+          "pre": '  var id = "', 
+          "field": "id",
+          "post": '";\n' +
+                  "  var sar_avail = \"{{ config.get('SAR_AVAIL_URL', 'none') }}\";\n" +
+                  "  if (dataset_type === 'area_of_interest' && sar_avail !== 'none') {\n" +
+                  "    if (coords != null) {\n" +
+                  "      var encoding = get_saravail_encoding(coords, location_type, starttime, endtime);\n" +
+                  '      link.on("click", function() {\n' +
+                  "        window.open('{{ config['SAR_AVAIL_URL'] }}/?base64=' + encoding);\n" +
+                  '      });\n' +
+                  "    }\n" +
+                  "  } else $(jq('saravail_' + id)).remove();\n" +
                   "});<\/script></td>"
         },
         {

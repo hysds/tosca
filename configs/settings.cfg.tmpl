@@ -20,6 +20,13 @@ LDAP_HOST = 'ldap.test.com'
 LDAP_BASEDN = 'ou=personnel,dc=dir,dc=test,dc=com'
 LDAP_GROUPS = {{ LDAP_GROUPS }}
 
+# URS app settings
+URS_ENABLED = False
+URS_APP_ID = ""
+URS_APP_PASSWORD = ""
+URS_URL = "https://urs.earthdata.nasa.gov"
+URS_REDIRECT_URL = "https://{{ GRQ_FQDN }}/search/login"
+
 # secret key
 SECRET_KEY = 'testkey'
 
