@@ -1312,8 +1312,10 @@ search box - the end user will not know they are happening.
                           var bobj = {'range':{}};
                           var dt_1 = new Date(parseInt($(this).attr('href')));
                           var dt_1_str = dt_1.toISOString().substring(0,10) + 'T00:00:00Z';
-                          var dt_2 = new Date(parseInt(dt_1_str.substring(0,5)), parseInt(dt_1_str.substring(5,7)), 0);
-                          var dt_2_str = dt_2.toISOString().substring(0,10) + 'T23:59:59Z';
+                          //var dt_2 = new Date(parseInt(dt_1_str.substring(0,5)), parseInt(dt_1_str.substring(5,7)), 0);
+                          var dt_2 = new Date(parseInt(dt_1_str.substring(0,5)), parseInt(dt_1_str.substring(5,7)), 0); 
+                          //var dt_2_str = dt_2.toISOString().substring(0,10) + 'T23:59:59Z';
+                          var dt_2_str = dt_1.toISOString().substring(0,10) + 'T23:59:59Z';
                           bobj['range'][ $(this).attr('rel') ] = {
                               'from': dt_1_str,
                               'to': dt_2_str
