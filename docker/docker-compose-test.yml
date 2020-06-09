@@ -1,0 +1,13 @@
+version: '3.8'
+services:
+  sar-avail:
+    hostname: sar-avail
+    container_name: sar-avail
+    image: hysds/pge-base:develop-es1
+    init: true
+    ports:
+      - "8879:8879"
+    volumes:
+      - "/etc/resolv.conf:/etc/resolv.conf:ro"
+      - "${HOME}/dev/tosca:/home/ops/verdi/ops/tosca-sar_avail"
+    working_dir: "/home/ops/verdi/ops/tosca-sar_avail"
