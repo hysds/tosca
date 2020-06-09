@@ -1,0 +1,16 @@
+version: '2.2'
+services:
+  aria-products:
+    hostname: aria-products
+    container_name: aria-products
+    image: hysds/pge-base:develop-es1
+    init: true
+    ports:
+      - "8880:8880"
+    volumes:
+      - "${HOME}/dev/tosca-aria_products:/home/ops/verdi/ops/tosca-aria_products"
+    working_dir: "/home/ops/verdi/ops/tosca-aria_products"
+    command: bash -c "
+      ping -c 1 www.google.com
+      && python run.py
+      "
