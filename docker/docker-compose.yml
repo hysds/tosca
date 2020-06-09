@@ -9,7 +9,6 @@ services:
       - "8879:8879"
     volumes:
       - "${HOME}/dev/tosca:/home/ops/verdi/ops/tosca-sar_avail"
-      - "${HOME}/dev/tosca/netrc:/home/ops/.netrc"
     working_dir: "/home/ops/verdi/ops/tosca-sar_avail"
     command: bash -c "
       ping -c 1 www.google.com
