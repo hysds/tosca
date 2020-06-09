@@ -1,4 +1,12 @@
-import os, json, requests
+from __future__ import unicode_literals
+from __future__ import print_function
+from __future__ import division
+from __future__ import absolute_import
+from future import standard_library
+standard_library.install_aliases()
+import os
+import json
+import requests
 from flask import jsonify, Blueprint, request, url_for, Response
 from flask_login import login_required
 from pprint import pformat
@@ -26,9 +34,10 @@ def get_kml(dataset=None):
     # query
     es_url = app.config['ES_URL']
     index = dataset
-    r = requests.post('%s/%s/_search?search_type=scan&scroll=10m&size=100' % (es_url, index), data=source)
+    r = requests.post('%s/%s/_search?search_type=scan&scroll=10m&size=100' %
+                      (es_url, index), data=source)
     if r.status_code != 200:
-        app.logger.debug("Failed to query ES. Got status code %d:\n%s" % 
+        app.logger.debug("Failed to query ES. Got status code %d:\n%s" %
                          (r.status_code, json.dumps(result, indent=2)))
     r.raise_for_status()
     #app.logger.debug("result: %s" % pformat(r.json()))
@@ -40,10 +49,12 @@ def get_kml(dataset=None):
     # get list of results
     results = []
     while True:
-        r = requests.post('%s/_search/scroll?scroll=10m' % es_url, data=scroll_id)
+        r = requests.post('%s/_search/scroll?scroll=10m' %
+                          es_url, data=scroll_id)
         res = r.json()
         scroll_id = res['_scroll_id']
-        if len(res['hits']['hits']) == 0: break
+        if len(res['hits']['hits']) == 0:
+            break
         for hit in res['hits']['hits']:
             del hit['_source']['city']
             results.append(hit['_source'])
@@ -55,7 +66,8 @@ def get_kml(dataset=None):
     for res in results:
         id = res['id']
         url = res['urls'][0] if len(res['urls']) > 0 else None
-        browse_url = res['browse_urls'][0] if len(res['browse_urls']) > 0 else None
+        browse_url = res['browse_urls'][0] if len(
+            res['browse_urls']) > 0 else None
         location = res['location']
         bbox = res['metadata']['bbox']
         #app.logger.debug("%s" % json.dumps(res['metadata'], indent=2))
@@ -63,14 +75,14 @@ def get_kml(dataset=None):
         if len(img_coords) == 0:
             if 'dfdn' in res['metadata']:
                 if res['metadata']['direction'] == 'asc':
-                    lowerleft  = res['metadata']['dfdn']['GeoCoordTopLeft']
+                    lowerleft = res['metadata']['dfdn']['GeoCoordTopLeft']
                     lowerright = res['metadata']['dfdn']['GeoCoordTopRight']
-                    upperleft  = res['metadata']['dfdn']['GeoCoordBottomLeft']
+                    upperleft = res['metadata']['dfdn']['GeoCoordBottomLeft']
                     upperright = res['metadata']['dfdn']['GeoCoordBottomRight']
                 else:
-                    upperright  = res['metadata']['dfdn']['GeoCoordTopLeft']
+                    upperright = res['metadata']['dfdn']['GeoCoordTopLeft']
                     upperleft = res['metadata']['dfdn']['GeoCoordTopRight']
-                    lowerright  = res['metadata']['dfdn']['GeoCoordBottomLeft']
+                    lowerright = res['metadata']['dfdn']['GeoCoordBottomLeft']
                     lowerleft = res['metadata']['dfdn']['GeoCoordBottomRight']
             else:
                 #img_coords['minLon'] = bbox[2][1]
@@ -81,18 +93,18 @@ def get_kml(dataset=None):
                 #lowerright = [img_coords['minLat'], img_coords['maxLon'], 0.]
                 #upperright = [img_coords['maxLat'], img_coords['maxLon'], 0.]
                 #upperleft  = [img_coords['maxLat'], img_coords['minLon'], 0.]
-                lowerleft  = [bbox[0][0], bbox[0][1], 0.]
-                lowerright  = [bbox[1][0], bbox[1][1], 0.]
-                upperright  = [bbox[2][0], bbox[2][1], 0.]
-                upperleft  = [bbox[3][0], bbox[3][1], 0.]
+                lowerleft = [bbox[0][0], bbox[0][1], 0.]
+                lowerright = [bbox[1][0], bbox[1][1], 0.]
+                upperright = [bbox[2][0], bbox[2][1], 0.]
+                upperleft = [bbox[3][0], bbox[3][1], 0.]
         else:
-            lowerleft  = [img_coords['minLat'], img_coords['minLon'], 0.]
+            lowerleft = [img_coords['minLat'], img_coords['minLon'], 0.]
             lowerright = [img_coords['minLat'], img_coords['maxLon'], 0.]
             upperright = [img_coords['maxLat'], img_coords['maxLon'], 0.]
-            upperleft  = [img_coords['maxLat'], img_coords['minLon'], 0.]
+            upperleft = [img_coords['maxLat'], img_coords['minLon'], 0.]
         ground = kml.newgroundoverlay(name=id)
         ground.description = id
-        #if location['type'] == 'polygon':
+        # if location['type'] == 'polygon':
         #    ground.gxlatlonquad.coords = location['coordinates'][0]
         ground.gxlatlonquad.coords = [
             (lowerleft[1], lowerleft[0]),
@@ -107,7 +119,7 @@ def get_kml(dataset=None):
 
         if browse_url:
             ground.icon.href = '%s/browse_small.png' % browse_url
-        
+
     return Response(kml.kml(), headers={'Content-Type': 'application/vnd.google-earth.kml+xml',
                                         'Content-Disposition': 'attachment; filename=%s.kml' % dataset})
-    #return jsonify({'results': results})
+    # return jsonify({'results': results})

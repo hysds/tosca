@@ -1,12 +1,23 @@
+from __future__ import unicode_literals
+from __future__ import print_function
+from __future__ import division
+from __future__ import absolute_import
 import os, json, requests, base64, io
 from collections import OrderedDict
 from flask import jsonify, Blueprint, request, url_for, Response, render_template, make_response
+from future import standard_library
+standard_library.install_aliases()
+import types
+import re
+from flask import jsonify, Blueprint, request, Response, render_template, make_response
 from flask_login import login_required
 from pprint import pformat
 from datetime import datetime
 
 from tosca import app
 
+import boto3
+from urllib.parse import urlparse
 
 mod = Blueprint('services/wget', __name__)
 
@@ -42,10 +53,11 @@ def get_wget(dataset=None):
     # query
     es_url = app.config['ES_URL']
     index = dataset
-    r = requests.post('%s/%s/_search?search_type=scan&scroll=10m&size=100' % (es_url, index), data=source)
+    r = requests.post('%s/%s/_search?search_type=scan&scroll=10m&size=100' %
+                      (es_url, index), data=json.dumps(new_src))
     if r.status_code != 200:
         app.logger.debug("Failed to query ES. Got status code %d:\n%s" %
-                         (r.status_code, json.dumps(result, indent=2)))
+                         (r.status_code, json.dumps(r.json(), indent=2)))
     r.raise_for_status()
     #app.logger.debug("result: %s" % pformat(r.json()))
 
@@ -72,7 +84,8 @@ def get_wget(dataset=None):
         yield "{}\n".format(','.join(fields))
 
         while True:
-            r = requests.post('%s/_search/scroll?scroll=10m' % es_url, data=scroll_id)
+            r = requests.post('%s/_search/scroll?scroll=10m' %
+                              es_url, data=scroll_id)
             res = r.json()
             #app.logger.debug("res: %s" % pformat(res))
             scroll_id = res['_scroll_id']
