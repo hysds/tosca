@@ -1,10 +1,10 @@
-import os, json, requests, base64, io
-from collections import OrderedDict
-from flask import jsonify, Blueprint, request, url_for, Response, render_template, make_response
 from __future__ import unicode_literals
 from __future__ import print_function
 from __future__ import division
 from __future__ import absolute_import
+import os, json, requests, base64, io
+from collections import OrderedDict
+from flask import jsonify, Blueprint, request, url_for, Response, render_template, make_response
 from future import standard_library
 standard_library.install_aliases()
 import types
