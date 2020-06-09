@@ -12,5 +12,6 @@ services:
     working_dir: "/home/ops/verdi/ops/tosca-aria_products"
     command: bash -c "
       ping -c 1 www.google.com
+      && ./db_create.py
       && python run.py
       "
