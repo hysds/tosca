@@ -1,6 +1,20 @@
 <!DOCTYPE html>
 <html>
 <head>
+{#  Begin imported from JPL branding template  #}
+{#  <meta charset="utf-8">#}
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="">
+	<meta name="author" content="JPL.NASA.GOV">
+	<link rel="icon" href="../static/jpl-branding/images/icons/favicon.ico" type="image/x-icon">
+{#	<title>NASA Jet Propulsion Laboratory California Institute of Technology</title>#}
+	<link href="../static/jpl-branding/css/screen.css" rel="stylesheet">
+	<!-- Custom styles for this template -->
+	<link href="../static/jpl-branding/css/main.css" rel="stylesheet">
+  <script src="../static/jpl-branding/js/manifest_body.js" type="text/javascript" charset="utf-8"></script>
+{#  End imported from JPL branding template  #}
+
   <meta charset="utf-8" />
   <title>SAR Availability</title>
 
@@ -10,10 +24,10 @@
 
   <link rel="stylesheet" href="{{ url_for('static', filename='facetview/vendor/bootstrap-2.3.2/css/bootstrap.table.css') }}">
   <link rel="stylesheet" href="{{ url_for('static', filename='facetview/vendor/bootstrap-2.3.2/css/bootstrap-responsive.min.css') }}">
-  <script type="text/javascript" src="{{ url_for('static', filename='facetview/vendor/bootstrap-2.3.2/js/bootstrap.min.js') }}"></script>  
+  <script type="text/javascript" src="{{ url_for('static', filename='facetview/vendor/bootstrap-2.3.2/js/bootstrap.min.js') }}"></script>
 
-  <script type="text/javascript" src="{{ url_for('static', filename='facetview/vendor/linkify/1.0/jquery.linkify-1.0-min.js') }}"></script>  
-  
+  <script type="text/javascript" src="{{ url_for('static', filename='facetview/vendor/linkify/1.0/jquery.linkify-1.0-min.js') }}"></script>
+
   <link rel="stylesheet" href="{{ url_for('static', filename='facetview/vendor/jquery-ui-1.8.18.custom/jquery-ui-1.8.18.custom.css') }}">
   <script type="text/javascript" src="{{ url_for('static', filename='facetview/vendor/jquery-ui-1.8.18.custom/jquery-ui-1.8.18.custom.min.js') }}"></script>
 
@@ -209,7 +223,7 @@ function add_user_tag(es_index, id, tag) {
     type: 'POST',
     url: "{{ url_for('services/user_tags.add_user_tag') }}",
     data: { es_index: es_index, id: id, tag: tag }
-  }); 
+  });
 }
 
 function remove_user_tag(es_index, id, tag) {
@@ -218,7 +232,7 @@ function remove_user_tag(es_index, id, tag) {
     type: 'POST',
     url: "{{ url_for('services/user_tags.remove_user_tag') }}",
     data: { es_index: es_index, id: id, tag: tag }
-  }); 
+  });
 }
 
 // rules table
@@ -241,7 +255,7 @@ jQuery(document).ready(function($) {
         {'field':'metadata.sensor.raw', 'display': 'sensor'},
         {'field':'metadata.status.raw', 'display': 'status'},
         {'field':'metadata.track_number', 'display': 'track number', 'type': 'number'},
-        {'field':'system_version.raw', 'display': 'dataset version'}, 
+        {'field':'system_version.raw', 'display': 'dataset version'},
         {'field':'starttime', 'display': 'start date', 'type': 'date'},
         {'field':'endtime', 'display': 'stop date', 'type': 'date'},
         {'field':'metadata.direction.raw', 'display': 'orbit direction'},
@@ -375,37 +389,37 @@ jQuery(document).ready(function($) {
         {
           "pre": "",
           "field": "starttime",
-          "post": "</td>" 
+          "post": "</td>"
         },
         {
           "pre": "<td>",
           "field": "metadata.status",
-          "post": "</td>" 
+          "post": "</td>"
         },
         {
           "pre": "<td>",
           "field": "metadata.platform",
-          "post": "</td>" 
+          "post": "</td>"
         },
         {
           "pre": "<td>",
           "field": "metadata.track_number",
-          "post": "</td>" 
+          "post": "</td>"
         },
         {
           "pre": "<td>",
           "field": "metadata.sensoroperationalmode",
-          "post": "</td>" 
+          "post": "</td>"
         },
         {
           "pre": "<td>",
           "field": "metadata.direction",
-          "post": "</td>" 
+          "post": "</td>"
         },
         {
           "pre": "<td>",
           "field": "metadata.polarisationmode",
-          "post": "" 
+          "post": ""
         },
         {
           "pre": "<script>$(function() { var id = '",
@@ -488,7 +502,7 @@ jQuery(document).ready(function($) {
           "pre": "var center = [",
           "field": "center.coordinates",
           "post": "];\n" +
-                 "location_search_map.setView([center[1], center[0]], 7);\n" 
+                 "location_search_map.setView([center[1], center[0]], 7);\n"
         },
         {
           "pre":"var ____unused_id='",
@@ -509,8 +523,8 @@ jQuery(document).ready(function($) {
     defaultValues: {
       min: new Date(2000, 0, 1),
       max: new Date()
-    } 
-  }); 
+    }
+  });
   */
 
   // validate form
@@ -600,10 +614,10 @@ jQuery(document).ready(function($) {
                        data.rules[i]['kwargs'],
                        data.rules[i]['username'],
                        status_cell,
-                       "<button class='btn btn-mini btn-primary edit_rule' type='button' value='" + 
+                       "<button class='btn btn-mini btn-primary edit_rule' type='button' value='" +
                        data.rules[i]['id'] + "'>Edit</button>",
-                       "<button class='btn btn-mini btn-warning remove_rule' type='button' value='" + 
-                       data.rules[i]['id'] + "' rule_name='" + data.rules[i]['rule_name'] + 
+                       "<button class='btn btn-mini btn-warning remove_rule' type='button' value='" +
+                       data.rules[i]['id'] + "' rule_name='" + data.rules[i]['rule_name'] +
                        "'>Delete</button>",
                        creation_time,
                        modified_time
@@ -679,7 +693,7 @@ jQuery(document).ready(function($) {
              success: function(data, sts, xhr) {
                var tmp = $("#user-rules-download");
                var dta = JSON.stringify(data).replace("\\n","\n");
-               
+
                tmp.val(dta);
                $('#export_rules_modal').modal('show').css({'left': set_left_margin});
                $('#list_rules_modal').modal('hide');
@@ -711,7 +725,7 @@ jQuery(document).ready(function($) {
                             var resp = JSON.parse(xhr.responseText);
                             $('#ajax_error').html("Error: " + resp.message);
                           }
-                        }); 
+                        });
                      }
                  });
         });
@@ -728,7 +742,7 @@ jQuery(document).ready(function($) {
           $('#rule_modal').modal('show').css({'left': set_left_margin});
           $('#list_rules_modal').modal('hide');
         });
- 
+
 
         // show modal
         */
@@ -995,7 +1009,38 @@ jQuery(document).ready(function($) {
 
 <body>
 
-<div class="navbar navbar-fixed-top">
+{#  Begin imported from JPL branding template  #}
+<div class="jpl-navbar red_to_blk_fill" role="navigation">
+  <div id="jpl-nav_container">
+    <a href="http://www.jpl.nasa.gov/" class="logo"><img alt="logo" src="../static/jpl-branding/images/logo.png"></a>
+    <div class="jpl-nav"><a href="https://js.jpl.nasa.gov">JPL Space</a>
+      <div class="nav-space">|</div>
+      <a href="http://www.jpl.nasa.gov/">JPL</a>
+      <div class="nav-space">|</div>
+      <a href="http://www.caltech.edu/">Caltech</a>
+      <div class="nav-space">|</div>
+      <a href="http://www.nasa.gov/">NASA</a></div>
+  </div>
+  <button class="dropdown-toggle" type="button">
+    <span class="sr-only">Toggle navigation</span>
+    <span class="icon-bar"></span>
+    <span class="icon-bar"></span>
+    <span class="icon-bar"></span>
+  </button>
+</div>
+	<!-- Section Header -->
+<div class="section-info">
+  <div class="section-container">
+    <div class="container">
+      <div class="jpl-sect">ARIA - SAR Availability</div><div class="jpl-sect separator">|</div><div class="jpl-org">Search</div>
+    </div>
+  </div>
+</div>
+
+{#  End imported from JPL branding template  #}
+
+
+<div class="navbar">
   <div class="navbar-inner">
     <div class="container">
       <a class="brand" href="#">SAR Availability{%if config['SHOW_BADGE'] %}<span class="badge badge-important">{{ config['TOSCA_TITLE_BADGE'] }}</span>{% endif %}</a>
@@ -1016,7 +1061,7 @@ jQuery(document).ready(function($) {
     {% with messages = get_flashed_messages(category_filter=["message"]) %}
     {% if messages %}
       {% for message in messages %}
-      <div class="container"> 
+      <div class="container">
         <div class="alert alert-success">
           <a href="#" class="close" data-dismiss="alert">&times;</a>
           {{ message }}
@@ -1033,16 +1078,16 @@ jQuery(document).ready(function($) {
     {% endif %}
     {% endwith %}
 
-<div class="container"> 
+<div class="container">
   <script type="text/javascript">check_browser()</script>
   <div class="content">
-    <div class="page-header">
-      <h1>
-        SAR Availability{%if config['SHOW_BADGE'] %}<span class="badge badge-important">{{ config['TOSCA_TITLE_BADGE'] }}</span>{% endif %} <small>Search</small>
-      </h1>
-    </div>
+{#    <div class="page-header">#}
+{#      <h1>#}
+{#        SAR Availability{%if config['SHOW_BADGE'] %}<span class="badge badge-important">{{ config['TOSCA_TITLE_BADGE'] }}</span>{% endif %} <small>Search</small>#}
+{#      </h1>#}
+{#    </div>#}
 
-  
+
     <!--<h4>GRQ facets</h4>-->
     <div class="facet-view-simple"></div>
 
@@ -1361,7 +1406,7 @@ jQuery(document).ready(function($) {
           <h4>Welcome to the ARIA Support Center.</h4>
           <p>For immediate support on any issues with ARIA Services, please send an email describing your issue to: <font color="red"><b>{{ config.get('SUPPORT_EMAIL', 'hysds-dev@jpl.nasa.gov') }}</b></font>.</p>
           <p>Please provide any screenshots that may help us diagnose the issue.</p>
-         
+
           <p>If you are having trouble with new features, please try force-refreshing the page, clearing your browser cache, or another browser. Please note that, we recommend using firefox or chrome browser as other browsers may offer degraded performance.</p>
           <!--<p>In the future, this will be you one-stop shop for submitting and monitoring support cases, exploring help documentation and checking the health of ARIA services.</p>-->
         </div>
@@ -1402,6 +1447,12 @@ jQuery(document).ready(function($) {
 
   </div>
 
+</div>
+<div class='page_info'>
+  Last Update: July, 2020 12:00:00.<br />
+  Questions &amp; Comments: Content - <a href='mailto:aria-help@jpl.nasa.gov'>ARIA</a> Website - <a href='mailto:aria-help@jpl.nasa.gov'>ARIA</a>
+  <br />
+  JPL is a federally funded research and development center staffed and managed for <a href='http://www.nasa.gov/' target='_blank'>NASA</a> by <a href='http://www.caltech.edu/' target='_blank'>Caltech</a>
 </div>
 </body>
 </html>
