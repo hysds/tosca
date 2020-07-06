@@ -1,6 +1,21 @@
 <!DOCTYPE html>
 <html>
 <head>
+{#  Begin imported from JPL branding template  #}
+{#  <meta charset="utf-8">#}
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="">
+	<meta name="author" content="JPL.NASA.GOV">
+	<link rel="icon" href="../static/jpl-branding/images/icons/favicon.ico" type="image/x-icon">
+{#	<title>NASA Jet Propulsion Laboratory California Institute of Technology</title>#}
+	<link href="../static/jpl-branding/css/screen.css" rel="stylesheet">
+	<!-- Custom styles for this template -->
+	<link href="../static/jpl-branding/css/main.css" rel="stylesheet">
+  <script src="../static/jpl-branding/js/manifest_body.js" type="text/javascript" charset="utf-8"></script>
+{#  End imported from JPL branding template  #}
+
+
   <meta charset="utf-8" />
   <title>{{ config['TOSCA_TITLE'] }}</title>
 
@@ -809,7 +824,7 @@ jQuery(document).ready(function($) {
         {
           "pre": '<td id="saravail_',
           "field": "id",
-          "post": '"><a class="btn btn-danger" target="_blank">SAR Availability</a>'
+          "post": '"><a class="btn btn-danger" target="_blank">Standard Products</a>'
         },
         {
           "pre": "<script>$(function() {\n" +
@@ -1314,8 +1329,38 @@ jQuery(document).ready(function($) {
 </head>
 
 <body>
+{#  Begin imported from JPL branding template  #}
+<div class="jpl-navbar red_to_blk_fill" role="navigation">
+  <div id="jpl-nav_container">
+    <a href="http://www.jpl.nasa.gov/" class="logo"><img alt="logo" src="../static/jpl-branding/images/logo.png"></a>
+    <div class="jpl-nav"><a href="https://js.jpl.nasa.gov">JPL Space</a>
+      <div class="nav-space">|</div>
+      <a href="http://www.jpl.nasa.gov/">JPL</a>
+      <div class="nav-space">|</div>
+      <a href="http://www.caltech.edu/">Caltech</a>
+      <div class="nav-space">|</div>
+      <a href="http://www.nasa.gov/">NASA</a></div>
+  </div>
+  <button class="dropdown-toggle" type="button">
+    <span class="sr-only">Toggle navigation</span>
+    <span class="icon-bar"></span>
+    <span class="icon-bar"></span>
+    <span class="icon-bar"></span>
+  </button>
+</div>
+	<!-- Section Header -->
+<div class="section-info">
+  <div class="section-container">
+    <div class="container">
+      <div class="jpl-sect">ARIA</div><div class="jpl-sect separator">|</div><div class="jpl-org">Standard Products</div>
+    </div>
+  </div>
+</div>
 
-<div class="navbar navbar-fixed-top">
+{#  End imported from JPL branding template  #}
+
+
+<div class="navbar">
   <div class="navbar-inner">
     <div class="container">
       <a class="brand" href="#">{{ config['TOSCA_TITLE'] }}{%if config['SHOW_BADGE'] %}<span class="badge badge-important">{{ config['TOSCA_TITLE_BADGE'] }}</span>{% endif %}</a>
@@ -1349,11 +1394,11 @@ jQuery(document).ready(function($) {
 <div class="container"> 
   <script type="text/javascript">check_browser()</script>
   <div class="content">
-    <div class="page-header">
-      <h1>
-        {{ config['TOSCA_TITLE'] }}{%if config['SHOW_BADGE'] %}<span class="badge badge-important">{{ config['TOSCA_TITLE_BADGE'] }}</span>{% endif %} <small>{{ config['TOSCA_SUBTITLE'] }}</small>
-      </h1>
-    </div>
+{#    <div class="page-header">#}
+{#      <h1>#}
+{#        {{ config['TOSCA_TITLE'] }}{%if config['SHOW_BADGE'] %}<span class="badge badge-important">{{ config['TOSCA_TITLE_BADGE'] }}</span>{% endif %} <small>{{ config['TOSCA_SUBTITLE'] }}</small>#}
+{#      </h1>#}
+{#    </div>#}
 
   
     <!--<h4>GRQ facets</h4>-->
@@ -1668,7 +1713,7 @@ jQuery(document).ready(function($) {
       </div>
       <div class="modal-body">
         <div class="modal-body-div"></div>
-        <div>
+        <div>sites
           <h4>Welcome to the ARIA Support Center.</h4>
           <p>For immediate support on any issues with ARIA Services, please send an email describing your issue to: <font color="red"><b>{{ config.get('SUPPORT_EMAIL', 'hysds-dev@jpl.nasa.gov') }}</b></font>.</p>
           <p>Please provide any screenshots that may help us diagnose the issue.</p>
@@ -1694,6 +1739,12 @@ jQuery(document).ready(function($) {
 
   </div>
 
+</div>
+<div class='page_info'>
+  Last Update: July, 2020 12:00:00.<br />
+  Questions &amp; Comments: Content - <a href='mailto:aria-help@jpl.nasa.gov'>ARIA</a> Website - <a href='mailto:aria-help@jpl.nasa.gov'>ARIA</a>
+  <br />
+  JPL is a federally funded research and development center staffed and managed for <a href='http://www.nasa.gov/' target='_blank'>NASA</a> by <a href='http://www.caltech.edu/' target='_blank'>Caltech</a>
 </div>
 </body>
 </html>
