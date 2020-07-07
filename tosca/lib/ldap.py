@@ -42,7 +42,7 @@ def ldap_user_verified(username, password):
     for group in groups:
         g = l.search('cn=%s' % group, base_dn=base_dn)
         for this_g in g:
-            if uid in this_g['uniqueMember']:
+            if uid.encode() in this_g['uniqueMember']:
                 return dict(r[0])
 
     app.logger.info(
