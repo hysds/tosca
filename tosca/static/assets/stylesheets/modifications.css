@@ -30,7 +30,7 @@
 
 }
 
-@media (max-width: 600px) {
+@media (max-width: 650px) {
 	.site_logo_container.text_logo .site_logo {
 		font-size: 1.3rem;
 	}
