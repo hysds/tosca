@@ -39,3 +39,7 @@
 body {
 	background: black;
 }
+
+#page>.container {
+    background: white;
+}
