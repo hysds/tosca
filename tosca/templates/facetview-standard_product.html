@@ -1375,58 +1375,386 @@ jQuery(document).ready(function($) {
 		<div id='page'>
 			<!-- END HEADER: "DEFAULT" -->
 			<!-- START CONTENT -->
-      <div class="container">
-        <div class="main-wrapper">
-          <section class='content_page module'>
-            <div class='grid_layout'>
-              <article>
-                <header id='page_header'>
-                  <div class="article_title">
-                    <h1>Facet Search</h1>
-                    <h2>Faceted search interface for GeoRegionQuery</h2>
-                  </div>
-                </header>
-                <div class='clearfix' id='primary_column'>
-                  <form action="" method="post" name="login">
-                    <h3>Sign In</h3>
-                    {{ form.hidden_tag() }}
-                    <p>
-                      <label for="username">JPL username</label>
-                      {{ form.username(size=80) }}<br/>
-                    </p>
-                    <p>
-                      <label for="password">JPL password</label>
-                      {{ form.password(size=80) }}<br/>
-                    </p>
-                    <p><input type="submit" value="Sign In"></p>
-                  </form>
+      <div class="navbar">
+  <div class="navbar-inner">
+    <div class="container">
+      <a class="brand" href="#">{{ config['TOSCA_TITLE'] }}{%if config['SHOW_BADGE'] %}<span class="badge badge-important">{{ config['TOSCA_TITLE_BADGE'] }}</span>{% endif %}</a>
+      <ul class="nav">
+        <li><a href="http://aria.jpl.nasa.gov">Home</a></li>
+        <li><a href="{{ url_for('views/main.index') }}">Facet Search</a></li>
+        {% if g.user.is_authenticated and g.user.id == config['OPS_USER'] %}
+        <li><a href="{{ config['FIGARO_URL'] }}">Jobs</a></li>
+        {% elif g.user.is_authenticated and 'my_jobs' in g.blueprints.keys() %}
+        <li><a href="{{ url_for('my_jobs.index') }}">My Jobs</a></li>
+        {% endif %}
+        {% if config['TERMS_OF_USE'] %}
+        <li><a id="tou_link" href="">Terms of Use</a></li>
+        <li><a id="support_link" href="">Support</a></li>
+        {% endif %}
+      </ul>
+      {% if g.user.is_authenticated %}
+      <ul class="nav pull-right">
+        <li><p class="navbar-text">Logged in as: <strong>{{ g.user.id }}</strong></p></li>
+        <li><a href="{{ url_for('views/main.logout') }}">Logout</a></li>
+      </ul>
+      {% else %}
+      <ul class="nav pull-right">
+        <li><a href="{{ url_for('views/main.login') }}">Login</a></li>
+      </ul>
+      {% endif %}
+    </div>
+  </div>
+</div>
 
-                  <!--Alerts-->
-                  {% with messages = get_flashed_messages(category_filter=["message"]) %}
-                    {% if messages %}
-                      <div class="container">
-                        {% for message in messages %}
-                          <div class="alert alert-error">
-                            <a href="#" class="close" data-dismiss="alert">&times;</a>
-                            {{ message }}
-                          </div>
-                        {% endfor %}
-                        <script>
-                            window.setTimeout(function () {
-                                $(".alert").fadeTo(500, 0).slideUp(500, function () {
-                                    $(this).remove();
-                                });
-                            }, 5000);
-                        </script>
-                      </div>
-                    {% endif %}
-                  {% endwith %}
-                </div>
-              </article>
+<div class="container">
+  <script type="text/javascript">check_browser()</script>
+  <div class="content">
+{#    <div class="page-header">#}
+{#      <h1>#}
+{#        {{ config['TOSCA_TITLE'] }}{%if config['SHOW_BADGE'] %}<span class="badge badge-important">{{ config['TOSCA_TITLE_BADGE'] }}</span>{% endif %} <small>{{ config['TOSCA_SUBTITLE'] }}</small>#}
+{#      </h1>#}
+{#    </div>#}
+
+
+    <!--<h4>GRQ facets</h4>-->
+    <div class="facet-view-simple"></div>
+
+    <!-- create rule modal -->
+    <div id="rule_modal" class="modal hide fade max_width_modal" tabindex="-1" role="dialog"
+         aria-labelledby="rule_modal_label" aria-hidden="true" data-backdrop="static"
+         data-keyboard="false">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="rule_modal_label"></h3>
+      </div>
+      <div class="modal-body">
+        <div class="modal-body-div">
+          <form id="rule_form" class="form-horizontal">
+            <legend>action parameters</legend>
+            <input type="hidden" id="rule_id"/>
+            <input type="hidden" id="workflow_val"/>
+            <input type="hidden" id="queue_val"/>
+            <input type="hidden" id="priority_val"/>
+            <input type="hidden" id="kwargs"/>
+            <div class="control-group">
+              <label class="control-label" for="rule_name">Rule name</label>
+              <div class="controls">
+                <input class="field span4" type="text" id="rule_name" name="rule_name" placeholder="e.g. Email Calimap">
+              </div>
             </div>
-          </section>
+            <div class="control-group" id="ctrl_query_string">
+              <label class="control-label" for="query_string">Condition</label>
+              <div class="controls">
+                <textarea class="field span4" type="textarea" rows="5" id="query_string" name="query_string"></textarea>
+              </div>
+            </div>
+            <div class="control-group">
+              <label class="control-label" for="workflow">Action</label>
+              <div class="controls">
+                <select class="field span4" name="workflow" id="workflow"></select>
+              </div>
+            </div>
+            <div class="control-group" id="queue_group" >
+              <label class="control-label" for="queue">Queue</label>
+              <div class="controls">
+                <select class="field span4" name="queue" id="queue"></select>
+              </div>
+            </div>
+            <div class="control-group">
+              <label class="control-label" for="priority">Priority</label>
+              <div class="controls">
+                <select class="field span1" name="priority" id="priority">
+                  <option>0</option>
+                  <option>1</option>
+                  <option>2</option>
+                  <option>3</option>
+                  <option>4</option>
+                  <option>5</option>
+                  <option>6</option>
+                  <option>7</option>
+                  <option>8</option>
+                  <option>9</option>
+                </select>
+              </div>
+            </div>
+            <fieldset id="dynamic_fields" name="dynamic_fields" />
+          </form>
+        </div>
+        <div>
+          <label id="ajax_error" class="error" style="display: block;"></label>
         </div>
       </div>
+      <div class="modal-footer">
+        <button class="btn cancel_rule" data-dismiss="modal" aria-hidden="true">Cancel</button>
+        <button id="rule_btn" class="btn btn-primary">OK</button>
+      </div>
+    </div>
+
+    <!-- process this modal -->
+    <div id="procthis_modal" class="modal hide fade max_width_modal" tabindex="-1" role="dialog"
+         aria-labelledby="procthis_modal_label" aria-hidden="true" data-backdrop="static"
+         data-keyboard="false">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="procthis_modal_label"></h3>
+      </div>
+      <div class="modal-body">
+        <div class="modal-body-div">
+          <form id="procthis_form" class="form-horizontal">
+            <legend>action parameters</legend>
+            <input type="hidden" id="procthis_workflow_val"/>
+            <input type="hidden" id="procthis_queue_val"/>
+            <input type="hidden" id="procthis_priority_val"/>
+            <input type="hidden" id="procthis_kwargs"/>
+            <div class="control-group">
+              <label class="control-label" for="procthis_name">Tag</label>
+              <div class="controls">
+                <input class="field span4" type="text" id="procthis_name" name="procthis_name" placeholder="e.g. south_napa_EQ">
+              </div>
+            </div>
+            <div class="control-group" id="ctrl_procthis_query_string">
+              <label class="control-label" for="query_string">Condition</label>
+              <div class="controls">
+                <textarea class="field span4" type="textarea" rows="5" id="procthis_query_string" name="query_string"></textarea>
+              </div>
+            </div>
+            <div class="control-group">
+              <label class="control-label" for="workflow">Action</label>
+              <div class="controls">
+                <select class="field span4" name="workflow" id="procthis_workflow"></select>
+              </div>
+            </div>
+            <div class="control-group" id="procthis_queue_group" >
+              <label class="control-label" for="queue">Queue</label>
+              <div class="controls">
+                <select class="field span4" name="queue" id="procthis_queue"></select>
+              </div>
+            </div>
+            <div class="control-group">
+              <label class="control-label" for="priority">Priority</label>
+              <div class="controls">
+                <select class="field span1" name="priority" id="procthis_priority">
+                  <option>0</option>
+                  <option>1</option>
+                  <option>2</option>
+                  <option>3</option>
+                  <option>4</option>
+                  <option>5</option>
+                  <option>6</option>
+                  <option>7</option>
+                  <option>8</option>
+                  <option>9</option>
+                </select>
+              </div>
+            </div>
+            <fieldset id="procthis_dynamic_fields" name="dynamic_fields"/>
+          </form>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn cancel_rule" data-dismiss="modal" aria-hidden="true">Cancel</button>
+        <button id="procthis_btn" class="btn btn-primary">Process Now</button>
+      </div>
+    </div>
+    <!--
+    <div id="export_rules_modal" class="modal hide fade export_rules_modal" tabindex="-1" role="dialog"
+         aria-labelledby="export_rules_modal_label" aria-hidden="true" data-backdrop="static"
+         data-keyboard="false">
+      <div class="modal-body">
+        <div class="modal-body-div">
+            <textarea id="user-rules-download"></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn close_list_rules" data-dismiss="modal" aria-hidden="true">Close</button>
+      </div>
+    </div>
+    <div id="import_rules_modal" class="modal hide fade import_rules_modal" tabindex="-1" role="dialog"
+         aria-labelledby="import_rules_modal_label" aria-hidden="true" data-backdrop="static"
+         data-keyboard="false">
+      <div class="modal-body">
+        <div class="modal-body-div">
+            <textarea id="user-rules-upload"></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn import_list_rules" data-dismiss="modal" aria-hidden="true">Import</button>
+        <button class="btn close_list_rules" data-dismiss="modal" aria-hidden="true">Close</button>
+      </div>
+    </div>
+    -->
+    <!-- list my rules modal -->
+    <div id="list_rules_modal" class="modal hide fade list_rules_modal" tabindex="-1" role="dialog"
+         aria-labelledby="list_rules_modal_label" aria-hidden="true" data-backdrop="static"
+         data-keyboard="false">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="list_rules_modal_label">My Rules</h3>
+      </div>
+      <div class="modal-body list_rules_modal-body">
+        <div class="modal-body-div">
+          <table id="rules_table" cellspacing="0" class="display" width="100%">
+            <caption>
+              These are the rules you have defined.
+            </caption>
+            <thead>
+                <th>Name</th>
+                <th>Condition</th>
+                <th>Action</th>
+                <th>Queue</th>
+                <th>Priority</th>
+                <th>Keyword Args</th>
+                <th>User</th>
+                <th>Status</th>
+                <th>Edit</th>
+                <th>Delete</th>
+                <th>Created</th>
+                <th>Modified</th>
+              </tr>
+            </thead>
+            <tfoot>
+                <th>Name</th>
+                <th>Condition</th>
+                <th>Action</th>
+                <th>Queue</th>
+                <th>Priority</th>
+                <th>Keyword Args</th>
+                <th>User</th>
+                <th>Status</th>
+                <th>Edit</th>
+                <th>Delete</th>
+                <th>Created</th>
+                <th>Modified</th>
+              </tr>
+            </tfoot>
+            <tbody/>
+          </table>
+          <!-- Buttons for add, import, export -->
+          <!--
+          {% if g.user.id == config['OPS_USER'] %}
+              <button class="user-rules-add">Add Rule</button>
+              <button class="user-rules-import">Import Rules</button>
+              <button class="user-rules-export">Export Rules</button>
+          {% endif %}
+          -->
+        </div>
+
+      </div>
+      <div class="modal-footer">
+        <button class="btn close_list_rules" data-dismiss="modal" aria-hidden="true">Close</button>
+      </div>
+    </div>
+
+    <!-- confirm deletion modal -->
+    <div id="confirm_delete_modal" class="modal hide fade max_width_modal" tabindex="-1" role="dialog"
+         aria-labelledby="confirm_delete_modal_label" aria-hidden="true" data-backdrop="static"
+         data-keyboard="false">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="confirm_delete_modal_label">Delete Confirmation</h3>
+      </div>
+      <div class="modal-body">
+        <div class="modal-body-div">
+          <p>Are you sure you want to delete the rule named "<b id="delete_rule_name"></b>"?</p>
+          <input type="hidden" id="delete_rule_id"/>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn cancel_confirm_delete" data-dismiss="modal" aria-hidden="true">No</button>
+        <button id="confirm_delete_btn" class="btn btn-primary confirm_delete">Yes</button>
+      </div>
+    </div>
+
+    <!-- error message modal -->
+    <div id="error_modal" class="modal hide fade error_modal max_width_modal" tabindex="-1" role="dialog"
+         aria-labelledby="error_modal_label" aria-hidden="true" data-backdrop="static"
+         data-keyboard="false">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="error_modal_label">Encountered Error</h3>
+      </div>
+      <div class="modal-body">
+        <div class="modal-body-div"><label id="general_error" class="error" style="display: block;"></label></div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn close_error" data-dismiss="modal" aria-hidden="true">Close</button>
+      </div>
+    </div>
+
+    <!-- result modal -->
+    <div id="result_modal" class="modal hide fade result_modal max_width_modal" tabindex="-1" role="dialog"
+         aria-labelledby="result_modal_label" aria-hidden="true" data-backdrop="static"
+         data-keyboard="false">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="result_modal_label">Processing Results</h3>
+      </div>
+      <div class="modal-body">
+        <div class="modal-body-div"></div>
+        <div>
+          <label id="procthis_ajax_error" class="error" style="display: block;"></label>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn close_error" data-dismiss="modal" aria-hidden="true">Close</button>
+      </div>
+    </div>
+
+    <!-- tou modal -->
+    <div id="tou_modal" class="modal hide fade tou_modal max_width_modal" tabindex="-1" role="dialog"
+         aria-labelledby="tou_modal_label" aria-hidden="true" data-backdrop="static"
+         data-keyboard="false">
+      <div class="modal-header">
+        <h3 id="tou_modal_label">Terms of Use</h3>
+      </div>
+      <div class="modal-body">
+        <div class="modal-body-div"></div>
+        <div>
+          <pre>{{ config.get('TERMS_OF_USE', '') }}</pre>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn close_error" data-dismiss="modal" aria-hidden="true">Close</button>
+      </div>
+    </div>
+
+    <!-- support modal -->
+    <div id="support_modal" class="modal hide fade support_modal max_width_modal" tabindex="-1" role="dialog"
+         aria-labelledby="support_modal_label" aria-hidden="true" data-backdrop="static"
+         data-keyboard="false">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="support_modal_label">Support Center</h3>
+      </div>
+      <div class="modal-body">
+        <div class="modal-body-div"></div>
+        <div>sites
+          <h4>Welcome to the ARIA Support Center.</h4>
+          <p>For immediate support on any issues with ARIA Services, please send an email describing your issue to: <font color="red"><b>{{ config.get('SUPPORT_EMAIL', 'hysds-dev@jpl.nasa.gov') }}</b></font>.</p>
+          <p>Please provide any screenshots that may help us diagnose the issue.</p>
+
+          <p>If you are having trouble with new features, please try force-refreshing the page, clearing your browser cache, or another browser. Please note that, we recommend using firefox or chrome browser as other browsers may offer degraded performance.</p>
+          <!--<p>In the future, this will be you one-stop shop for submitting and monitoring support cases, exploring help documentation and checking the health of ARIA services.</p>-->
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn close_error" data-dismiss="modal" aria-hidden="true">Close</button>
+      </div>
+    </div>
+
+    {% with messages = get_flashed_messages(category_filter=["toc"]) %}
+    {% if messages %}
+    <script>
+      window.setTimeout( function() {
+        $('#tou_modal').modal('show').css({'left': set_left_margin});
+      }, 1000);
+    </script>
+    {% endif %}
+    {% endwith %}
+
+  </div>
+
+</div>
 			<!-- END CONTENT -->
 			<!-- START FOOTER: "DEFAULT" -->
 
