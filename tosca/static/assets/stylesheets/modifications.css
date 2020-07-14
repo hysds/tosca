@@ -43,3 +43,17 @@ body {
 #page>.container {
     background: white;
 }
+
+.article_title {
+    display: flex;
+    flex-direction: column;
+}
+
+.article_title h2 {
+    font-size: large;
+    color: darkgray;
+}
+
+form h3 {
+    font-size: x-large;
+}
