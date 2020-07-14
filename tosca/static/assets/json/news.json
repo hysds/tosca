@@ -9,12 +9,12 @@
       "theme": "General",
       "images": {
         "thumb": {
-          "src": "/index-style/jpl-branding/assets/images/content/tmp/news/starshade_poster.jpg",
+          "src": "/static/assets/images/content/tmp/news/starshade_poster.jpg",
           "caption": "This animation shows the prototype starshade, a giant structure designed to block the glare of stars so that future space telescopes can take pictures of planets.",
           "alt": "starshade"
         },
         "main": {
-          "src": "/index-style/jpl-branding/assets/images/content/tmp/news/starshade.jpg",
+          "src": "/static/assets/images/content/tmp/news/starshade.jpg",
           "caption": "This animation shows the prototype starshade, a giant structure designed to block the glare of stars so that future space telescopes can take pictures of planets.",
           "alt": "starshade"
         }
@@ -30,7 +30,7 @@
       "theme": "General",
       "images": {
         "thumb": {
-          "src": "/index-style/jpl-branding/assets/images/content/tmp/home/asteroids/a12.jpeg",
+          "src": "/static/assets/images/content/tmp/home/asteroids/a12.jpeg",
           "caption": "Retiring JPL Deputy Director Gen. Eugene Tattini Image credit: NASA/JPL-Caltech",
           "alt": "asteroid"
         }
@@ -47,7 +47,7 @@
       "theme": "Solar System",
       "images": {
         "thumb": {
-          "src": "/index-style/jpl-branding/assets/images/content/tmp/home/asteroids/a1.jpeg",
+          "src": "/static/assets/images/content/tmp/home/asteroids/a1.jpeg",
           "caption": "Retiring JPL Deputy Director Gen. Eugene Tattini Image credit: NASA/JPL-Caltech",
           "alt": "asteroid"
         }
@@ -64,7 +64,7 @@
       "theme": "Technology",
       "images": {
         "thumb": {
-          "src": "/index-style/jpl-branding/assets/images/content/tmp/home/asteroids/a2.jpeg",
+          "src": "/static/assets/images/content/tmp/home/asteroids/a2.jpeg",
           "caption": "Retiring JPL Deputy Director Gen. Eugene Tattini Image credit: NASA/JPL-Caltech",
           "alt": "asteroid"
         }
@@ -81,7 +81,7 @@
       "theme": "General",
       "images": {
         "thumb": {
-          "src": "/index-style/jpl-branding/assets/images/content/tmp/home/asteroids/a3.jpeg",
+          "src": "/static/assets/images/content/tmp/home/asteroids/a3.jpeg",
           "caption": "Retiring JPL Deputy Director Gen. Eugene Tattini Image credit: NASA/JPL-Caltech",
           "alt": "asteroid"
         }
@@ -98,7 +98,7 @@
       "theme": "Solar System",
       "images": {
         "thumb": {
-          "src": "/index-style/jpl-branding/assets/images/content/tmp/home/asteroids/a4.jpeg",
+          "src": "/static/assets/images/content/tmp/home/asteroids/a4.jpeg",
           "caption": "Retiring JPL Deputy Director Gen. Eugene Tattini Image credit: NASA/JPL-Caltech",
           "alt": "asteroid"
         }
@@ -115,7 +115,7 @@
       "theme": "Technology",
       "images": {
         "thumb": {
-          "src": "/index-style/jpl-branding/assets/images/content/tmp/home/asteroids/a5.jpeg",
+          "src": "/static/assets/images/content/tmp/home/asteroids/a5.jpeg",
           "caption": "Retiring JPL Deputy Director Gen. Eugene Tattini Image credit: NASA/JPL-Caltech",
           "alt": "asteroid"
         }
@@ -131,12 +131,12 @@
       "theme": "General",
       "images": {
         "thumb": {
-          "src": "/index-style/jpl-branding/assets/images/content/tmp/news/starshade_poster.jpg",
+          "src": "/static/assets/images/content/tmp/news/starshade_poster.jpg",
           "caption": "This animation shows the prototype starshade, a giant structure designed to block the glare of stars so that future space telescopes can take pictures of planets.",
           "alt": "starshade"
         },
         "main": {
-          "src": "/index-style/jpl-branding/assets/images/content/tmp/news/starshade.jpg",
+          "src": "/static/assets/images/content/tmp/news/starshade.jpg",
           "caption": "This animation shows the prototype starshade, a giant structure designed to block the glare of stars so that future space telescopes can take pictures of planets.",
           "alt": "starshade"
         }
@@ -152,7 +152,7 @@
       "theme": "General",
       "images": {
         "thumb": {
-          "src": "/index-style/jpl-branding/assets/images/content/tmp/home/asteroids/a6.jpeg",
+          "src": "/static/assets/images/content/tmp/home/asteroids/a6.jpeg",
           "caption": "Retiring JPL Deputy Director Gen. Eugene Tattini Image credit: NASA/JPL-Caltech",
           "alt": "asteroid"
         }
@@ -169,7 +169,7 @@
       "theme": "Solar System",
       "images": {
         "thumb": {
-          "src": "/index-style/jpl-branding/assets/images/content/tmp/home/asteroids/a7.jpeg",
+          "src": "/static/assets/images/content/tmp/home/asteroids/a7.jpeg",
           "caption": "Retiring JPL Deputy Director Gen. Eugene Tattini Image credit: NASA/JPL-Caltech",
           "alt": "asteroid"
         }
@@ -186,7 +186,7 @@
       "theme": "Technology",
       "images": {
         "thumb": {
-          "src": "/index-style/jpl-branding/assets/images/content/tmp/home/asteroids/a8.jpeg",
+          "src": "/static/assets/images/content/tmp/home/asteroids/a8.jpeg",
           "caption": "Retiring JPL Deputy Director Gen. Eugene Tattini Image credit: NASA/JPL-Caltech",
           "alt": "asteroid"
         }
@@ -203,7 +203,7 @@
       "theme": "General",
       "images": {
         "thumb": {
-          "src": "/index-style/jpl-branding/assets/images/content/tmp/home/asteroids/a9.jpeg",
+          "src": "/static/assets/images/content/tmp/home/asteroids/a9.jpeg",
           "caption": "Retiring JPL Deputy Director Gen. Eugene Tattini Image credit: NASA/JPL-Caltech",
           "alt": "asteroid"
         }
@@ -220,7 +220,7 @@
       "theme": "Solar System",
       "images": {
         "thumb": {
-          "src": "/index-style/jpl-branding/assets/images/content/tmp/home/asteroids/a10.jpeg",
+          "src": "/static/assets/images/content/tmp/home/asteroids/a10.jpeg",
           "caption": "Retiring JPL Deputy Director Gen. Eugene Tattini Image credit: NASA/JPL-Caltech",
           "alt": "asteroid"
         }
@@ -237,7 +237,7 @@
       "theme": "Technology",
       "images": {
         "thumb": {
-          "src": "/index-style/jpl-branding/assets/images/content/tmp/home/asteroids/a11.jpeg",
+          "src": "/static/assets/images/content/tmp/home/asteroids/a11.jpeg",
           "caption": "Retiring JPL Deputy Director Gen. Eugene Tattini Image credit: NASA/JPL-Caltech",
           "alt": "asteroid"
         }
@@ -253,12 +253,12 @@
       "theme": "General",
       "images": {
         "thumb": {
-          "src": "/index-style/jpl-branding/assets/images/content/tmp/news/starshade_poster.jpg",
+          "src": "/static/assets/images/content/tmp/news/starshade_poster.jpg",
           "caption": "This animation shows the prototype starshade, a giant structure designed to block the glare of stars so that future space telescopes can take pictures of planets.",
           "alt": "starshade"
         },
         "main": {
-          "src": "/index-style/jpl-branding/assets/images/content/tmp/news/starshade.jpg",
+          "src": "/static/assets/images/content/tmp/news/starshade.jpg",
           "caption": "This animation shows the prototype starshade, a giant structure designed to block the glare of stars so that future space telescopes can take pictures of planets.",
           "alt": "starshade"
         }
@@ -274,7 +274,7 @@
       "theme": "General",
       "images": {
         "thumb": {
-          "src": "/index-style/jpl-branding/assets/images/content/tmp/home/asteroids/a11.jpeg",
+          "src": "/static/assets/images/content/tmp/home/asteroids/a11.jpeg",
           "caption": "Retiring JPL Deputy Director Gen. Eugene Tattini Image credit: NASA/JPL-Caltech",
           "alt": "asteroid"
         }
@@ -291,7 +291,7 @@
       "theme": "Solar System",
       "images": {
         "thumb": {
-          "src": "/index-style/jpl-branding/assets/images/content/tmp/home/asteroids/a1.jpeg",
+          "src": "/static/assets/images/content/tmp/home/asteroids/a1.jpeg",
           "caption": "Retiring JPL Deputy Director Gen. Eugene Tattini Image credit: NASA/JPL-Caltech",
           "alt": "asteroid"
         }
@@ -308,7 +308,7 @@
       "theme": "Technology",
       "images": {
         "thumb": {
-          "src": "/index-style/jpl-branding/assets/images/content/tmp/home/asteroids/a2.jpeg",
+          "src": "/static/assets/images/content/tmp/home/asteroids/a2.jpeg",
           "caption": "Retiring JPL Deputy Director Gen. Eugene Tattini Image credit: NASA/JPL-Caltech",
           "alt": "asteroid"
         }
@@ -325,7 +325,7 @@
       "theme": "General",
       "images": {
         "thumb": {
-          "src": "/index-style/jpl-branding/assets/images/content/tmp/home/asteroids/a3.jpeg",
+          "src": "/static/assets/images/content/tmp/home/asteroids/a3.jpeg",
           "caption": "Retiring JPL Deputy Director Gen. Eugene Tattini Image credit: NASA/JPL-Caltech",
           "alt": "asteroid"
         }
@@ -342,7 +342,7 @@
       "theme": "Solar System",
       "images": {
         "thumb": {
-          "src": "/index-style/jpl-branding/assets/images/content/tmp/home/asteroids/a4.jpeg",
+          "src": "/static/assets/images/content/tmp/home/asteroids/a4.jpeg",
           "caption": "Retiring JPL Deputy Director Gen. Eugene Tattini Image credit: NASA/JPL-Caltech",
           "alt": "asteroid"
         }
@@ -359,7 +359,7 @@
       "theme": "Technology",
       "images": {
         "thumb": {
-          "src": "/index-style/jpl-branding/assets/images/content/tmp/home/asteroids/a5.jpeg",
+          "src": "/static/assets/images/content/tmp/home/asteroids/a5.jpeg",
           "caption": "Retiring JPL Deputy Director Gen. Eugene Tattini Image credit: NASA/JPL-Caltech",
           "alt": "asteroid"
         }
@@ -375,12 +375,12 @@
       "theme": "General",
       "images": {
         "thumb": {
-          "src": "/index-style/jpl-branding/assets/images/content/tmp/news/starshade_poster.jpg",
+          "src": "/static/assets/images/content/tmp/news/starshade_poster.jpg",
           "caption": "This animation shows the prototype starshade, a giant structure designed to block the glare of stars so that future space telescopes can take pictures of planets.",
           "alt": "starshade"
         },
         "main": {
-          "src": "/index-style/jpl-branding/assets/images/content/tmp/news/starshade.jpg",
+          "src": "/static/assets/images/content/tmp/news/starshade.jpg",
           "caption": "This animation shows the prototype starshade, a giant structure designed to block the glare of stars so that future space telescopes can take pictures of planets.",
           "alt": "starshade"
         }
@@ -396,7 +396,7 @@
       "theme": "General",
       "images": {
         "thumb": {
-          "src": "/index-style/jpl-branding/assets/images/content/tmp/home/asteroids/a6.jpeg",
+          "src": "/static/assets/images/content/tmp/home/asteroids/a6.jpeg",
           "caption": "Retiring JPL Deputy Director Gen. Eugene Tattini Image credit: NASA/JPL-Caltech",
           "alt": "asteroid"
         }
@@ -413,7 +413,7 @@
       "theme": "Solar System",
       "images": {
         "thumb": {
-          "src": "/index-style/jpl-branding/assets/images/content/tmp/home/asteroids/a7.jpeg",
+          "src": "/static/assets/images/content/tmp/home/asteroids/a7.jpeg",
           "caption": "Retiring JPL Deputy Director Gen. Eugene Tattini Image credit: NASA/JPL-Caltech",
           "alt": "asteroid"
         }
@@ -430,7 +430,7 @@
       "theme": "Technology",
       "images": {
         "thumb": {
-          "src": "/index-style/jpl-branding/assets/images/content/tmp/home/asteroids/a8.jpeg",
+          "src": "/static/assets/images/content/tmp/home/asteroids/a8.jpeg",
           "caption": "Retiring JPL Deputy Director Gen. Eugene Tattini Image credit: NASA/JPL-Caltech",
           "alt": "asteroid"
         }
@@ -447,7 +447,7 @@
       "theme": "General",
       "images": {
         "thumb": {
-          "src": "/index-style/jpl-branding/assets/images/content/tmp/home/asteroids/a9.jpeg",
+          "src": "/static/assets/images/content/tmp/home/asteroids/a9.jpeg",
           "caption": "Retiring JPL Deputy Director Gen. Eugene Tattini Image credit: NASA/JPL-Caltech",
           "alt": "asteroid"
         }
@@ -464,7 +464,7 @@
       "theme": "Solar System",
       "images": {
         "thumb": {
-          "src": "/index-style/jpl-branding/assets/images/content/tmp/home/asteroids/a10.jpeg",
+          "src": "/static/assets/images/content/tmp/home/asteroids/a10.jpeg",
           "caption": "Retiring JPL Deputy Director Gen. Eugene Tattini Image credit: NASA/JPL-Caltech",
           "alt": "asteroid"
         }

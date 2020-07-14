@@ -6,7 +6,7 @@
       "link": "/missions/detail.html",
       "images": {
         "thumb": {
-          "src": "/index-style/jpl-branding/assets/images/content/tmp/home/acrim.jpg",
+          "src": "/static/assets/images/content/tmp/home/acrim.jpg",
           "caption": "NASA/JPL-Caltech",
           "alt": "cassini"
         }
@@ -26,7 +26,7 @@
       "link": "/m/missions/current_mission.html",
       "images": {
         "thumb": {
-          "src": "/index-style/jpl-branding/assets/images/content/tmp/home/acrim.jpg",
+          "src": "/static/assets/images/content/tmp/home/acrim.jpg",
           "caption": "Retiring JPL Deputy Director Gen. Eugene Tattini Image credit: NASA/JPL-Caltech",
           "alt": "acrimsat"
         }
@@ -46,7 +46,7 @@
       "link": "/missions/detail.html",
       "images": {
         "thumb": {
-          "src": "/index-style/jpl-branding/assets/images/content/tmp/home/cloudsat.jpg",
+          "src": "/static/assets/images/content/tmp/home/cloudsat.jpg",
           "caption": "Image credit: NASA/JPL-Caltech",
           "alt": "cloudsat"
         }
@@ -68,7 +68,7 @@
       "link": "/missions/detail.html",
       "images": {
         "thumb": {
-          "src": "/index-style/jpl-branding/assets/images/content/tmp/home/grace.jpg",
+          "src": "/static/assets/images/content/tmp/home/grace.jpg",
           "alt": "grace"
         }
       },
@@ -89,7 +89,7 @@
       "link": "/missions/detail.html",
       "images": {
         "thumb": {
-          "src": "/index-style/jpl-branding/assets/images/content/tmp/home/desdyni.jpg",
+          "src": "/static/assets/images/content/tmp/home/desdyni.jpg",
           "alt": "desdyn"
         }
       },
@@ -109,7 +109,7 @@
       "link": "/missions/detail.html",
       "images": {
         "thumb": {
-          "src": "/index-style/jpl-branding/assets/images/content/tmp/home/asteroid.jpg",
+          "src": "/static/assets/images/content/tmp/home/asteroid.jpg",
           "caption": "Retiring JPL Deputy Director Gen. Eugene Tattini Image credit: NASA/JPL-Caltech",
           "alt": "asteroid"
         }
@@ -129,7 +129,7 @@
       "link": "/missions/detail.html",
       "images": {
         "thumb": {
-          "src": "/index-style/jpl-branding/assets/images/content/tmp/home/asteroid.jpg",
+          "src": "/static/assets/images/content/tmp/home/asteroid.jpg",
           "caption": "Retiring JPL Deputy Director Gen. Eugene Tattini Image credit: NASA/JPL-Caltech",
           "alt": "asteroid"
         }
@@ -146,7 +146,7 @@
       "link": "/missions/detail.html",
       "images": {
         "thumb": {
-          "src": "/index-style/jpl-branding/assets/images/content/tmp/home/asteroid.jpg",
+          "src": "/static/assets/images/content/tmp/home/asteroid.jpg",
           "caption": "Retiring JPL Deputy Director Gen. Eugene Tattini Image credit: NASA/JPL-Caltech",
           "alt": "asteroid"
         }
