@@ -1,0 +1,59 @@
+
+.site_header_area {
+	background: black;
+}
+
+.site_header {
+	display: flex;
+	text-align: center;
+	-webkit-box-align: center;
+	align-items: center;
+	-webkit-box-pack: center;
+	justify-content: center;
+}
+
+@media (max-width: 950px) {
+	.site_header {
+		justify-content: end; } }
+
+.brand_area {
+	position: absolute;
+	left: 10px;
+}
+
+.site_logo_container.text_logo .site_logo{
+	font-size: 2.1rem;
+	color: white;
+	font-weight: 700;
+	font-family: Helvetica,Arial,sans-serif;
+	padding-right: 10px;
+
+}
+
+@media (max-width: 650px) {
+	.site_logo_container.text_logo .site_logo {
+		font-size: 1.3rem;
+	}
+}
+
+body {
+	background: black;
+}
+
+#page>.container {
+    background: white;
+}
+
+.article_title {
+    display: flex;
+    flex-direction: column;
+}
+
+.article_title h2 {
+    font-size: large;
+    color: darkgray;
+}
+
+form h3 {
+    font-size: x-large;
+}
