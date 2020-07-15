@@ -4,8 +4,8 @@
       "id": "20110328",
       "link": "/videos/detail.html", "fancybox_link": "/videos/minimal/detail.html",
       "images": {
-        "thumb": { "src": "/assets/images/content/tmp/home/asteroid.jpg", "alt": "asteroid" },
-        "feature": { "src": "/assets/images/content/tmp/images/cloudy-jupiter-large.jpg", "alt": "jupiter" }
+        "thumb": { "src": "/static/assets/images/content/tmp/home/asteroid.jpg", "alt": "asteroid" },
+        "feature": { "src": "/static/assets/images/content/tmp/images/cloudy-jupiter-large.jpg", "alt": "jupiter" }
 
       },
       "videos": [
@@ -27,8 +27,8 @@
     {
       "link": "/videos/detail1.html", "fancybox_link": "/videos/minimal/detail1.html",
       "images": {
-        "thumb": { "src": "/assets/images/content/tmp/home/asteroid.jpg", "alt": "asteroid" },
-        "feature": { "src": "/assets/images/content/tmp/images/starry-neb.jpg", "alt": "jupiter" }
+        "thumb": { "src": "/static/assets/images/content/tmp/home/asteroid.jpg", "alt": "asteroid" },
+        "feature": { "src": "/static/assets/images/content/tmp/images/starry-neb.jpg", "alt": "jupiter" }
 
       },
       "videos": [
@@ -46,7 +46,7 @@
     },{
       "link": "/videos/detail2.html", "fancybox_link": "/videos/minimal/detail2.html",
       "images": {
-        "thumb": { "src": "/assets/images/content/tmp/home/asteroid.jpg", "alt": "asteroid" }
+        "thumb": { "src": "/static/assets/images/content/tmp/home/asteroid.jpg", "alt": "asteroid" }
 
       },
       "src": "local",
@@ -66,7 +66,7 @@
     },{
       "link": "/videos/detail.html", "fancybox_link": "/videos/minimal/detail.html",
       "images": {
-        "thumb": { "src": "/assets/images/content/tmp/home/asteroid.jpg", "alt": "asteroid" }
+        "thumb": { "src": "/static/assets/images/content/tmp/home/asteroid.jpg", "alt": "asteroid" }
 
       },
       "src": "local",
@@ -86,7 +86,7 @@
     },{
       "link": "/videos/detail.html", "fancybox_link": "/videos/minimal/detail.html",
       "images": {
-        "thumb": { "src": "/assets/images/content/tmp/home/asteroid.jpg", "alt": "asteroid" }
+        "thumb": { "src": "/static/assets/images/content/tmp/home/asteroid.jpg", "alt": "asteroid" }
 
       },
       "src": "local",
@@ -106,7 +106,7 @@
     },{
       "link": "/videos/detail.html", "fancybox_link": "/videos/minimal/detail.html",
       "images": {
-        "thumb": { "src": "/assets/images/content/tmp/home/asteroid.jpg", "alt": "asteroid" }
+        "thumb": { "src": "/static/assets/images/content/tmp/home/asteroid.jpg", "alt": "asteroid" }
 
       },
       "src": "local",
@@ -126,7 +126,7 @@
     },{
       "link": "/videos/detail.html", "fancybox_link": "/videos/minimal/detail.html",
       "images": {
-        "thumb": { "src": "/assets/images/content/tmp/home/asteroid.jpg", "alt": "asteroid" }
+        "thumb": { "src": "/static/assets/images/content/tmp/home/asteroid.jpg", "alt": "asteroid" }
 
       },
       "src": "local",
@@ -145,8 +145,8 @@
     },{
       "link": "/videos/detail.html", "fancybox_link": "/videos/minimal/detail.html",
       "images": {
-        "thumb": { "src": "/assets/images/content/tmp/home/asteroid.jpg", "alt": "asteroid" },
-        "feature": { "src": "/assets/images/content/tmp/images/cloudy-jupiter-large.jpg", "alt": "jupiter" }
+        "thumb": { "src": "/static/assets/images/content/tmp/home/asteroid.jpg", "alt": "asteroid" },
+        "feature": { "src": "/static/assets/images/content/tmp/images/cloudy-jupiter-large.jpg", "alt": "jupiter" }
 
       },
       "videos": [
@@ -166,8 +166,8 @@
     {
       "link": "/videos/detail.html", "fancybox_link": "/videos/minimal/detail.html",
       "images": {
-        "thumb": { "src": "/assets/images/content/tmp/home/asteroid.jpg", "alt": "asteroid" },
-        "feature": { "src": "/assets/images/content/tmp/images/starry-neb.jpg", "alt": "jupiter" }
+        "thumb": { "src": "/static/assets/images/content/tmp/home/asteroid.jpg", "alt": "asteroid" },
+        "feature": { "src": "/static/assets/images/content/tmp/images/starry-neb.jpg", "alt": "jupiter" }
 
       },
       "videos": [
@@ -185,7 +185,7 @@
     },{
       "link": "/videos/detail.html", "fancybox_link": "/videos/minimal/detail.html",
       "images": {
-        "thumb": { "src": "/assets/images/content/tmp/home/asteroid.jpg", "alt": "asteroid" }
+        "thumb": { "src": "/static/assets/images/content/tmp/home/asteroid.jpg", "alt": "asteroid" }
 
       },
       "src": "local",
@@ -205,7 +205,7 @@
     },{
       "link": "/videos/detail.html", "fancybox_link": "/videos/minimal/detail.html",
       "images": {
-        "thumb": { "src": "/assets/images/content/tmp/home/asteroid.jpg", "alt": "asteroid" }
+        "thumb": { "src": "/static/assets/images/content/tmp/home/asteroid.jpg", "alt": "asteroid" }
 
       },
       "src": "local",
@@ -225,7 +225,7 @@
     },{
       "link": "/videos/detail.html", "fancybox_link": "/videos/minimal/detail.html",
       "images": {
-        "thumb": { "src": "/assets/images/content/tmp/home/asteroid.jpg", "alt": "asteroid" }
+        "thumb": { "src": "/static/assets/images/content/tmp/home/asteroid.jpg", "alt": "asteroid" }
 
       },
       "src": "local",
@@ -245,7 +245,7 @@
     },{
       "link": "/videos/detail.html", "fancybox_link": "/videos/minimal/detail.html",
       "images": {
-        "thumb": { "src": "/assets/images/content/tmp/home/asteroid.jpg", "alt": "asteroid" }
+        "thumb": { "src": "/static/assets/images/content/tmp/home/asteroid.jpg", "alt": "asteroid" }
 
       },
       "src": "local",
@@ -265,7 +265,7 @@
     },{
       "link": "/videos/detail.html", "fancybox_link": "/videos/minimal/detail.html",
       "images": {
-        "thumb": { "src": "/assets/images/content/tmp/home/asteroid.jpg", "alt": "asteroid" }
+        "thumb": { "src": "/static/assets/images/content/tmp/home/asteroid.jpg", "alt": "asteroid" }
 
       },
       "src": "local",
@@ -284,8 +284,8 @@
     },{
       "link": "/videos/detail.html", "fancybox_link": "/videos/minimal/detail.html",
       "images": {
-        "thumb": { "src": "/assets/images/content/tmp/home/asteroid.jpg", "alt": "asteroid" },
-        "feature": { "src": "/assets/images/content/tmp/images/cloudy-jupiter-large.jpg", "alt": "jupiter" }
+        "thumb": { "src": "/static/assets/images/content/tmp/home/asteroid.jpg", "alt": "asteroid" },
+        "feature": { "src": "/static/assets/images/content/tmp/images/cloudy-jupiter-large.jpg", "alt": "jupiter" }
 
       },
       "videos": [
@@ -305,8 +305,8 @@
     {
       "link": "/videos/detail.html", "fancybox_link": "/videos/minimal/detail.html",
       "images": {
-        "thumb": { "src": "/assets/images/content/tmp/home/asteroid.jpg", "alt": "asteroid" },
-        "feature": { "src": "/assets/images/content/tmp/images/starry-neb.jpg", "alt": "jupiter" }
+        "thumb": { "src": "/static/assets/images/content/tmp/home/asteroid.jpg", "alt": "asteroid" },
+        "feature": { "src": "/static/assets/images/content/tmp/images/starry-neb.jpg", "alt": "jupiter" }
 
       },
       "videos": [
@@ -324,7 +324,7 @@
     },{
       "link": "/videos/detail.html", "fancybox_link": "/videos/minimal/detail.html",
       "images": {
-        "thumb": { "src": "/assets/images/content/tmp/home/asteroid.jpg", "alt": "asteroid" }
+        "thumb": { "src": "/static/assets/images/content/tmp/home/asteroid.jpg", "alt": "asteroid" }
 
       },
       "src": "local",
@@ -344,7 +344,7 @@
     },{
       "link": "/videos/detail.html", "fancybox_link": "/videos/minimal/detail.html",
       "images": {
-        "thumb": { "src": "/assets/images/content/tmp/home/asteroid.jpg", "alt": "asteroid" }
+        "thumb": { "src": "/static/assets/images/content/tmp/home/asteroid.jpg", "alt": "asteroid" }
 
       },
       "src": "local",
@@ -364,7 +364,7 @@
     },{
       "link": "/videos/detail.html", "fancybox_link": "/videos/minimal/detail.html",
       "images": {
-        "thumb": { "src": "/assets/images/content/tmp/home/asteroid.jpg", "alt": "asteroid" }
+        "thumb": { "src": "/static/assets/images/content/tmp/home/asteroid.jpg", "alt": "asteroid" }
 
       },
       "src": "local",
@@ -384,7 +384,7 @@
     },{
       "link": "/videos/detail.html", "fancybox_link": "/videos/minimal/detail.html",
       "images": {
-        "thumb": { "src": "/assets/images/content/tmp/home/asteroid.jpg", "alt": "asteroid" }
+        "thumb": { "src": "/static/assets/images/content/tmp/home/asteroid.jpg", "alt": "asteroid" }
 
       },
       "src": "local",
@@ -404,7 +404,7 @@
     },{
       "link": "/videos/detail.html", "fancybox_link": "/videos/minimal/detail.html",
       "images": {
-        "thumb": { "src": "/assets/images/content/tmp/home/asteroid.jpg", "alt": "asteroid" }
+        "thumb": { "src": "/static/assets/images/content/tmp/home/asteroid.jpg", "alt": "asteroid" }
 
       },
       "src": "local",
@@ -423,8 +423,8 @@
     },{
       "link": "/videos/detail.html", "fancybox_link": "/videos/minimal/detail.html",
       "images": {
-        "thumb": { "src": "/assets/images/content/tmp/home/asteroid.jpg", "alt": "asteroid" },
-        "feature": { "src": "/assets/images/content/tmp/images/cloudy-jupiter-large.jpg", "alt": "jupiter" }
+        "thumb": { "src": "/static/assets/images/content/tmp/home/asteroid.jpg", "alt": "asteroid" },
+        "feature": { "src": "/static/assets/images/content/tmp/images/cloudy-jupiter-large.jpg", "alt": "jupiter" }
 
       },
       "videos": [
@@ -444,8 +444,8 @@
     {
       "link": "/videos/detail.html", "fancybox_link": "/videos/minimal/detail.html",
       "images": {
-        "thumb": { "src": "/assets/images/content/tmp/home/asteroid.jpg", "alt": "asteroid" },
-        "feature": { "src": "/assets/images/content/tmp/images/starry-neb.jpg", "alt": "jupiter" }
+        "thumb": { "src": "/static/assets/images/content/tmp/home/asteroid.jpg", "alt": "asteroid" },
+        "feature": { "src": "/static/assets/images/content/tmp/images/starry-neb.jpg", "alt": "jupiter" }
 
       },
       "videos": [
@@ -463,7 +463,7 @@
     },{
       "link": "/videos/detail.html", "fancybox_link": "/videos/minimal/detail.html",
       "images": {
-        "thumb": { "src": "/assets/images/content/tmp/home/asteroid.jpg", "alt": "asteroid" }
+        "thumb": { "src": "/static/assets/images/content/tmp/home/asteroid.jpg", "alt": "asteroid" }
 
       },
       "src": "local",
@@ -483,7 +483,7 @@
     },{
       "link": "/videos/detail.html", "fancybox_link": "/videos/minimal/detail.html",
       "images": {
-        "thumb": { "src": "/assets/images/content/tmp/home/asteroid.jpg", "alt": "asteroid" }
+        "thumb": { "src": "/static/assets/images/content/tmp/home/asteroid.jpg", "alt": "asteroid" }
 
       },
       "src": "local",
@@ -503,7 +503,7 @@
     },{
       "link": "/videos/detail.html", "fancybox_link": "/videos/minimal/detail.html",
       "images": {
-        "thumb": { "src": "/assets/images/content/tmp/home/asteroid.jpg", "alt": "asteroid" }
+        "thumb": { "src": "/static/assets/images/content/tmp/home/asteroid.jpg", "alt": "asteroid" }
 
       },
       "src": "local",
@@ -523,7 +523,7 @@
     },{
       "link": "/videos/detail.html", "fancybox_link": "/videos/minimal/detail.html",
       "images": {
-        "thumb": { "src": "/assets/images/content/tmp/home/asteroid.jpg", "alt": "asteroid" }
+        "thumb": { "src": "/static/assets/images/content/tmp/home/asteroid.jpg", "alt": "asteroid" }
 
       },
       "src": "local",
@@ -543,7 +543,7 @@
     },{
       "link": "/videos/detail.html", "fancybox_link": "/videos/minimal/detail.html",
       "images": {
-        "thumb": { "src": "/assets/images/content/tmp/home/asteroid.jpg", "alt": "asteroid" }
+        "thumb": { "src": "/static/assets/images/content/tmp/home/asteroid.jpg", "alt": "asteroid" }
 
       },
       "src": "local",
@@ -562,7 +562,7 @@
     },{
       "link": "/videos/detail.html", "fancybox_link": "/videos/minimal/detail.html",
       "images": {
-        "thumb": { "src": "/assets/images/content/tmp/home/asteroid.jpg", "alt": "asteroid" }
+        "thumb": { "src": "/static/assets/images/content/tmp/home/asteroid.jpg", "alt": "asteroid" }
 
       },
       "src": "local",
@@ -582,7 +582,7 @@
     },{
       "link": "/videos/detail.html", "fancybox_link": "/videos/minimal/detail.html",
       "images": {
-        "thumb": { "src": "/assets/images/content/tmp/home/asteroid.jpg", "alt": "asteroid" }
+        "thumb": { "src": "/static/assets/images/content/tmp/home/asteroid.jpg", "alt": "asteroid" }
 
       },
       "src": "local",

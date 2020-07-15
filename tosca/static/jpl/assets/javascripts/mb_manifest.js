@@ -746,7 +746,7 @@ var site_header = {
   
   init: function () {
     site_header.initUI();
-    site_header.initStickyHeader();
+    // site_header.initStickyHeader();
   },
   
   initUI: function () {
