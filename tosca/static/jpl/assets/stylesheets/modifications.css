@@ -12,7 +12,7 @@
 	justify-content: center;
 }
 
-@media (max-width: 520px) {
+@media (max-width: 1200px) {
 	.site_header {
 		justify-content: end; } }
 
@@ -30,7 +30,7 @@
 
 }
 
-@media (max-width: 650px) {
+@media (max-width: 769px) {
 	.site_logo_container.text_logo .site_logo {
 		font-size: 1.3rem;
 	}
