@@ -24,15 +24,31 @@ def query(dataset=None):
     # get callback, source
     callback = request.args.get('callback')
     source = request.args.get('source')
+
+    def respond(payload, status=200):
+        """Return JSONP when a callback was requested (legacy mapview clients),
+        otherwise plain JSON. JSONP responses must be HTTP 200 so the browser
+        executes the script and the caller sees the error payload."""
+
+        if callback:
+            return Response('%s(%s)' % (callback, json.dumps(payload)),
+                            mimetype="application/javascript")
+        return jsonify(payload), status
+
     if dataset is None:
-        return jsonify({
+        return respond({
             'success': False,
             'message': "Dataset not specified."
-        }), 500
+        }, 500)
 
     # query
-    result = query_es(dataset, source)
+    try:
+        result = query_es(dataset, source)
+    except Exception as e:
+        app.logger.exception("Failed to query ES for FacetView.")
+        return respond({
+            'success': False,
+            'message': "Failed to query Elasticsearch: %s" % str(e)
+        }, 502)
 
-    # return JSONP
-    return Response('%s(%s)' % (callback, json.dumps(result)),
-                    mimetype="application/javascript")
+    return respond(result)

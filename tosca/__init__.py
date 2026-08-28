@@ -6,7 +6,7 @@ from future import standard_library
 standard_library.install_aliases()
 
 import os
-from flask import Flask
+from flask import Flask, jsonify, redirect, request, url_for
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask_debugtoolbar import DebugToolbarExtension
@@ -90,6 +90,37 @@ debug_toolbar = DebugToolbarExtension(app)
 lm = LoginManager()
 lm.init_app(app)
 lm.login_view = 'views/main.login'
+
+
+def wants_json_response():
+    """Return True if the client expects a machine-readable response instead of
+    an HTML page, i.e. a JSONP call, an XHR, or an Accept header that prefers
+    JSON. Browser navigations still get the usual login redirect."""
+
+    if request.args.get('callback'):
+        return True
+    if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+        return True
+    accept = request.accept_mimetypes
+    return accept.accept_json and not accept.accept_html
+
+
+@lm.unauthorized_handler
+def unauthorized():
+    """Answer unauthenticated API calls with a 401 JSON body so the caller can
+    detect an expired session. Without this, flask_login redirects to the HTML
+    login page and FacetView searches fail silently, leaving stale results on
+    the page until a full browser reload."""
+
+    if wants_json_response():
+        return jsonify({
+            'success': False,
+            'authenticated': False,
+            'message': "Session expired. Please log in again.",
+            'login_url': url_for('views/main.login',
+                                 next=request.headers.get('Referer') or url_for('views/main.index')),
+        }), 401
+    return redirect(url_for('views/main.login', next=request.url))
 
 # initializing connection to GRQ's Elasticsearch
 grq_es = ElasticsearchUtility(app.config['ES_URL'], app.logger)
