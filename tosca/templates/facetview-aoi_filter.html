@@ -191,6 +191,9 @@ jQuery(document).ready(function($) {
   $('.facet-view-simple').facetview({
     search_url: "{{ url_for('services/query.query', dataset=config['ES_INDEX']) }}?",
     search_index: 'elasticsearch',
+    // json (not jsonp) so failed searches surface instead of silently leaving
+    // the previous result set on the page
+    datatype: 'json',
     facets: [
         //{'field':'metadata.priority', 'display': 'product priority'},
         //{'field':'metadata.context.job_priority', 'display': 'job priority'},
