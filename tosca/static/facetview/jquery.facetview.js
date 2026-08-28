@@ -838,8 +838,11 @@ search box - the end user will not know they are happening.
                 var href = $(this).attr("href");
             }
             var relclean = rel.replace(/\./gi,'_').replace(/\:/gi,'_');
-            // Do nothing if element already exists.
-            if( $('a.facetview_filterselected[href="'+escSelectorVal(href)+'"][rel="'+escSelectorVal(rel)+'"]').length ){
+            // clicking a value that is already selected removes it again; this used
+            // to be a silent no-op, which reads as "the facet click did nothing"
+            var selected = $('a.facetview_filterselected[href="'+escSelectorVal(href)+'"][rel="'+escSelectorVal(rel)+'"]');
+            if( selected.length ){
+                if ( event ) { selected.first().trigger('click'); }
                 return null;
             }
 
